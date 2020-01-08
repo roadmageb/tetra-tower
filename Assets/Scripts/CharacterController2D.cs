@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
@@ -8,18 +9,22 @@ public class CharacterController2D : MonoBehaviour
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
+    [SerializeField] private LayerMask m_WhatIsWall;                            // A mask determining what is wall to the character
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
     [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
-    [SerializeField] private Transform[] m_WallCheck;                           // A position marking where to check for walls
+    [SerializeField] private Transform m_WallCheck;                             // A position marking where to check for walls
     [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
-    public bool m_WallClimbed;         // Whether or not the player is wall climbed.
-    const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
+    private bool m_WallClimbed;         // Whether or not the player is wall climbed.
+    const float k_CeilingRadius = .2f;  // Radius of the overlap circle to determine if the player can stand up
+    const float k_WallRadius = .2f;     // Radius of the overlap circle to determine if the player wall jump
+    const float wallJumpSpeed = 10f;     // Radius of the overlap circle to determine if the player wall jump
     private Rigidbody2D m_Rigidbody2D;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
+    private Coroutine wallJumpCoroutine = null;
 
 
     [Header("Events")]
@@ -62,9 +67,19 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
-        if (m_WallClimbed)
+        m_WallClimbed = false;
+        if (!m_WallClimbed && !m_Grounded)
         {
+            Collider2D[] wallColliders;
+            wallColliders = Physics2D.OverlapCircleAll(m_WallCheck.position, k_WallRadius, m_WhatIsWall);
 
+            for (int i = 0; i < wallColliders.Length; i++)
+            {
+                if (wallColliders[i].gameObject != gameObject && (Input.GetAxisRaw("Horizontal") != 0))
+                {
+                    m_WallClimbed = true;
+                }
+            }
         }
     }
 
@@ -131,15 +146,39 @@ public class CharacterController2D : MonoBehaviour
                 Flip();
             }
         }
+
         // If the player should jump...
-        if (jump && m_Grounded)
+        if (jump)
         {
-            // Add a vertical force to the player.
-            m_Grounded = false;
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            if (m_Grounded)
+            {
+                // Add a vertical force to the player.
+                m_Grounded = false;
+                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            }
+            else if (m_WallClimbed)
+            {
+                m_WallClimbed = false;
+                m_AirControl = false;
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0);
+                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+                if (wallJumpCoroutine != null) StopCoroutine(wallJumpCoroutine);
+                wallJumpCoroutine = StartCoroutine(WallJump());
+
+                Flip();
+            }
         }
     }
 
+    private IEnumerator WallJump()
+    {
+        for(float i = 0; i < 0.5f; i += Time.deltaTime)
+        {
+            yield return null;
+            if (i > 0.25f) m_AirControl = true;
+            m_Rigidbody2D.AddForce(new Vector2(wallJumpSpeed * (m_FacingRight ? 1 : -1), 0f));
+        }
+    }
 
     private void Flip()
     {

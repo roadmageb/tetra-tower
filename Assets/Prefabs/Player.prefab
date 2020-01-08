@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 5235506533381641102}
-  runSpeed: 80
+  runSpeed: 60
 --- !u!114 &5235506533381641102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +123,7 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 5706637247803583611}
   m_CeilingCheck: {fileID: 5409642182703099799}
   m_CrouchDisableCollider: {fileID: 0}
+  m_WallClimbed: 0
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -144,12 +145,12 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 2
+  m_Material: {fileID: 6200000, guid: 24fd0c3482299bd42b978da268150b13, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &6640821720336430466
 BoxCollider2D:
   m_ObjectHideFlags: 0

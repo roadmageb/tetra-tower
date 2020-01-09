@@ -133,6 +133,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4903554743739198129, guid: 2ed05ca3e4113cc4387333d19e708fd1,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 24fd0c3482299bd42b978da268150b13, type: 2}
     - target: {fileID: 8720704367200536862, guid: 2ed05ca3e4113cc4387333d19e708fd1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -269,12 +274,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7dc011a89f5ace4281e74509393fd3b, type: 3}
---- !u!4 &953998166 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 953998166, guid: 746461cf5ae526c4d99386a6cde77f2c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1736489983}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1499346718
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,20 +364,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 953998165, guid: 746461cf5ae526c4d99386a6cde77f2c, type: 3}
-      propertyPath: m_Name
-      value: WallCheck
-      objectReference: {fileID: 0}
     - target: {fileID: 807021995659469724, guid: 746461cf5ae526c4d99386a6cde77f2c,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5235506533381641102, guid: 746461cf5ae526c4d99386a6cde77f2c,
-        type: 3}
-      propertyPath: m_WallCheck
-      value: 
-      objectReference: {fileID: 953998166}
     - target: {fileID: 7922422854691280649, guid: 746461cf5ae526c4d99386a6cde77f2c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -387,7 +377,7 @@ PrefabInstance:
     - target: {fileID: 7922422854691280649, guid: 746461cf5ae526c4d99386a6cde77f2c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -4.33
       objectReference: {fileID: 0}
     - target: {fileID: 7922422854691280649, guid: 746461cf5ae526c4d99386a6cde77f2c,
         type: 3}
@@ -448,6 +438,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 4903554743739198129, guid: 2ed05ca3e4113cc4387333d19e708fd1,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 24fd0c3482299bd42b978da268150b13, type: 2}
     - target: {fileID: 8720704367200536862, guid: 2ed05ca3e4113cc4387333d19e708fd1,
         type: 3}
       propertyPath: m_LocalPosition.x

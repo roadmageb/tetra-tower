@@ -4,7 +4,8 @@ using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
 {
-    [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float m_JumpSpeed = 10f;                          // Amount of speed added when the player jumps.
+    [SerializeField] private float m_WallJumpSpeed = 15f;                          // Amount of speed added when the player jumps.
     [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
@@ -21,10 +22,16 @@ public class CharacterController2D : MonoBehaviour
     const float k_CeilingRadius = .2f;  // Radius of the overlap circle to determine if the player can stand up
     const float k_WallRadius = .2f;     // Radius of the overlap circle to determine if the player wall jump
     const float wallJumpSpeed = 10f;     // Radius of the overlap circle to determine if the player wall jump
+    const float floorSmoothing = 0.05f;
+    const float airSmoothing = 0.2f;
+    const int jumpTime = 20;
     private Rigidbody2D m_Rigidbody2D;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    public bool m_Jumping = false;
     private Vector3 m_Velocity = Vector3.zero;
     private Coroutine wallJumpCoroutine = null;
+
+    private int jumpTimeCounter;
 
 
     [Header("Events")]
@@ -48,7 +55,7 @@ public class CharacterController2D : MonoBehaviour
         if (OnCrouchEvent == null)
             OnCrouchEvent = new BoolEvent();
     }
-
+    
     private void FixedUpdate()
     {
         bool wasGrounded = m_Grounded;
@@ -63,8 +70,14 @@ public class CharacterController2D : MonoBehaviour
             {
                 m_Grounded = true;
                 if (!wasGrounded)
+                {
                     OnLandEvent.Invoke();
+                }
             }
+        }
+        if (!m_Grounded)
+        {
+            m_MovementSmoothing = airSmoothing;
         }
 
         m_WallClimbed = false;
@@ -83,7 +96,12 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
-    public void Move(float move, bool crouch, bool jump)
+    public void OnLand()
+    {
+        m_MovementSmoothing = floorSmoothing;
+    }
+
+    public void Move(float move, bool crouch)
     {
         // If crouching, check to see if the character can stand up
         if (!crouch)
@@ -98,7 +116,6 @@ public class CharacterController2D : MonoBehaviour
         //only control the player if grounded or airControl is turned on
         if (m_Grounded || m_AirControl)
         {
-
             // If crouching
             if (crouch)
             {
@@ -146,27 +163,49 @@ public class CharacterController2D : MonoBehaviour
                 Flip();
             }
         }
+    }
 
-        // If the player should jump...
-        if (jump)
+    public void Jump(bool jumpKeyDown, bool jumpKey, bool jumpKeyUp)
+    {
+        if (jumpKeyDown)
         {
             if (m_Grounded)
             {
-                // Add a vertical force to the player.
-                m_Grounded = false;
-                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+                m_Jumping = true;
+                jumpTimeCounter = jumpTime;
             }
-            else if (m_WallClimbed)
+            if (m_WallClimbed)
             {
                 m_WallClimbed = false;
                 m_AirControl = false;
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 0);
-                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed);
+
                 if (wallJumpCoroutine != null) StopCoroutine(wallJumpCoroutine);
                 wallJumpCoroutine = StartCoroutine(WallJump());
 
                 Flip();
             }
+        }
+        if (jumpKey && m_Jumping)
+        {
+            if(jumpTimeCounter > jumpTime / 2)
+            {
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed / 1.5f);
+                jumpTimeCounter -= 1;
+            }
+            else if (jumpTimeCounter > 0)
+            {
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed);
+                jumpTimeCounter -= 1;
+            }
+            else
+            {
+                m_Jumping = false;
+            }
+        }
+        if (jumpKeyUp || m_WallClimbed)
+        {
+            m_Jumping = false;
         }
     }
 
@@ -175,7 +214,7 @@ public class CharacterController2D : MonoBehaviour
         for(float i = 0; i < 0.5f; i += Time.deltaTime)
         {
             yield return null;
-            if (i > 0.25f) m_AirControl = true;
+            if (i > 0.1f) m_AirControl = true;
             m_Rigidbody2D.AddForce(new Vector2(wallJumpSpeed * (m_FacingRight ? 1 : -1), 0f));
         }
     }

@@ -4,6 +4,8 @@ using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
 {
+    private Animator animator;
+
     [SerializeField] private float m_MaxSpeed = 10f;                            // Amount of max speed added when the player runs.
     [SerializeField] private float m_RunPower = 6000f;                          // Amount of speed added when the player runs.
     [SerializeField] private float m_JumpPower = 10f;                           // Amount of speed added when the player jumps.
@@ -44,6 +46,7 @@ public class CharacterController2D : MonoBehaviour
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
@@ -87,13 +90,19 @@ public class CharacterController2D : MonoBehaviour
             }
         }
     }
+    
+    public void OnLand()
+    {
+        animator.SetBool("Land", true);
+    }
 
     public void Move(float move)
     {
+        animator.SetBool("Run", move != 0 ? true : false);
         //only control the player if grounded or airControl is turned on
         if (m_Grounded || m_AirControl)
         {
-            if(m_Rigidbody2D.velocity.magnitude < m_MaxSpeed || (!m_Grounded && move > 0 ^ m_Rigidbody2D.velocity.x > 0))
+            if(m_Rigidbody2D.velocity.magnitude < m_MaxSpeed || (!m_Grounded && (move > 0 ^ m_Rigidbody2D.velocity.x > 0)))
             {
                 m_Rigidbody2D.AddForce(new Vector2(move * m_RunPower, 0));
             }
@@ -127,6 +136,8 @@ public class CharacterController2D : MonoBehaviour
             {
                 m_Jumping = true;
                 jumpTimeCounter = jumpTime;
+                animator.SetTrigger("Jump");
+                animator.SetBool("Land", false);
             }
             if (m_WallClimbed)
             {
@@ -145,7 +156,7 @@ public class CharacterController2D : MonoBehaviour
         }
         if (jumpKey && m_Jumping)
         {
-            if(jumpTimeCounter > jumpTime / 2)
+            if (jumpTimeCounter > jumpTime / 2)
             {
                 //m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed / 1.5f);
                 m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPower));

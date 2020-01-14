@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public CharacterController2D controller;
+    private CharacterController2D controller;
     float horizontalMove = 0f;
+
+    private void Awake()
+    {
+        controller = GetComponent<CharacterController2D>();
+    }
 
     // Update is called once per frame
     void Update()

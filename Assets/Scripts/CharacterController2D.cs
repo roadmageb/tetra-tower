@@ -183,10 +183,10 @@ public class CharacterController2D : MonoBehaviour
     {
         float multiplifier = 0.012f;
         m_AirControl = false;
-        for(float i = 0; i < 0.1f; i += Time.deltaTime)
+        for (float i = 0; i < 0.1f; i += Time.deltaTime)
         {
             yield return null;
-            m_Rigidbody2D.AddForce(new Vector2(m_WallJumpPower * (m_FacingRight ? 1 : -1), m_WallJumpPower) * multiplifier);
+            m_Rigidbody2D.AddForce(new Vector2(0, m_WallJumpPower * 1.5f) * multiplifier);
         }
         m_AirControl = true;
     }

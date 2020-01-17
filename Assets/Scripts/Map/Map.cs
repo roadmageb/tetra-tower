@@ -7,26 +7,12 @@ public class Map : MonoBehaviour
     // Start is called before the first frame update
     public static int count = 0;
 
-    public static int[] indices = { 0, 1, 2, 3, 4, 5, 6 };
 
     public static int gridWidth = 10;
     public static int gridHeight = 20;
     public static Transform[,] grid = new Transform[gridWidth, gridHeight];
 
-    int GetRandomIntFromShuffle() {
-        if (count == 0) {
-            //shuffleIndices();
-            Shuffler.Shuffle(indices);
-        }
-        var idx = count;
-
-        count++;
-        if (count == 7) {
-            count = 0;
-        }
-
-        return indices[idx];
-    }
+    public Shuffler tetrominoShuffler = new Shuffler(7);
 
     // Start is called before the first frame update
     void Start() {
@@ -110,9 +96,9 @@ public class Map : MonoBehaviour
     }
 
     public void SpawnNextTetromino() {
-        var randInt = GetRandomIntFromShuffle();
+        var randomTetrominoIndex = tetrominoShuffler.retrieve();
         GameObject tetSpawn = GameObject.Find("TetrominoSpawnerObj");
-        tetSpawn.GetComponent<TetrominoSpawner>().SpawnNth(randInt);
+        tetSpawn.GetComponent<TetrominoSpawner>().SpawnNth(randomTetrominoIndex);
     }
 
     public bool CheckIsInsideGrid(Vector3 pos) {

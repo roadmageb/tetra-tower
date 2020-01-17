@@ -2,18 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shuffler : MonoBehaviour
+public class Shuffler
 {
     int count = 0;
-    public int retrieve(int[] shuffled)
+
+    int[] buffer;
+
+    public Shuffler(int length)
+    {
+        buffer = new int[length];
+        for( int i = 0; i < length; ++i)
+        {
+            buffer[i] = i;
+        }
+    }
+
+    public int retrieve()
     {
         if (count == 0)
         {
-            Shuffler.Shuffle(shuffled);
+            Shuffler.Shuffle(buffer);
         }
 
-        var element = shuffled[count++];
-        if (count == shuffled.Length)
+        var element = buffer[count++];
+        if (count == buffer.Length)
         {
             count = 0;
         }

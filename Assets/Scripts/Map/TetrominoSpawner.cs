@@ -5,6 +5,8 @@ using UnityEngine;
 public class TetrominoSpawner : MonoBehaviour
 {
     public GameObject[] prefab_tetrominos;
+    public Shuffler shapeShuffler = new Shuffler(7);
+    public Shuffler colorShuffler = new Shuffler(4);
 
     // Start is called before the first frame update
     void Start()
@@ -17,9 +19,16 @@ public class TetrominoSpawner : MonoBehaviour
         
     }
 
-    public void SpawnNth(int i)
+    public void spawnShuffled()
     {
-        Debug.Log(prefab_tetrominos[i]);
+        var shapeIdx = shapeShuffler.retrieve();
+        // var colorIdx = colorShuffler.retrieve(); // TODO
+        spawnNth(shapeIdx);
+
+    }
+
+    public void spawnNth(int i)
+    {
         GameObject nextTetromino = Instantiate(prefab_tetrominos[i], new Vector3(5.0f, 20.0f, 0.0f), Quaternion.identity) as GameObject;
     }
 }

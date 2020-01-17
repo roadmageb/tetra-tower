@@ -13,17 +13,6 @@ public class Map : MonoBehaviour
     public static int gridHeight = 20;
     public static Transform[,] grid = new Transform[gridWidth, gridHeight];
 
-    void shuffleIndices() {
-        var result = indices;
-        for (var i = 0; i < result.Length; ++i) {
-            var j = Random.Range(0, result.Length);
-
-            var tmp = result[i];
-            result[i] = result[j];
-            result[j] = tmp;
-        }
-    }
-
     int GetRandomIntFromShuffle() {
         if (count == 0) {
             //shuffleIndices();

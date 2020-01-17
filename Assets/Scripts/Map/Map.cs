@@ -113,21 +113,6 @@ public class Map : MonoBehaviour
         var randInt = GetRandomIntFromShuffle();
         GameObject tetSpawn = GameObject.Find("TetrominoSpawnerObj");
         tetSpawn.GetComponent<TetrominoSpawner>().SpawnNth(randInt);
-        /*
-        GameObject nextTetromino = (GameObject)Instantiate(
-            Resources.Load(
-                TetrominoPath,
-                typeof(GameObject)),
-            new Vector2(5.0f, 20.0f),
-            Quaternion.identity);
-        */
-        //var nextTetrominoPrefab = Resources.Load(TetrominoPath);
-
-        /*
-        GameObject nextTetrominoPrefab = tetSpawn.prefab_J;
-        Debug.Log(nextTetrominoPrefab);
-        GameObject nextTetromino = Instantiate(nextTetrominoPrefab, new Vector2(5.0f, 20.0f), Quaternion.identity) as GameObject;
-        */
     }
 
     public bool CheckIsInsideGrid(Vector3 pos) {

@@ -6,13 +6,6 @@ public class Map : MonoBehaviour
 {
     // Start is called before the first frame update
     public static int count = 0;
-    public static string[] tetrominoNames = {"Tetromino_T",
-        "Tetromino_Long",
-        "Tetromino_Square",
-        "Tetromino_J",
-        "Tetromino_L",
-        "Tetromino_S",
-        "Tetromino_Z"};
 
     public static int[] indices = { 0, 1, 2, 3, 4, 5, 6 };
 
@@ -33,7 +26,8 @@ public class Map : MonoBehaviour
 
     int GetRandomIntFromShuffle() {
         if (count == 0) {
-            shuffleIndices();
+            //shuffleIndices();
+            Shuffler.Shuffle(indices);
         }
         var idx = count;
 

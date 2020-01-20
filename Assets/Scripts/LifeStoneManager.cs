@@ -13,6 +13,16 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     [SerializeField] private float lifeStoneEdgeOffset = 44.64285f;
     [SerializeField] private Vector2 lifeStoneFrameInitialPos = new Vector2(250, 150);
 
+    private void GetLifeStone(int amount, LifeStoneType type)
+    {
+
+    }
+
+    private string CreateLifeStoneShape(int amount, int goldAmount = 0)
+    {
+        return null;
+    }
+
     public void ExpandRow(int row)
     {
         int previousRow = rowSize;

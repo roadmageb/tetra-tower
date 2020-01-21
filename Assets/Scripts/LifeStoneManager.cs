@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class LifeStoneManager : Singleton<LifeStoneManager>
 {
+    public class LifeStoneInfo
+    {
+        public string lifeStonePos;
+        public Vector2 size;
+        public LifeStoneInfo(string _lifeStonePos, Vector2 _size)
+        {
+            lifeStonePos = _lifeStonePos;
+            size = _size;
+        }
+    }
+
     public GameObject lifeStoneTop, lifeStoneMiddle, lifeStoneBottom;
 
     private Transform lifeStoneUI;
-    private int rowSize, columnSize;
-    private LifeStoneType[,] lifeStone = new LifeStoneType[20, 3];
+    private int rowSize;
+    private GameObject[,] lifeStone = new GameObject[20, 3];
     [SerializeField] private float lifeStoneFrameOffset = 75;
     [SerializeField] private float lifeStoneEdgeOffset = 44.64285f;
     [SerializeField] private Vector2 lifeStoneFrameInitialPos = new Vector2(250, 150);
 
-    private void GetLifeStone(int amount, LifeStoneType type)
+    private void GetLifeStone(LifeStoneInfo lifeStoneInfo)
     {
 
     }
@@ -24,7 +35,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     /// <param name="amount">Total amount of life stone</param>
     /// <param name="goldAmount">Amount of gold life stone</param>
     /// <returns>Encoded string of shape of created life stone</returns>
-    private string CreateLifeStoneShape(int amount, int goldAmount = 0)
+    private LifeStoneInfo CreateLifeStoneShape(int amount, int goldAmount = 0)
     {
         int xSize = Mathf.Min(3, amount), ySize = amount;
         bool[,] lifeStonePos = new bool[ySize, xSize];
@@ -49,10 +60,27 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
             cands.Clear();
         }
 
-        string result = "";
+        int maxX = 0, minX = 2;
+        int maxY = 0, minY = 19;
+
         for (int y = 0; y < ySize; y++)
         {
             for (int x = 0; x < xSize; x++)
+            {
+                if(lifeStonePos[y, x])
+                {
+                    if (minX > x) minX = x;
+                    if (maxX < x) maxX = x;
+                    if (minY > y) minY = y;
+                    if (maxY < y) maxY = y;
+                }
+            }
+        }
+
+        string result = "";
+        for (int y = minY; y <= maxY; y++)
+        {
+            for (int x = minX; x <= maxX; x++)
             {
                 if(lifeStonePos[y, x])
                 {
@@ -65,7 +93,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
             }
         }
 
-        return result;
+        return new LifeStoneInfo(result, new Vector2(maxX - minX + 1, maxY - minY + 1));
     }
 
     public void ExpandRow(int row)
@@ -83,12 +111,11 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     public void InitiateLifeStone(int row, int column)
     {
         rowSize = row;
-        columnSize = column;
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < column; j++)
             {
-                lifeStone[i, j] = LifeStoneType.NULL;
+                lifeStone[i, j] = null;
             }
         }
         Instantiate(lifeStoneBottom, lifeStoneFrameInitialPos + new Vector2(0, -lifeStoneEdgeOffset), Quaternion.identity, lifeStoneUI);
@@ -109,7 +136,6 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     void Start()
     {
         InitiateLifeStone(6, 3);
-       
     }
 
     // Update is called once per frame
@@ -117,10 +143,18 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
-            string temp = CreateLifeStoneShape(3, 0);
-            Debug.Log(temp[0] + "" + temp[1] + "" + temp[2]);
-            Debug.Log(temp[3] + "" + temp[4] + "" + temp[5]);
-            Debug.Log(temp[6] + "" + temp[7] + "" + temp[8]);
+            LifeStoneInfo temp = CreateLifeStoneShape(4, 0);
+            for(int i = 0; i < temp.lifeStonePos.Length / temp.size.x; i++)
+            {
+                string oneLine = "";
+                for(int j = 0; j < temp.size.x; j++)
+                {
+                    oneLine += temp.lifeStonePos[i * (int)temp.size.x + j] + "";
+                }
+                Debug.Log(oneLine);
+            }
+            Debug.Log(temp.size);
+            GetLifeStone(temp);
         }
     }
 }

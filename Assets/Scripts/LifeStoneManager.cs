@@ -7,8 +7,8 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     public class LifeStoneInfo
     {
         public string lifeStonePos;
-        public Vector2 size;
-        public LifeStoneInfo(string _lifeStonePos, Vector2 _size)
+        public Vector2Int size;
+        public LifeStoneInfo(string _lifeStonePos, Vector2Int _size)
         {
             lifeStonePos = _lifeStonePos;
             size = _size;
@@ -16,17 +16,48 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     }
 
     public GameObject lifeStoneTop, lifeStoneMiddle, lifeStoneBottom;
-
+    public GameObject lifeStoneNormal;
     private Transform lifeStoneUI;
-    private int rowSize;
-    private GameObject[,] lifeStone = new GameObject[20, 3];
+    private int rowSize, columnSize;
+    private LifeStone[,] lifeStone = new LifeStone[20, 3];
+
     [SerializeField] private float lifeStoneFrameOffset = 75;
     [SerializeField] private float lifeStoneEdgeOffset = 44.64285f;
-    [SerializeField] private Vector2 lifeStoneFrameInitialPos = new Vector2(250, 150);
+    [SerializeField] private Vector2 lifeStoneInitialPos = new Vector2(250, 150);
 
     private void GetLifeStone(LifeStoneInfo lifeStoneInfo)
     {
+        LifeStoneType[,] previousLifeStones = new LifeStoneType[rowSize + lifeStoneInfo.size.y, 3];
+        for(int y = 0; y < rowSize; y++)
+        {
+            for(int x = 0; x < columnSize; x++)
+            {
+                previousLifeStones[y, x] = lifeStone[y, x] != null ? lifeStone[y, x].type : LifeStoneType.NULL;
+            }
+        }
 
+        for(int i = 0; i < 3 - lifeStoneInfo.size.x; i++)
+        {
+            for(int y = 0; y < lifeStoneInfo.size.y; y++)
+            {
+                for (int x = 0; x < columnSize; x++)
+                {
+                    previousLifeStones[y + rowSize, x] = (LifeStoneType)lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + (x + i)];
+                }
+            }
+        }
+
+
+        for (int y = 0; y < rowSize + lifeStoneInfo.size.y; y++)
+        {
+            for (int x = 0; x < columnSize; x++)
+            {
+                if (previousLifeStones[y, x] != LifeStoneType.NULL)
+                {
+                    Instantiate(lifeStoneNormal, lifeStoneInitialPos + new Vector2(x - 1, y) * lifeStoneFrameOffset, Quaternion.identity, lifeStoneUI);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -93,7 +124,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
             }
         }
 
-        return new LifeStoneInfo(result, new Vector2(maxX - minX + 1, maxY - minY + 1));
+        return new LifeStoneInfo(result, new Vector2Int(maxX - minX + 1, maxY - minY + 1));
     }
 
     public void ExpandRow(int row)
@@ -103,14 +134,14 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
         GameObject frameTop = lifeStoneUI.Find("LifeStoneFrameTop(Clone)").gameObject;
         for(int i = previousRow; i < rowSize; i++)
         {
-            Instantiate(lifeStoneMiddle, lifeStoneFrameInitialPos + new Vector2(0, i * lifeStoneFrameOffset), Quaternion.identity, lifeStoneUI);
+            Instantiate(lifeStoneMiddle, lifeStoneInitialPos + new Vector2(0, i * lifeStoneFrameOffset), Quaternion.identity, lifeStoneUI);
         }
-        frameTop.GetComponent<RectTransform>().position = lifeStoneFrameInitialPos + new Vector2(0, (rowSize - 1) * lifeStoneFrameOffset + lifeStoneEdgeOffset);
+        frameTop.GetComponent<RectTransform>().position = lifeStoneInitialPos + new Vector2(0, (rowSize - 1) * lifeStoneFrameOffset + lifeStoneEdgeOffset);
     }
 
     public void InitiateLifeStone(int row, int column)
     {
-        rowSize = row;
+        rowSize = row; columnSize = column;
         for (int i = 0; i < row; i++)
         {
             for (int j = 0; j < column; j++)
@@ -118,19 +149,18 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
                 lifeStone[i, j] = null;
             }
         }
-        Instantiate(lifeStoneBottom, lifeStoneFrameInitialPos + new Vector2(0, -lifeStoneEdgeOffset), Quaternion.identity, lifeStoneUI);
+        Instantiate(lifeStoneBottom, lifeStoneInitialPos + new Vector2(0, -lifeStoneEdgeOffset), Quaternion.identity, lifeStoneUI);
         for (int i = 0; i < row; i++)
         {
-            Instantiate(lifeStoneMiddle, lifeStoneFrameInitialPos + new Vector2(0, i * lifeStoneFrameOffset), Quaternion.identity, lifeStoneUI);
+            Instantiate(lifeStoneMiddle, lifeStoneInitialPos + new Vector2(0, i * lifeStoneFrameOffset), Quaternion.identity, lifeStoneUI);
         }
-        Instantiate(lifeStoneTop, lifeStoneFrameInitialPos + new Vector2(0, (row - 1) * lifeStoneFrameOffset + lifeStoneEdgeOffset), Quaternion.identity, lifeStoneUI);
+        Instantiate(lifeStoneTop, lifeStoneInitialPos + new Vector2(0, (row - 1) * lifeStoneFrameOffset + lifeStoneEdgeOffset), Quaternion.identity, lifeStoneUI);
     }
 
     private void Awake()
     {
         lifeStoneUI = GameObject.Find("LifeStoneUI").transform;
     }
-
 
     // Start is called before the first frame update
     void Start()
@@ -153,7 +183,6 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
                 }
                 Debug.Log(oneLine);
             }
-            Debug.Log(temp.size);
             GetLifeStone(temp);
         }
     }

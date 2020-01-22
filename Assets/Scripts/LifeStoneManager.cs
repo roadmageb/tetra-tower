@@ -19,7 +19,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     public GameObject lifeStoneNormal;
     private Transform lifeStoneUI;
     private int rowSize, columnSize;
-    private LifeStone[,] lifeStone = new LifeStone[20, 3];
+    private LifeStone[,] lifeStoneGrid = new LifeStone[20, 3];
 
     [SerializeField] private float lifeStoneFrameOffset = 75;
     [SerializeField] private float lifeStoneEdgeOffset = 44.64285f;
@@ -30,7 +30,8 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
         //Check possible && lowest position of new life stone
         int minY = rowSize;
         List<Vector2Int> minPosCands = new List<Vector2Int>();
-        for(int i = 0; i < 4 - lifeStoneInfo.size.x; i++)
+
+        for (int i = 0; i < 4 - lifeStoneInfo.size.x; i++)
         {
             //Make initial matrix without new life stone
             LifeStoneType[,] previousLifeStones = new LifeStoneType[rowSize + lifeStoneInfo.size.y, 3];
@@ -38,7 +39,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
             {
                 for (int x = 0; x < columnSize; x++)
                 {
-                    previousLifeStones[y, x] = lifeStone[y, x] != null ? lifeStone[y, x].type : LifeStoneType.NULL;
+                    previousLifeStones[y, x] = lifeStoneGrid[y, x] != null ? lifeStoneGrid[y, x].type : LifeStoneType.NULL;
                 }
             }
 
@@ -103,10 +104,30 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
                 if((LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()) != LifeStoneType.NULL)
                 {
                     Vector2Int newPos = new Vector2Int(x + minPosCands[randomizer].x, y + minPosCands[randomizer].y);
-                    lifeStone[newPos.x, newPos.y] = CreateLifeStone(newPos, (LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()));
+                    lifeStoneGrid[newPos.y, newPos.x] = CreateLifeStone(newPos, (LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()));
                 }
             }
         }
+
+
+
+
+        //For debugging
+        for (int i = rowSize - 1; i >= 0; i--)
+        {
+            string temp = "";
+            for (int j = 0; j < columnSize; j++)
+            {
+                temp += lifeStoneGrid[i, j] == null ? LifeStoneType.NULL : lifeStoneGrid[i, j].type;
+            }
+            Debug.Log(temp);
+        }
+
+
+
+
+
+
     }
 
     private LifeStone CreateLifeStone(Vector2Int pos, LifeStoneType type)
@@ -203,7 +224,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
         {
             for (int j = 0; j < column; j++)
             {
-                lifeStone[i, j] = null;
+                lifeStoneGrid[i, j] = null;
             }
         }
         Instantiate(lifeStoneBottom, lifeStoneInitialPos + new Vector2(0, -lifeStoneEdgeOffset), Quaternion.identity, lifeStoneUI);

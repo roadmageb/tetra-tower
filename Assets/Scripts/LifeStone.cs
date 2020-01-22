@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeStone
+public class LifeStone : MonoBehaviour
 {
     public LifeStoneType type;
     public Vector2 pos;

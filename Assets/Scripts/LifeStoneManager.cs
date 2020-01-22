@@ -27,37 +27,94 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
 
     private void GetLifeStone(LifeStoneInfo lifeStoneInfo)
     {
-        LifeStoneType[,] previousLifeStones = new LifeStoneType[rowSize + lifeStoneInfo.size.y, 3];
-        for(int y = 0; y < rowSize; y++)
+        //Check possible && lowest position of new life stone
+        int minY = rowSize;
+        List<Vector2Int> minPosCands = new List<Vector2Int>();
+        for(int i = 0; i < 4 - lifeStoneInfo.size.x; i++)
         {
-            for(int x = 0; x < columnSize; x++)
-            {
-                previousLifeStones[y, x] = lifeStone[y, x] != null ? lifeStone[y, x].type : LifeStoneType.NULL;
-            }
-        }
-
-        for(int i = 0; i < 3 - lifeStoneInfo.size.x; i++)
-        {
-            for(int y = 0; y < lifeStoneInfo.size.y; y++)
+            //Make initial matrix without new life stone
+            LifeStoneType[,] previousLifeStones = new LifeStoneType[rowSize + lifeStoneInfo.size.y, 3];
+            for (int y = 0; y < rowSize; y++)
             {
                 for (int x = 0; x < columnSize; x++)
                 {
-                    previousLifeStones[y + rowSize, x] = (LifeStoneType)lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + (x + i)];
+                    previousLifeStones[y, x] = lifeStone[y, x] != null ? lifeStone[y, x].type : LifeStoneType.NULL;
                 }
             }
-        }
 
-
-        for (int y = 0; y < rowSize + lifeStoneInfo.size.y; y++)
-        {
-            for (int x = 0; x < columnSize; x++)
+            //Push new life stone to the top of the initial matrix
+            for (int y = 0; y < lifeStoneInfo.size.y; y++)
             {
-                if (previousLifeStones[y, x] != LifeStoneType.NULL)
+                for (int x = 0; x < lifeStoneInfo.size.x; x++)
                 {
-                    Instantiate(lifeStoneNormal, lifeStoneInitialPos + new Vector2(x - 1, y) * lifeStoneFrameOffset, Quaternion.identity, lifeStoneUI);
+                    previousLifeStones[y + rowSize, x + i] = (LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString());
+                }
+            }
+
+            //Find the lowest position of the new life stone with current x offset
+            bool moveDown = true;
+            LifeStoneType[,] lifeStoneDownTest = previousLifeStones;
+            for (int j = rowSize - 1; moveDown && j > 0; j--)
+            {
+                for (int y = 0; moveDown && y < lifeStoneInfo.size.y; y++)
+                {
+                    for (int x = 0; moveDown && x < lifeStoneInfo.size.x; x++)
+                    {
+                        if (lifeStoneDownTest[y + j, x + i] != LifeStoneType.NULL && 
+                            (LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()) == LifeStoneType.NULL)
+                        {
+                            //Mark lowest position
+                            moveDown = false;
+                            if(minY > j)
+                            {
+                                minY = j;
+                                minPosCands.Clear();
+                                minPosCands.Add(new Vector2Int(i, j));
+                            }
+                            else if(minY == j)
+                            {
+                                minPosCands.Add(new Vector2Int(i, j));
+                            }
+                            break;
+                        }
+                        lifeStoneDownTest[y + j, x + i] = lifeStoneDownTest[y + j + 1, x + i];
+                        lifeStoneDownTest[y + j + 1, x + i] = LifeStoneType.NULL;
+                    }
+                }
+            }
+
+            //If it is floor, mark the lowest pos as floor
+            if (moveDown)
+            {
+                if (minY > 0)
+                {
+                    minY = 0;
+                    minPosCands.Clear();
+                }
+                minPosCands.Add(new Vector2Int(i, 0));
+            }
+        }
+
+        int randomizer = Random.Range(0, minPosCands.Count);
+        for (int y = 0; y < lifeStoneInfo.size.y; y++)
+        {
+            for (int x = 0; x < lifeStoneInfo.size.x; x++)
+            {
+                if((LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()) != LifeStoneType.NULL)
+                {
+                    Vector2Int newPos = new Vector2Int(x + minPosCands[randomizer].x, y + minPosCands[randomizer].y);
+                    lifeStone[newPos.x, newPos.y] = CreateLifeStone(newPos, (LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()));
                 }
             }
         }
+    }
+
+    private LifeStone CreateLifeStone(Vector2Int pos, LifeStoneType type)
+    {
+        var temp = Instantiate(lifeStoneNormal, lifeStoneInitialPos + new Vector2(pos.x - 1, pos.y) * lifeStoneFrameOffset, Quaternion.identity, lifeStoneUI).GetComponent<LifeStone>();
+        temp.type = type;
+        temp.pos = pos;
+        return temp;
     }
 
     /// <summary>
@@ -174,7 +231,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
         if (Input.GetKeyDown(KeyCode.D))
         {
             LifeStoneInfo temp = CreateLifeStoneShape(4, 0);
-            for(int i = 0; i < temp.lifeStonePos.Length / temp.size.x; i++)
+            for(int i = temp.lifeStonePos.Length / temp.size.x - 1; i >= 0; i--)
             {
                 string oneLine = "";
                 for(int j = 0; j < temp.size.x; j++)

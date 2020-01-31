@@ -271,6 +271,43 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
         Instantiate(lifeStoneTop, lifeStoneInitialPos + new Vector2(0, (row - 1) * lifeStoneFrameOffset + lifeStoneEdgeOffset), Quaternion.identity, lifeStoneUI);
     }
 
+    public void GetDamage(int amount)
+    {
+        for(int i = 0; i < amount; i++)
+        {
+            List<LifeStone> cands = new List<LifeStone>();
+            for (int y = rowSize - 1; y >= 0; y--)
+            {
+                for (int x = 0; x < columnSize; x++)
+                {
+                    if (lifeStoneGrid[y, x] != null)
+                    {
+                        cands.Add(lifeStoneGrid[y, x]);
+                    }
+                }
+                if(cands.Count != 0)
+                {
+                    break;
+                }
+            }
+
+            //If there is no more life stone to destroy, game over
+            if(cands.Count == 0)
+            {
+                //Make it later
+                Debug.Log("Game Over");
+                return;
+            }
+            else
+            {
+                int randomIndex = Random.Range(0, cands.Count);
+                lifeStoneGrid[(int)cands[randomIndex].pos.y, (int)cands[randomIndex].pos.x] = null;
+                Destroy(cands[randomIndex].gameObject);
+            }
+        }
+    }
+
+
     private void Awake()
     {
         lifeStoneUI = GameObject.Find("LifeStoneUI").transform;
@@ -308,5 +345,6 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
 
             GetLifeStone(new LifeStoneInfo("1011", new Vector2Int(2, 2)));*/
         }
+
     }
 }

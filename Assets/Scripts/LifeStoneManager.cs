@@ -135,6 +135,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
                 {
                     Vector2Int newPos = new Vector2Int(x + minPosCands[randomizer].x, y + minPosCands[randomizer].y);
                     CreateLifeStone(y + rowSize, newPos, (LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()));
+                    PlayerController.Instance.hp++;
                 }
             }
         }
@@ -275,6 +276,14 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
     {
         for(int i = 0; i < amount; i++)
         {
+            //If there is no more life stone to destroy, game over
+            if (PlayerController.Instance.hp == 0)
+            {
+                //Make it later
+                Debug.Log("Game Over");
+                return;
+            }
+
             List<LifeStone> cands = new List<LifeStone>();
             for (int y = rowSize - 1; y >= 0; y--)
             {
@@ -291,19 +300,10 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
                 }
             }
 
-            //If there is no more life stone to destroy, game over
-            if(cands.Count == 0)
-            {
-                //Make it later
-                Debug.Log("Game Over");
-                return;
-            }
-            else
-            {
-                int randomIndex = Random.Range(0, cands.Count);
-                lifeStoneGrid[(int)cands[randomIndex].pos.y, (int)cands[randomIndex].pos.x] = null;
-                Destroy(cands[randomIndex].gameObject);
-            }
+            int randomIndex = Random.Range(0, cands.Count);
+            lifeStoneGrid[(int)cands[randomIndex].pos.y, (int)cands[randomIndex].pos.x] = null;
+            Destroy(cands[randomIndex].gameObject);
+            PlayerController.Instance.hp--;
         }
     }
 

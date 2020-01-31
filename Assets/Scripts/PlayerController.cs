@@ -6,6 +6,7 @@ public class PlayerController : Singleton<PlayerController>
 {
     private CharacterController2D controller;
     float horizontalMove = 0f;
+    public int hp = 0;
 
     private void Awake()
     {

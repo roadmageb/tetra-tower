@@ -9,6 +9,11 @@ public class Tetromino : MonoBehaviour
     public bool allowRotation = true;
     public bool limitRotation = false;
 
+    bool isFalling = false;
+    const float gravity = 9.8F;
+    Vector3 velocity = new Vector3(0, 0, 0);
+    Vector3 shift;
+
     void Start()
     {
     }
@@ -16,6 +21,27 @@ public class Tetromino : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isFalling)
+        {
+            velocity.y -= gravity * Time.deltaTime;
+            shift = velocity * Time.deltaTime;
+            Debug.Log(shift);
+            transform.position += shift;
+            if (!IsValidPosition())
+            {
+                transform.position += new Vector3(0, 1, 0);
+                var tp = transform.position;
+                transform.position = new Vector3(tp.x, Mathf.Floor(tp.y), tp.z); 
+                
+                isFalling = false;
+
+                // initialize
+                velocity -= velocity;
+                FindObjectOfType<Map>().UpdateGrid(this);
+                prepareNextTetromino();
+            }
+            return;
+        }
         CheckUserInput();
     }
 
@@ -59,19 +85,16 @@ public class Tetromino : MonoBehaviour
             }
 
             transform.Rotate(0, 0, -rotateAngle);
-            if (!CheckIsValidPosition(new Vector3(0, 0, 0))){
+            if (!CheckIsValidPosition(new Vector3(0, 0, 0)))
+            {
                 transform.Rotate(0, 0, rotateAngle);
                 FindObjectOfType<Map>().UpdateGrid(this);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Space)){
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
             var shift = new Vector3(0, -1, 0);
-            while (CheckIsValidPosition(shift))
-            {
-                transform.position += shift;
-                FindObjectOfType<Map>().UpdateGrid(this);
-            }
-            prepareNextTetromino();
+            isFalling = true;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -84,6 +107,10 @@ public class Tetromino : MonoBehaviour
             {
                 prepareNextTetromino();
             }
+        }
+        else
+        {
+            //
         }
     }
 

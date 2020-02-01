@@ -27,6 +27,8 @@ public class Tetromino : MonoBehaviour
             shift = velocity * Time.deltaTime;
             Debug.Log(shift);
             transform.position += shift;
+
+            // TODO: IsValidPosition a bit buggy when tasking transform position with floats.
             if (!IsValidPosition())
             {
                 transform.position += new Vector3(0, 1, 0);

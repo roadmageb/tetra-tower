@@ -94,6 +94,7 @@ public class Tetromino : MonoBehaviour
         FindObjectOfType<Map>().SpawnNextTetromino();
     }
 
+    // TODO: Refactor CheckIsValidPosition function into IsValidPosition function (better)
     bool CheckIsValidPosition (Vector3 shift)
     {
         foreach (Transform mino in transform)
@@ -113,4 +114,25 @@ public class Tetromino : MonoBehaviour
 
         return true;
     }
+
+    bool IsValidPosition ()
+    {
+        foreach (Transform mino in transform)
+        {
+            Vector3 pos = FindObjectOfType<Map>().Round(mino.position);
+            if( FindObjectOfType<Map>().CheckIsInsideGrid(pos) == false)
+            {
+                return false;
+            }
+
+            if( FindObjectOfType<Map>().GetTransformAtGridPosition(pos) != null &&
+                FindObjectOfType<Map>().GetTransformAtGridPosition(pos).parent != transform)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
+

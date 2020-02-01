@@ -6,9 +6,6 @@ public class Tetromino : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    float fall = 0;
-    public float fallSpeed = 1;
-
     public bool allowRotation = true;
     public bool limitRotation = false;
 
@@ -76,11 +73,9 @@ public class Tetromino : MonoBehaviour
             }
             prepareNextTetromino();
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow)
-            || Time.time - fall >= fallSpeed )
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             var shift = new Vector3(0, -1, 0);
-            fall = Time.time;
             if (CheckIsValidPosition(shift))
             {
                 transform.position += shift;

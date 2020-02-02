@@ -205,15 +205,14 @@ public class CharacterController2D : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Floor"));
         float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - 0.5f;
-        //transform.position = dashZonePos + dir * distance;
         m_Rigidbody2D.velocity = Vector3.zero;
 
         int dashCount = 10;
-        Vector2 destination = dashZonePos + dir * distance;
+        Vector3 destination = (Vector3)dashZonePos + (Vector3)dir * distance - transform.position;
         for (int i = 0; i < dashCount; i++)
         {
             yield return null;
-            transform.position += (Vector3)destination / dashCount;
+            transform.position += destination / dashCount;
         }
     }
 

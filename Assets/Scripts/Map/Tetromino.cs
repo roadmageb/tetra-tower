@@ -25,7 +25,6 @@ public class Tetromino : MonoBehaviour
         {
             velocity.y -= gravity * Time.deltaTime;
             shift = velocity * Time.deltaTime;
-            Debug.Log(shift);
             transform.position += shift;
 
             // TODO: IsValidPosition a bit buggy when tasking transform position with floats.
@@ -50,7 +49,6 @@ public class Tetromino : MonoBehaviour
 
     void CheckUserInput()
     {
-
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             var shift = new Vector3(1, 0, 0);

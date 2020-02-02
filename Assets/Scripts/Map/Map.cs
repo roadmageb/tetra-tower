@@ -134,4 +134,10 @@ public class Map : MonoBehaviour
     {
         return new Vector3((int)Mathf.Round(pos.x), (int)Mathf.Round(pos.y), 0);
     }
+
+    public void SpawnPistonsAtNthRow(int n)
+    {
+        pistonSpawner.GetComponent<PistonSpawner>().spawnNth(n);
+
+    }
 }

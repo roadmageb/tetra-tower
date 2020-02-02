@@ -28,3 +28,13 @@ public enum KeyCond
     XC=6,
     ZXC=7
 }
+
+public enum CtrlPtoE
+{
+    Stun, Burn, Freeze
+}
+
+public enum CtrlEtoP
+{
+    Slow, KeyLeft, KeyRight, KeyDown, KeySpc, Paralysis
+}

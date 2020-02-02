@@ -5,13 +5,16 @@ using UnityEngine;
 public class Weapon
 {
     public ItemRank rank;
-    public SkillCommand[] commands;
     public int skillCount;
+    public SkillCommand[] commands;
     public AnimationClip[] skillAnim;
+    public float[] skillDelay;
     public int damage;
     public bool gaugeEnabled;
     public float gaugeSize;
     public float gaugeCurrent;
     public int addonSize;
     public Addon[] addons;
+
+
 }

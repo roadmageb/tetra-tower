@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
 {
-    private CharacterController2D controller;
-    float horizontalMove = 0f;
+    public CharacterController2D controller;
+    private float horizontalMove = 0f;
     public int hp = 0;
     private Queue<InputCode> rawInputs;
     
@@ -33,16 +33,6 @@ public class PlayerController : Singleton<PlayerController>
         horizontalMove = Input.GetAxisRaw("Horizontal");
         controller.Jump(Input.GetButtonDown("Jump"), Input.GetButton("Jump"), Input.GetButtonUp("Jump"));
         GetInput();
-
-
-        string text = "";
-        for (int i = 0; i < rawInputs.Count; i++)
-        {
-            InputCode a = rawInputs.Dequeue();
-            text += a.ToString();
-            rawInputs.Enqueue(a);
-        }
-        Debug.Log(text);
     }
 
     private void FixedUpdate()

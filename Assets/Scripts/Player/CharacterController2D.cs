@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class CharacterController2D : MonoBehaviour
 {
     private Animator animator;
+    [SerializeField] private float dashDistance = 3;
 
     [SerializeField] private float m_MaxSpeed = 10f;                            // Amount of max speed added when the player runs.
     [SerializeField] private float m_RunPower = 6000f;                          // Amount of speed added when the player runs.
@@ -190,6 +191,32 @@ public class CharacterController2D : MonoBehaviour
         }
         m_AirControl = true;
     }
+
+    public IEnumerator Dash(InputCode _dir, Vector2 dashZonePos)
+    {
+        Vector2 dir = Vector2.zero;
+        switch (_dir)
+        {
+            case InputCode.Up: dir = Vector2.up; break;
+            case InputCode.Down: dir = Vector2.down; break;
+            case InputCode.Left: dir = Vector2.left; break;
+            case InputCode.Right: dir = Vector2.right; break;
+        }
+
+        RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Floor"));
+        float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - 0.5f;
+        //transform.position = dashZonePos + dir * distance;
+        m_Rigidbody2D.velocity = Vector3.zero;
+
+        int dashCount = 10;
+        Vector2 destination = dashZonePos + dir * distance;
+        for (int i = 0; i < dashCount; i++)
+        {
+            yield return null;
+            transform.position += (Vector3)destination / dashCount;
+        }
+    }
+
 
     private void Flip()
     {

@@ -1,16 +1,22 @@
 fileFormatVersion: 2
-guid: 924afc123e2a02945bf09da64cfdc05c
+guid: 9e2dcfc7f010c1e42b668f32ded97b6d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6411069896555542185
-    second: lifestone_0
+      213: -9062837415071662908
+    second: jump-Sheet_0
   - first:
-      213: -2667398635040433181
-    second: lifestone_1
+      213: 8245629656952527113
+    second: jump-Sheet_1
   - first:
-      213: -908646077743068941
-    second: lifestone_2
+      213: -8619526791323513395
+    second: jump-Sheet_2
+  - first:
+      213: -6587305451783925153
+    second: jump-Sheet_3
+  - first:
+      213: 8202548120668862019
+    second: jump-Sheet_4
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -54,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 28
+  spritePixelsToUnits: 640
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +78,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -84,19 +90,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -107,64 +101,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lifestone_0
+      name: jump-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 20
-        height: 20
+        width: 320
+        height: 600
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d57f96de002c9843ad37054c4f1ae66
-      internalID: -6411069896555542185
+      spriteID: a78ea907fec7a9d44a1f57bc88324814
+      internalID: -9062837415071662908
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lifestone_1
+      name: jump-Sheet_1
       rect:
         serializedVersion: 2
-        x: 20
+        x: 320
         y: 0
-        width: 20
-        height: 20
+        width: 320
+        height: 600
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc3be9c2b64dd2142b78ffe7cb318c8c
-      internalID: -2667398635040433181
+      spriteID: 33687728e50f8ae4c939d15544119a17
+      internalID: 8245629656952527113
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lifestone_2
+      name: jump-Sheet_2
       rect:
         serializedVersion: 2
-        x: 40
+        x: 640
         y: 0
-        width: 20
-        height: 20
+        width: 320
+        height: 600
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 78537798249a0214ca8fec8b046abf34
-      internalID: -908646077743068941
+      spriteID: 9f063c0aca4b24948ae365c66ffcdc39
+      internalID: -8619526791323513395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 320
+        height: 600
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f32dec6cb4539348a3f9342eaa2ed1e
+      internalID: -6587305451783925153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jump-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 320
+        height: 600
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfabb1e9e388a544482e06750e2cde22
+      internalID: 8202548120668862019
       vertices: []
       indices: 
       edges: []

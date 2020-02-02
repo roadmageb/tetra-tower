@@ -10,10 +10,12 @@ public class Map : MonoBehaviour
     public static int gridWidth = 10;
     public static int gridHeight = 20;
     public static Transform[,] grid = new Transform[gridWidth, gridHeight];
+    GameObject tetSpawn;
 
     // Start is called before the first frame update
     void Start()
     {
+        tetSpawn = GameObject.Find("TetrominoSpawnerObj");
         SpawnNextTetromino();
     }
 
@@ -120,7 +122,6 @@ public class Map : MonoBehaviour
 
     public void SpawnNextTetromino()
     {
-        GameObject tetSpawn = GameObject.Find("TetrominoSpawnerObj");
         tetSpawn.GetComponent<TetrominoSpawner>().spawnShuffled();
     }
 

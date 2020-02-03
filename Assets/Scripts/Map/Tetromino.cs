@@ -32,13 +32,13 @@ public class Tetromino : MonoBehaviour
             if (!IsValidPosition())
             {
                 transform.position += new Vector3(0, 1, 0);
-                var tp = transform.position;
-                transform.position = new Vector3(tp.x, Mathf.Floor(tp.y), tp.z); 
+                var tmp = transform.position;
+                transform.position = Vector3Utils.ChangeY( tmp, Mathf.Floor(tmp.y));
                 
                 isFalling = false;
 
                 // initialize
-                velocity -= velocity;
+                velocity = Vector3.zero;
                 FindObjectOfType<Map>().UpdateGrid(this);
                 prepareNextTetromino();
             }

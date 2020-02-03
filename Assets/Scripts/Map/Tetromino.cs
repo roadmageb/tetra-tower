@@ -9,8 +9,9 @@ public class Tetromino : MonoBehaviour
     public bool allowRotation = true;
 
     bool isFalling = false;
-    const float gravity = 9.8F;
-    Vector3 velocity = new Vector3(0, 0, 0);
+    float gravity = 9.8F;
+    float gravityAdd = 40;
+    Vector3 velocity = Vector3.zero;
     Vector3 shift;
 
     void Start()
@@ -23,6 +24,7 @@ public class Tetromino : MonoBehaviour
         if (isFalling)
         {
             velocity.y -= gravity * Time.deltaTime;
+            gravity += gravityAdd * Time.deltaTime;
             shift = velocity * Time.deltaTime;
             transform.position += shift;
 

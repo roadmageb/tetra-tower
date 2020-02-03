@@ -3,7 +3,12 @@
     NULL, Normal, Gold
 }
 
-public enum InputCode
+public enum InputAction
 {
-    Up, Down, Left, Right, Action1, Action2, Action3, NULL
+    Action1, Action2, Action3, NULL
+}
+
+public enum InputArrow
+{
+    Up, Down, Front, UpFront, DownFront, NULL
 }

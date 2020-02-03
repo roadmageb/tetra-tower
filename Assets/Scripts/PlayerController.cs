@@ -7,39 +7,55 @@ public class PlayerController : Singleton<PlayerController>
     private CharacterController2D controller;
     float horizontalMove = 0f;
     public int hp = 0;
-    private Queue<List<InputCode>> rawInputs;
-    private bool[] inputChecker;
+    private bool[] actionChecker, arrowChecker;
+
+    public List<ComboInfo> possibleComboes;
 
     private int inputCheckCount = 0, inputFrameLimit = 5;
-    private int inputCount = 0;
     
     private void GetInput()
     {
         if(inputCheckCount < inputFrameLimit)
         {
 
-            if (Input.GetAxisRaw("Vertical") > 0) { inputChecker[(int)InputCode.Up] = true; }
-            if (Input.GetAxisRaw("Vertical") < 0) { inputChecker[(int)InputCode.Down] = true; }
-            if (Input.GetAxisRaw("Horizontal") > 0) { inputChecker[(int)InputCode.Right] = true; }
-            if (Input.GetAxisRaw("Horizontal") < 0) { inputChecker[(int)InputCode.Left] = true; }
-            if (Input.GetButtonDown("Action1")) { inputChecker[(int)InputCode.Action1] = true; }
-            if (Input.GetButtonDown("Action2")) { inputChecker[(int)InputCode.Action2] = true; }
-            if (Input.GetButtonDown("Action3")) { inputChecker[(int)InputCode.Action3] = true; }
+            if (Input.GetAxisRaw("Vertical") > 0) { arrowChecker[(int)InputArrow.Up] = true; }
+            if (Input.GetAxisRaw("Vertical") < 0) { arrowChecker[(int)InputArrow.Down] = true; }
+            if (Input.GetAxisRaw("Horizontal") != 0) { arrowChecker[(int)InputArrow.Front] = true; }
+
+            if (Input.GetButtonDown("Action1")) { actionChecker[(int)InputAction.Action1] = true; }
+            if (Input.GetButtonDown("Action2")) { actionChecker[(int)InputAction.Action2] = true; }
+            if (Input.GetButtonDown("Action3")) { actionChecker[(int)InputAction.Action3] = true; }
             inputCheckCount++;
         }
         else
         {
-            inputCount++;
-            List<InputCode> inputs = new List<InputCode>();
-            for(int i = 0; i < inputChecker.Length; i++)
+            InputArrow currentInputArrow;
+            int currentInputAction = 0;
+            //Check action buttons
+            for(int i = 0; i < actionChecker.Length; i++)
             {
-                if (inputChecker[i])
-                {
-                    inputs.Add((InputCode)i);
-                }
-                inputChecker[i] = false;
+                currentInputAction <<= 1;
+                currentInputAction += actionChecker[i] ? 1 : 0;
+                actionChecker[i] = false;
             }
-            rawInputs.Enqueue(inputs);
+
+            //Check arrow buttons
+            if (arrowChecker[(int)InputArrow.Up] && arrowChecker[(int)InputArrow.Front]) currentInputArrow = InputArrow.UpFront;
+            else if (arrowChecker[(int)InputArrow.Down] && arrowChecker[(int)InputArrow.Front]) currentInputArrow = InputArrow.DownFront;
+            else if (arrowChecker[(int)InputArrow.Up]) currentInputArrow = InputArrow.Up;
+            else if (arrowChecker[(int)InputArrow.Down]) currentInputArrow = InputArrow.Down;
+            else if (arrowChecker[(int)InputArrow.Front]) currentInputArrow = InputArrow.Front;
+            else currentInputArrow = InputArrow.NULL;
+
+            for (int i = 0; i < possibleComboes.Count; i++)
+            {
+                possibleComboes[i].CheckCombo(currentInputArrow, currentInputAction);
+            }
+
+            for (int i = 0; i < arrowChecker.Length; i++)
+            {
+                arrowChecker[i] = false;
+            }
             inputCheckCount = 0;
         }
     }
@@ -47,8 +63,14 @@ public class PlayerController : Singleton<PlayerController>
     private void Awake()
     {
         controller = GetComponent<CharacterController2D>();
-        rawInputs = new Queue<List<InputCode>>();
-        inputChecker = new bool[(int)InputCode.NULL];
+        arrowChecker = new bool[(int)InputArrow.Front + 1];
+        actionChecker = new bool[(int)InputAction.NULL];
+        possibleComboes = new List<ComboInfo>();
+    }
+
+    private void Start()
+    {
+        possibleComboes.Add(new ComboInfo(InputArrow.NULL, new int[2] { 1, 2 }));
     }
 
     // Update is called once per frame
@@ -57,14 +79,6 @@ public class PlayerController : Singleton<PlayerController>
         horizontalMove = Input.GetAxisRaw("Horizontal");
         controller.Jump(Input.GetButtonDown("Jump"), Input.GetButton("Jump"), Input.GetButtonUp("Jump"));
         GetInput();
-    }
-
-    private void LateUpdate()
-    {
-        List<InputCode> asdf = rawInputs.Dequeue();
-        string test = "";
-        for (int i = 0; i < asdf.Count; i++) test += (InputCode)i;
-        if (test != "") Debug.Log(test);
     }
 
     private void FixedUpdate()

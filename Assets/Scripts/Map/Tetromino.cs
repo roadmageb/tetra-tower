@@ -7,7 +7,6 @@ public class Tetromino : MonoBehaviour
     // Start is called before the first frame update
 
     public bool allowRotation = true;
-    public bool limitRotation = false;
 
     bool isFalling = false;
     const float gravity = 9.8F;
@@ -74,22 +73,12 @@ public class Tetromino : MonoBehaviour
                 return;
             }
 
-            int rotateAngle = 90;
-
-            if (limitRotation)
+            rotateCounterclockwise();
+            if (!IsValidPosition())
             {
-                if (transform.rotation.eulerAngles.z >= 90)
-                {
-                    rotateAngle = -90;
-                }
+                rotateClockwise();
             }
-
-            transform.Rotate(0, 0, -rotateAngle);
-            if (!CheckIsValidPosition(new Vector3(0, 0, 0)))
-            {
-                transform.Rotate(0, 0, rotateAngle);
-                FindObjectOfType<Map>().UpdateGrid(this);
-            }
+            FindObjectOfType<Map>().UpdateGrid(this);
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -144,22 +133,19 @@ public class Tetromino : MonoBehaviour
 
     bool IsValidPosition ()
     {
-        foreach (Transform mino in transform)
-        {
-            Vector3 pos = FindObjectOfType<Map>().Round(mino.position);
-            if( FindObjectOfType<Map>().CheckIsInsideGrid(pos) == false)
-            {
-                return false;
-            }
+        return canShift(new Vector3(0, 0, 0)); // return true if the current position is valid
+    }
 
-            if( FindObjectOfType<Map>().GetTransformAtGridPosition(pos) != null &&
-                FindObjectOfType<Map>().GetTransformAtGridPosition(pos).parent != transform)
-            {
-                return false;
-            }
-        }
+    void rotateClockwise()
+    {
+        transform.Rotate(0, 0, 90);
+        transform.position = Vector3Utils.Map(transform.position, Mathf.Round);
+    }
 
-        return true;
+    void rotateCounterclockwise()
+    {
+        transform.Rotate(0, 0, -90);
+        transform.position = Vector3Utils.Map(transform.position, Mathf.Round);
     }
 }
-
+ 

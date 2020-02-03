@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Constants
+public static class Constants
 {
     public static Vector2 LeftmostBottommostMinoPosition = new Vector2(0, 0);
     public static Vector2 Base = LeftmostBottommostMinoPosition;

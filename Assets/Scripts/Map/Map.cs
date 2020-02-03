@@ -20,13 +20,6 @@ public class Map : MonoBehaviour
         tetSpawn = GameObject.Find("TetrominoSpawnerObj");
         pistonSpawner = GameObject.Find("PistonSpawnerObj");
         ps = pistonSpawner.GetComponent<PistonSpawner>();
-        ps.spawnNth(0);
-        ps.spawnNth(2);
-        ps.spawnNth(4);
-        ps.spawnNth(6);
-        ps.spawnNth(8);
-        ps.spawnNth(9);
-        ps.spawnNth(11);
         SpawnNextTetromino();
     }
 

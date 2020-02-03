@@ -15,7 +15,16 @@ public class PistonSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            spawnNth(0);
+            spawnNth(2);
+            spawnNth(4);
+            spawnNth(6);
+            spawnNth(8);
+            spawnNth(9);
+            spawnNth(11);
+        }
     }
 
     public void spawnNth(int n)

@@ -74,6 +74,7 @@ public class Map : MonoBehaviour
         {
             if (isFullRowAt(y))
             {
+                pistSpawner.spawnNth(y);
                 DeleteMinoAt(y);
 
                 MoveAllRowsDown(y + 1);

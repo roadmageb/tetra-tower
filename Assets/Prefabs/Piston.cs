@@ -12,22 +12,13 @@ abstract class Piston: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isMoving = false;
-        isMovingCenter = false;
+        isMoving = true;
+        isMovingCenter = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (isMoving == false) { 
-                isMoving = true;
-                isMovingCenter = true;
-                return;
-            }
-        }
-
         if (isMoving == true)
         {
             pistonMovement();

@@ -33,7 +33,8 @@ public class Tetromino : MonoBehaviour
                 transform.position -= shift;
 
                 var tmp = transform.position;
-                transform.position = Vector3Utils.ChangeY( tmp, Mathf.Floor(tmp.y));
+                tmp.y = Mathf.Floor(tmp.y);
+                transform.position = tmp;
                 
                 isFalling = false;
 

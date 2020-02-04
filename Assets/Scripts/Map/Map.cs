@@ -10,16 +10,18 @@ public class Map : MonoBehaviour
     public static int gridWidth = 10;
     public static int gridHeight = 20;
     public static Transform[,] grid = new Transform[gridWidth, gridHeight];
-    GameObject tetSpawn;
-    GameObject pistonSpawner;
-    PistonSpawner ps;
+    TetrominoSpawner tetSpawner;
+    PistonSpawner pistSpawner;
 
     // Start is called before the first frame update
     void Start()
     {
-        tetSpawn = GameObject.Find("TetrominoSpawnerObj");
-        pistonSpawner = GameObject.Find("PistonSpawnerObj");
-        ps = pistonSpawner.GetComponent<PistonSpawner>();
+        var tetSpawnerObj = GameObject.Find("TetrominoSpawnerObj");
+        tetSpawner = tetSpawnerObj.GetComponent<TetrominoSpawner>();
+
+        var pistonSpawnerObj = GameObject.Find("PistonSpawnerObj");
+        pistSpawner = pistonSpawnerObj.GetComponent<PistonSpawner>();
+
         SpawnNextTetromino();
     }
 
@@ -126,7 +128,7 @@ public class Map : MonoBehaviour
 
     public void SpawnNextTetromino()
     {
-        tetSpawn.GetComponent<TetrominoSpawner>().spawnShuffled();
+        tetSpawner.spawnShuffled();
     }
 
     public bool CheckIsInsideGrid(Vector3 pos)
@@ -137,11 +139,5 @@ public class Map : MonoBehaviour
     public Vector3 Round(Vector3 pos)
     {
         return new Vector3((int)Mathf.Round(pos.x), (int)Mathf.Round(pos.y), 0);
-    }
-
-    public void SpawnPistonsAtNthRow(int n)
-    {
-        pistonSpawner.GetComponent<PistonSpawner>().spawnNth(n);
-
     }
 }

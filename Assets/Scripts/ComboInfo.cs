@@ -6,29 +6,35 @@ public class ComboInfo
 {
     public int[] comboAction;
     public InputArrow comboArrow;
-    public int comboSuccessCounter, comboTimer = 60, comboCounter = 0;
+    public int comboSuccessCounter, comboTimer = 40, comboCounter = 0;
 
     public void CheckCombo(InputArrow inputArrow, int inputAction)
     {
         Debug.Log(comboCounter);
-
-        if (comboSuccessCounter < comboAction.Length - 1)
+        if (comboSuccessCounter == 0)
         {
-            if (comboAction[comboSuccessCounter] == inputAction)
-            {
-                comboSuccessCounter++;
-            }
-            else
-            {
-                comboSuccessCounter = 0;
-            }
+            comboCounter = 0;
         }
         else
         {
-            if (comboAction[comboSuccessCounter] == inputAction && comboArrow == inputArrow)
+            comboCounter++;
+        }
+        if (comboAction[comboSuccessCounter] == inputAction && comboCounter < comboTimer)
+        {
+            comboCounter = 0;
+            comboSuccessCounter++;
+            if (comboSuccessCounter == comboAction.Length)
             {
-                Debug.Log("Combo");
+                if (comboArrow == inputArrow)
+                {
+                    //Do combo action
+                    Debug.Log("Combo");
+                }
+                comboSuccessCounter = 0;
             }
+        }
+        else if (inputAction != 0 || comboCounter >= comboTimer)
+        {
             comboSuccessCounter = 0;
         }
     }

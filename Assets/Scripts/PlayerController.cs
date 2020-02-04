@@ -70,7 +70,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
-        possibleComboes.Add(new ComboInfo(InputArrow.NULL, new int[2] { 1, 2 }));
+        possibleComboes.Add(new ComboInfo(InputArrow.UpFront, new int[2] { 1, 2 }));
     }
 
     // Update is called once per frame

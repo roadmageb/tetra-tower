@@ -28,10 +28,10 @@ public class Tetromino : MonoBehaviour
             shift = velocity * Time.deltaTime;
             transform.position += shift;
 
-            // TODO: IsValidPosition a bit buggy when tasking transform position with floats.
             if (!IsValidPosition())
             {
-                transform.position += new Vector3(0, 1, 0);
+                transform.position -= shift;
+
                 var tmp = transform.position;
                 transform.position = Vector3Utils.ChangeY( tmp, Mathf.Floor(tmp.y));
                 
@@ -84,7 +84,6 @@ public class Tetromino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            var shift = new Vector3(0, -1, 0);
             isFalling = true;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -116,7 +115,15 @@ public class Tetromino : MonoBehaviour
     {
         foreach (Transform mino in transform)
         {
-            Vector3 pos = FindObjectOfType<Map>().Round(mino.position) + shift;
+
+            Vector3 pos = mino.position + shift;
+            Debug.Log(pos);
+            pos[1] = Mathf.Floor(pos[1]); // Floor y. Needed for falling.
+
+            // must always round position before passing to CheckIsInsideGrid function.
+            // TODO: casting from float to int considered harmful. Separate the core
+            // logic (in integers) and actual position (in floats), ASAP.
+            pos = Vector3Utils.Map(pos, Mathf.Round);
             if( FindObjectOfType<Map>().CheckIsInsideGrid(pos) == false)
             {
                 return false;

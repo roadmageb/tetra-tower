@@ -432,7 +432,7 @@ PrefabInstance:
     - target: {fileID: 7058408762118086145, guid: 203cc78d342394b46845200cdb633bc3,
         type: 3}
       propertyPath: dashDir
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 203cc78d342394b46845200cdb633bc3, type: 3}
@@ -1172,11 +1172,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6640821720336430466, guid: 746461cf5ae526c4d99386a6cde77f2c,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7922422854691280649, guid: 746461cf5ae526c4d99386a6cde77f2c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1524,6 +1519,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DashZone
+      objectReference: {fileID: 0}
+    - target: {fileID: 7058408762118086145, guid: 203cc78d342394b46845200cdb633bc3,
+        type: 3}
+      propertyPath: dashDir
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 203cc78d342394b46845200cdb633bc3, type: 3}

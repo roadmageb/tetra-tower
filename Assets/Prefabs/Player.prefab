@@ -149,7 +149,8 @@ MonoBehaviour:
   dashDistance: 3
   m_MaxSpeed: 7
   m_RunPower: 6000
-  m_JumpPower: 50
+  m_JumpPowerInitial: 400
+  m_JumpPower: 30
   m_WallJumpPower: 500
   m_AirControl: 1
   m_WhatIsGround:
@@ -162,6 +163,7 @@ MonoBehaviour:
   m_CeilingCheck: {fileID: 5409642182703099799}
   m_WallCheck: {fileID: 953998166}
   m_CrouchDisableCollider: {fileID: 0}
+  m_FacingRight: 1
   m_Jumping: 0
   OnLandEvent:
     m_PersistentCalls:

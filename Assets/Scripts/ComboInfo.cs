@@ -10,7 +10,7 @@ public class ComboInfo
 
     public void CheckCombo(InputArrow inputArrow, int inputAction)
     {
-        Debug.Log(comboCounter);
+        //Debug.Log(comboCounter);
 
         if (comboSuccessCounter < comboAction.Length - 1)
         {

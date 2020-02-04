@@ -12,3 +12,8 @@ public enum InputArrow
 {
     Up, Down, Front, UpFront, DownFront, NULL
 }
+
+public enum DashDir
+{
+    Up, Down, Left, Right
+}

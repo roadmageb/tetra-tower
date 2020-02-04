@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DashZone : MonoBehaviour
 {
-    [SerializeField] private InputCode dashDir;
+    [SerializeField] private DashDir dashDir;
     private bool isDashable;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,10 +33,10 @@ public class DashZone : MonoBehaviour
     {
         if (isDashable)
         {
-            if (dashDir == InputCode.Up && Input.GetKeyDown(KeyCode.UpArrow) ||
-               dashDir == InputCode.Down && Input.GetKeyDown(KeyCode.DownArrow) ||
-               dashDir == InputCode.Left && Input.GetKeyDown(KeyCode.LeftArrow) ||
-               dashDir == InputCode.Right && Input.GetKeyDown(KeyCode.RightArrow))
+            if (dashDir == DashDir.Up && Input.GetKeyDown(KeyCode.UpArrow) ||
+               dashDir == DashDir.Down && Input.GetKeyDown(KeyCode.DownArrow) ||
+               dashDir == DashDir.Left && Input.GetKeyDown(KeyCode.LeftArrow) ||
+               dashDir == DashDir.Right && Input.GetKeyDown(KeyCode.RightArrow))
             {
                 StartCoroutine(PlayerController.Instance.controller.Dash(dashDir, transform.position));
             }

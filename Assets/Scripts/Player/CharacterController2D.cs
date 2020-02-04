@@ -9,8 +9,9 @@ public class CharacterController2D : MonoBehaviour
 
     [SerializeField] private float m_MaxSpeed = 10f;                            // Amount of max speed added when the player runs.
     [SerializeField] private float m_RunPower = 6000f;                          // Amount of speed added when the player runs.
+    [SerializeField] private float m_JumpPowerInitial = 10f;                    // Amount of speed added when the player initiate jumps.
     [SerializeField] private float m_JumpPower = 10f;                           // Amount of speed added when the player jumps.
-    [SerializeField] private float m_WallJumpPower = 10f;                       // Amount of speed added when the player jumps.
+    [SerializeField] private float m_WallJumpPower = 10f;                       // Amount of speed added when the player wall jumps.
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
     [SerializeField] private LayerMask m_WhatIsWall;                            // A mask determining what is wall to the character
@@ -26,7 +27,7 @@ public class CharacterController2D : MonoBehaviour
     const float k_WallRadius = .2f;     // Radius of the overlap circle to determine if the player wall jump
     const int jumpTime = 20;
     private Rigidbody2D m_Rigidbody2D;
-    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    public bool m_FacingRight = true;  // For determining which way the player is currently facing.
     public bool m_Jumping = false;
     private Coroutine wallJumpCoroutine = null;
 
@@ -56,7 +57,7 @@ public class CharacterController2D : MonoBehaviour
             OnCrouchEvent = new BoolEvent();
     }
     
-    private void FixedUpdate()
+    private void Update()
     {
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
@@ -79,6 +80,7 @@ public class CharacterController2D : MonoBehaviour
         m_WallClimbed = false;
         if (!m_WallClimbed && !m_Grounded)
         {
+
             Collider2D[] wallColliders;
             wallColliders = Physics2D.OverlapCircleAll(m_WallCheck.position, k_WallRadius, m_WhatIsWall);
 
@@ -87,8 +89,11 @@ public class CharacterController2D : MonoBehaviour
                 if (wallColliders[i].gameObject != gameObject && (Input.GetAxisRaw("Horizontal") != 0))
                 {
                     m_WallClimbed = true;
+                    animator.SetTrigger("WallClimb");
+                    break;
                 }
             }
+            if (m_WallClimbed && m_Rigidbody2D.velocity.y < 0) animator.SetTrigger("JumpDown");
         }
     }
     
@@ -139,6 +144,7 @@ public class CharacterController2D : MonoBehaviour
                 jumpTimeCounter = jumpTime;
                 animator.SetTrigger("Jump");
                 animator.SetBool("Land", false);
+                m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPowerInitial));
             }
             if (m_WallClimbed)
             {
@@ -151,6 +157,7 @@ public class CharacterController2D : MonoBehaviour
                 //m_Rigidbody2D.velocity = new Vector2(4 * (m_FacingRight ? -1 : 1), m_Rigidbody2D.velocity.y);
                 m_Rigidbody2D.AddForce(new Vector2(m_WallJumpPower * (m_FacingRight ? -1 : 1), m_WallJumpPower));
                 wallJumpCoroutine = StartCoroutine(WallJump());
+                animator.SetTrigger("Jump");
 
                 Flip();
             }
@@ -192,15 +199,15 @@ public class CharacterController2D : MonoBehaviour
         m_AirControl = true;
     }
 
-    public IEnumerator Dash(InputCode _dir, Vector2 dashZonePos)
+    public IEnumerator Dash(DashDir _dir, Vector2 dashZonePos)
     {
         Vector2 dir = Vector2.zero;
         switch (_dir)
         {
-            case InputCode.Up: dir = Vector2.up; break;
-            case InputCode.Down: dir = Vector2.down; break;
-            case InputCode.Left: dir = Vector2.left; break;
-            case InputCode.Right: dir = Vector2.right; break;
+            case DashDir.Up: dir = Vector2.up; break;
+            case DashDir.Down: dir = Vector2.down; break;
+            case DashDir.Left: dir = Vector2.left; break;
+            case DashDir.Right: dir = Vector2.right; break;
         }
 
         RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Floor"));

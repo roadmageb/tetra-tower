@@ -78,11 +78,11 @@ public class PlayerController : Singleton<PlayerController>
     {
         horizontalMove = Input.GetAxisRaw("Horizontal");
         controller.Jump(Input.GetButtonDown("Jump"), Input.GetButton("Jump"), Input.GetButtonUp("Jump"));
+        controller.Move(horizontalMove * Time.fixedDeltaTime);
         GetInput();
     }
 
     private void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime);
     }
 }

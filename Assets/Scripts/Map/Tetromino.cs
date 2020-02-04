@@ -53,7 +53,7 @@ public class Tetromino : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             var shift = new Vector3(1, 0, 0);
-            if (CheckIsValidPosition(shift))
+            if (canShift(shift))
             {
                 transform.position += shift;
                 FindObjectOfType<Map>().UpdateGrid(this);
@@ -62,7 +62,7 @@ public class Tetromino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             var shift = new Vector3(-1, 0, 0);
-            if (CheckIsValidPosition(shift))
+            if (canShift(shift))
             {
                 transform.position += shift;
                 FindObjectOfType<Map>().UpdateGrid(this);
@@ -90,7 +90,7 @@ public class Tetromino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             var shift = new Vector3(0, -1, 0);
-            if (CheckIsValidPosition(shift))
+            if (canShift(shift))
             {
                 transform.position += shift;
                 FindObjectOfType<Map>().UpdateGrid(this);
@@ -112,8 +112,7 @@ public class Tetromino : MonoBehaviour
         FindObjectOfType<Map>().SpawnNextTetromino();
     }
 
-    // TODO: Refactor CheckIsValidPosition function into IsValidPosition function (better)
-    bool CheckIsValidPosition (Vector3 shift)
+    bool canShift(Vector3 shift)
     {
         foreach (Transform mino in transform)
         {

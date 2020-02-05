@@ -14,8 +14,12 @@ public class Tetromino : MonoBehaviour
     Vector3 velocity = Vector3.zero;
     Vector3 shift;
 
+    Map map;
+
     void Start()
     {
+        //map = GameObject.Find("Map").GetComponent<Map>();
+        map = GameObject.FindGameObjectWithTag("MapTag").GetComponent<Map>();
     }
    
     // Update is called once per frame
@@ -40,7 +44,7 @@ public class Tetromino : MonoBehaviour
 
                 // initialize
                 velocity = Vector3.zero;
-                FindObjectOfType<Map>().UpdateGrid(this);
+                map.UpdateGrid(this);
                 prepareNextTetromino();
             }
             return;
@@ -57,7 +61,7 @@ public class Tetromino : MonoBehaviour
             if (canShift(shift))
             {
                 transform.position += shift;
-                FindObjectOfType<Map>().UpdateGrid(this);
+                map.UpdateGrid(this);
             }
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -66,7 +70,7 @@ public class Tetromino : MonoBehaviour
             if (canShift(shift))
             {
                 transform.position += shift;
-                FindObjectOfType<Map>().UpdateGrid(this);
+                map.UpdateGrid(this);
             }
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -81,7 +85,7 @@ public class Tetromino : MonoBehaviour
             {
                 rotateClockwise();
             }
-            FindObjectOfType<Map>().UpdateGrid(this);
+            map.UpdateGrid(this);
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -93,9 +97,10 @@ public class Tetromino : MonoBehaviour
             if (canShift(shift))
             {
                 transform.position += shift;
-                FindObjectOfType<Map>().UpdateGrid(this);
+                map.UpdateGrid(this);
             } else
             {
+                map.UpdateGrid(this);
                 prepareNextTetromino();
             }
         }
@@ -109,7 +114,7 @@ public class Tetromino : MonoBehaviour
     {
         FindObjectOfType<Map>().DeleteRow();
         enabled = false;
-        FindObjectOfType<Map>().SpawnNextTetromino();
+        map.SpawnNextTetromino();
     }
 
     bool canShift(Vector3 shift)
@@ -125,13 +130,13 @@ public class Tetromino : MonoBehaviour
             // TODO: casting from float to int considered harmful. Separate the core
             // logic (in integers) and actual position (in floats), ASAP.
             pos = Vector3Utils.Map(pos, Mathf.Round);
-            if( FindObjectOfType<Map>().CheckIsInsideGrid(pos) == false)
+            if( map.CheckIsInsideGrid(pos) == false)
             {
                 return false;
             }
 
-            if( FindObjectOfType<Map>().GetTransformAtGridPosition(pos) != null &&
-                FindObjectOfType<Map>().GetTransformAtGridPosition(pos).parent != transform)
+            if( map.GetTransformAtGridPosition(pos) != null &&
+                map.GetTransformAtGridPosition(pos).parent != transform)
             {
                 return false;
             }

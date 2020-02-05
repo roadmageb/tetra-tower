@@ -64,11 +64,11 @@ public class Map : MonoBehaviour
         }
     }
 
-    public void MoveAllRowsDown(int y)
+    public void MoveAllRowsDown(int from, int num)
     {
-        for (int i = y; i < gridHeight; ++i)
+        for (int i = from; i < gridHeight; ++i)
         {
-            MoveRowDown(i);
+            MoveRowDown(i, num);
         }
     }
 

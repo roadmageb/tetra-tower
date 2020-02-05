@@ -112,7 +112,8 @@ public class Tetromino : MonoBehaviour
 
     void prepareNextTetromino()
     {
-        FindObjectOfType<Map>().DeleteRow();
+        //map.DeleteRow();
+        map.RemoveRowsIfFull();
         enabled = false;
         map.SpawnNextTetromino();
     }

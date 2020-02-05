@@ -87,7 +87,26 @@ public class Map : MonoBehaviour
         yield return new WaitForSeconds(14);
         MoveAllRowsDown(start, count);
     }
-    
+
+    public void RemoveRowsIfFull()
+    {
+        bool[] fullRowBitmap = new bool[gridHeight];
+        int fullRowCount = 0;
+        for (int y = 0; y < gridHeight; ++y)
+        {
+            if (isFullRowAt(y))
+            {
+                fullRowCount++;
+                fullRowBitmap[y] = true;
+                DeleteMinoAt(y);
+            }
+        }
+
+        if (fullRowCount > 0)
+        {
+            StartCoroutine(waitAndDelete(fullRowBitmap));
+        }
+    }
 
     public void DeleteRow()
     {

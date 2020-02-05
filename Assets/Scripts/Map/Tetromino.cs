@@ -123,7 +123,7 @@ public class Tetromino : MonoBehaviour
         {
 
             Vector3 pos = mino.position + shift;
-            Debug.Log(pos.ToString("F6"));
+            // Debug.Log(pos.ToString("F6"));
             pos[1] = Mathf.Floor(pos[1]); // Floor y. Needed for falling.
 
             // must always round position before passing to CheckIsInsideGrid function.

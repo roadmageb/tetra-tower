@@ -12,6 +12,7 @@ public class Map : MonoBehaviour
     public static Transform[,] grid = new Transform[gridWidth, gridHeight];
     TetrominoSpawner tetSpawner;
     PistonSpawner pistSpawner;
+    RowRemover rowRemover;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,9 @@ public class Map : MonoBehaviour
 
         var pistonSpawnerObj = GameObject.Find("PistonSpawnerObj");
         pistSpawner = pistonSpawnerObj.GetComponent<PistonSpawner>();
+
+        var rowRemoverObj = GameObject.Find("RowRemoverObj");
+        rowRemover = rowRemoverObj.GetComponent<RowRemover>();
 
         SpawnNextTetromino();
     }

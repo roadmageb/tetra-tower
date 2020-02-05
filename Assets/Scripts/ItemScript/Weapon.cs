@@ -6,7 +6,7 @@ public class Weapon
 {
     public ItemRank rank;
     public int skillCount;
-    public SkillCommand[] commands;
+    public ComboInfo[] commands;
     public AnimationClip[] skillAnim;
     public float[] skillDelay;
     public int damage;

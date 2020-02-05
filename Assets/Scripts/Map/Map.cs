@@ -51,15 +51,15 @@ public class Map : MonoBehaviour
         }
     }
 
-    public void MoveRowDown(int y)
+    public void MoveRowDown(int y, int num)
     {
         for (int x = 0; x < gridWidth; ++x)
         {
             if (grid[x, y] != null)
             {
-                grid[x, y - 1] = grid[x, y];
+                grid[x, y - num] = grid[x, y];
                 grid[x, y] = null;
-                grid[x, y - 1].position += new Vector3(0, -1, 0);
+                grid[x, y - num].position += new Vector3(0, -num, 0);
             }
         }
     }

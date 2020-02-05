@@ -46,7 +46,7 @@ public class Map : MonoBehaviour
     {
         for (int x = 0; x < gridWidth; ++x)
         {
-            Destroy(grid[x, y].gameObject);
+            //Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
         }
     }

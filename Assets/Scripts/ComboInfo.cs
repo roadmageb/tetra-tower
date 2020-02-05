@@ -4,45 +4,40 @@ using UnityEngine;
 
 public class ComboInfo
 {
-    public int[] comboAction;
-    public InputArrow comboArrow;
-    public int comboSuccessCounter, comboTimer = 40, comboCounter = 0;
+    private int[] comboAction;
+    private InputArrow comboArrow;
+    private int comboSuccessCounter;
+    private string comboName;
 
-    public void CheckCombo(InputArrow inputArrow, int inputAction)
+    public bool CheckCombo(InputArrow inputArrow, int inputAction, int globalSuccessCounter)
     {
-        Debug.Log(comboCounter);
-        if (comboSuccessCounter == 0)
+        if(globalSuccessCounter == 0 || globalSuccessCounter == comboSuccessCounter)
         {
-            comboCounter = 0;
-        }
-        else
-        {
-            comboCounter++;
-        }
-        if (comboAction[comboSuccessCounter] == inputAction && comboCounter < comboTimer)
-        {
-            comboCounter = 0;
-            comboSuccessCounter++;
-            if (comboSuccessCounter == comboAction.Length)
+            if(comboAction[globalSuccessCounter] == inputAction)
             {
-                if (comboArrow == inputArrow)
+                if (globalSuccessCounter == comboAction.Length - 1 && inputArrow == comboArrow)
                 {
-                    //Do combo action
-                    Debug.Log("Combo");
+                    Debug.Log(comboName);
+                    comboSuccessCounter = 0;
+                    return true;
                 }
-                comboSuccessCounter = 0;
+                else if(globalSuccessCounter == comboAction.Length - 1)
+                {
+                    return false;
+                }
+                comboSuccessCounter = globalSuccessCounter + 1;
+                return true;
             }
         }
-        else if (inputAction != 0 || comboCounter >= comboTimer)
-        {
-            comboSuccessCounter = 0;
-        }
+        comboSuccessCounter = 0;
+        return false;
     }
 
-    public ComboInfo(InputArrow _comboArrow, int[] _comboAction)
+    public ComboInfo(InputArrow _comboArrow, int[] _comboAction, string _comboName)
     {
         comboArrow = _comboArrow;
         comboAction = _comboAction;
+        comboName = _comboName;
         comboSuccessCounter = 0;
     }
 }

@@ -7,7 +7,8 @@ abstract class Piston: MonoBehaviour
 
     protected bool isMoving;
     protected bool isMovingCenter;
-    protected float pistonSpeed = 0.02f;
+    protected float compressVelocity = 0.5f;
+    protected float releaseVelocity = 3.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,14 +30,14 @@ abstract class Piston: MonoBehaviour
     {
         if (isMovingCenter)
         {
-            moveToCenter();
+            compress();
         } else
         {
-            moveAway();
+            release();
         }
     }
 
-    protected abstract void moveToCenter();
-    protected abstract void moveAway();
+    protected abstract void compress();
+    protected abstract void release();
 
 }

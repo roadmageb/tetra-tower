@@ -6,6 +6,7 @@ public class ComboInfo
 {
     private int[] comboAction;
     private InputArrow comboArrow;
+    private PosCond positionCond;
     private int comboSuccessCounter;
     private string comboName;
 
@@ -39,5 +40,26 @@ public class ComboInfo
         comboAction = _comboAction;
         comboName = _comboName;
         comboSuccessCounter = 0;
+    }
+
+    /// <summary>
+    /// Check if this contains same command with chk
+    /// </summary>
+    /// <param name="chk"></param>
+    /// <returns></returns>
+    public bool CheckEqualCombo(ComboInfo chk)
+    {
+        if(comboAction.Length == chk.comboAction.Length && comboArrow == chk.comboArrow && positionCond == chk.positionCond)
+        {
+            for(int i = 0; i < comboAction.Length; i++)
+            {
+                if(comboAction[i] != chk.comboAction[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

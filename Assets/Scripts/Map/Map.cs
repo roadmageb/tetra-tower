@@ -72,23 +72,46 @@ public class Map : MonoBehaviour
         }
     }
 
+    IEnumerator waitAndDelete(bool[] bitmap)
+    {
+        int start = -1;
+        int count = 0;
+        for (int i = 0; i < bitmap.Length; ++i)
+        {
+            if (bitmap[i]) {
+                start = i;
+                count++;
+                pistSpawner.spawnNth(i);
+            }
+        }
+        yield return new WaitForSeconds(14);
+        MoveAllRowsDown(start, count);
+    }
+    
+
     public void DeleteRow()
     {
+        bool[] fullRowBitmap = new bool[gridHeight];
+        int fullRowCount = 0;
         for (int y = 0; y < gridHeight; ++y)
         {
             if (isFullRowAt(y))
             {
-                pistSpawner.spawnNth(y);
+                fullRowCount++;
+                fullRowBitmap[y] = true;
                 DeleteMinoAt(y);
-
-                MoveAllRowsDown(y + 1);
-
+                MoveAllRowsDown(y + 1, 1);
+                //rowRemover.RemoveRow(y);
                 --y;
             }
             else
             {
                 //Debug.Log($"{y} is not full\n");
             }
+        }
+        if (fullRowCount > 0)
+        {
+            StartCoroutine(waitAndDelete(fullRowBitmap));
         }
     }
 

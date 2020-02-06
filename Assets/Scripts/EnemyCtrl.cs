@@ -58,7 +58,7 @@ public class EnemyCtrl : MonoBehaviour
     public List<KeyValuePair<CtrlPtoE, bool>> ApplyCtrl(AttackPtoE attack)
     {
         List<KeyValuePair<CtrlPtoE, bool>> result = new List<KeyValuePair<CtrlPtoE, bool>>();
-        foreach (KeyValuePair<CtrlPtoE, float> ctrl in attack.ctrl)
+        foreach (KeyValuePair<CtrlPtoE, float> ctrl in attack.ctrls)
         {
             switch(ctrl.Key)
             {

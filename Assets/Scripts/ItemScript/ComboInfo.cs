@@ -9,6 +9,8 @@ public class ComboInfo
     private PosCond positionCond;
     private int comboSuccessCounter;
     private string comboName;
+    private float keyGain;
+    private int delayFrame;
 
     public bool CheckCombo(InputArrow inputArrow, int inputAction, int globalSuccessCounter)
     {

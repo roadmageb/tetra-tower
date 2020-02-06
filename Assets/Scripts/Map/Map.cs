@@ -84,8 +84,15 @@ public class Map : MonoBehaviour
                 pistSpawner.spawnNth(i);
             }
         }
-        yield return new WaitForSeconds(14);
-        MoveAllRowsDown(start, count);
+        yield return new WaitForSeconds(1);
+        for (int i = 0; i < bitmap.Length; ++i)
+        {
+            if (bitmap[i])
+            {
+                DeleteMinoAt(i);
+            }
+        }
+        MoveAllRowsDown(start + count, count);
     }
 
     public void RemoveRowsIfFull()

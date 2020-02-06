@@ -14,6 +14,8 @@ public class Tetromino : MonoBehaviour
     Vector3 velocity = Vector3.zero;
     Vector3 shift;
 
+    Vector3 fallDestination;
+
     Map map;
 
     void Start()
@@ -27,29 +29,30 @@ public class Tetromino : MonoBehaviour
     {
         if (isFalling)
         {
-            velocity.y -= gravity * Time.deltaTime;
-            gravity += gravityAdd * Time.deltaTime;
-            shift = velocity * Time.deltaTime;
-            transform.position += shift;
-
-            if (!IsValidPosition())
-            {
-                transform.position -= shift;
-
-                var tmp = transform.position;
-                tmp.y = Mathf.Floor(tmp.y);
-                transform.position = tmp;
-                
-                isFalling = false;
-
-                // initialize
-                velocity = Vector3.zero;
-                map.UpdateGrid(this);
-                prepareNextTetromino();
-            }
+            Fall();
             return;
         }
         CheckUserInput();
+    }
+
+    void Fall()
+    {
+        velocity.y -= gravity * Time.deltaTime;
+        gravity += gravityAdd * Time.deltaTime;
+        shift = velocity * Time.deltaTime;
+        transform.position += shift;
+        Debug.Log(transform.position + " " + fallDestination);
+        
+        if (transform.position.y <= fallDestination.y)
+        {
+            transform.position = fallDestination;
+            isFalling = false;
+
+            // initialize
+            velocity = Vector3.zero;
+            map.UpdateGrid(this);
+            prepareNextTetromino();
+        }
     }
 
 
@@ -90,6 +93,7 @@ public class Tetromino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             isFalling = true;
+            ComputeDestinationPosition();
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -124,12 +128,8 @@ public class Tetromino : MonoBehaviour
         {
 
             Vector3 pos = mino.position + shift;
-            // Debug.Log(pos.ToString("F6"));
-            pos[1] = Mathf.Floor(pos[1]); // Floor y. Needed for falling.
-
-            // must always round position before passing to CheckIsInsideGrid function.
-            // TODO: casting from float to int considered harmful. Separate the core
-            // logic (in integers) and actual position (in floats), ASAP.
+            //pos.y = Mathf.Floor(pos.y);
+            Debug.Log(pos.ToString("F16"));
             pos = Vector3Utils.Map(pos, Mathf.Round);
             if( map.CheckIsInsideGrid(pos) == false)
             {

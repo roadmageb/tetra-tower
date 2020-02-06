@@ -16,7 +16,7 @@ public class ComboInfo
         {
             if(comboAction[globalSuccessCounter] == inputAction)
             {
-                if (globalSuccessCounter == comboAction.Length - 1 && inputArrow == comboArrow)
+                if (globalSuccessCounter == comboAction.Length - 1 && (comboArrow == InputArrow.Neutral || inputArrow == comboArrow))
                 {
                     Debug.Log(comboName);
                     comboSuccessCounter = 0;

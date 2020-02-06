@@ -29,6 +29,6 @@ public class TetrominoSpawner : MonoBehaviour
 
     public void spawnNth(int i)
     {
-        GameObject nextTetromino = Instantiate(prefab_tetrominos[i], new Vector3(5.0f, 20.0f, 0.0f), Quaternion.identity) as GameObject;
+        GameObject nextTetromino = Instantiate(prefab_tetrominos[i], new Vector3(5.0f, 16.0f, 0.0f), Quaternion.identity) as GameObject;
     }
 }

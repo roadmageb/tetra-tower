@@ -153,14 +153,37 @@ public class Tetromino : MonoBehaviour
 
     void rotateClockwise()
     {
-        transform.Rotate(0, 0, 90);
-        transform.position = Vector3Utils.Map(transform.position, Mathf.Round);
+        rotateByDegree(90);
     }
 
     void rotateCounterclockwise()
     {
-        transform.Rotate(0, 0, -90);
+        rotateByDegree(-90);
+    }
+
+    void rotateByDegree(float degree)
+    {
+        transform.Rotate(0, 0, degree);
         transform.position = Vector3Utils.Map(transform.position, Mathf.Round);
+        foreach (Transform mino in transform)
+        {
+            mino.position = Vector3Utils.Map(mino.position, Mathf.Round);
+        }
+
+    }
+
+    void ComputeDestinationPosition()
+    {
+        Vector3 pos = Vector3.zero;
+
+        while (canShift(pos))
+        {
+            pos += Vector3.down;
+        }
+
+        pos = pos + Vector3.up;
+        fallDestination = transform.position + pos;
+        fallDestination = Vector3Utils.Map(fallDestination, Mathf.Round);
     }
 }
  

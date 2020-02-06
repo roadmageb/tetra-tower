@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e280e9e4e362a694c877d2bd8b5c6fed
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PistonLeftPrefab: {fileID: 1105838328614475546, guid: dd1f52be20f24d54e9a0f7eb082b9e21,
+      type: 3}
+  - PistonRightPrefab: {fileID: 5817158696692433365, guid: 6d6d351bd56f2bf40a6e4612851c9917,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

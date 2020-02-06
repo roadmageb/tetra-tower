@@ -57,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 640
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,16 +103,16 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 320
-        height: 600
+        width: 32
+        height: 60
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc77a00136924eb47b15ff81228f6db0
+      spriteID: 39053eec9532bec4e9ba543a88d05f5a
       internalID: 1317729581646024616
       vertices: []
       indices: 
@@ -122,18 +122,18 @@ TextureImporter:
       name: run-Sheet_1
       rect:
         serializedVersion: 2
-        x: 320
+        x: 32
         y: 0
-        width: 320
-        height: 600
+        width: 32
+        height: 60
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d54efd28b14baca4fa2824f207cc2059
+      spriteID: 5080e63cc1c8b70499a7777830e633c7
       internalID: 8782852116633787260
       vertices: []
       indices: 
@@ -143,18 +143,18 @@ TextureImporter:
       name: run-Sheet_2
       rect:
         serializedVersion: 2
-        x: 640
+        x: 64
         y: 0
-        width: 320
-        height: 600
+        width: 32
+        height: 60
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0595b8cd226aae945b3b751c7fdce2bd
+      spriteID: 4efcf325acd3d8d4e90343e6af1e32e2
       internalID: 8860857794773437821
       vertices: []
       indices: 
@@ -164,18 +164,18 @@ TextureImporter:
       name: run-Sheet_3
       rect:
         serializedVersion: 2
-        x: 960
+        x: 96
         y: 0
-        width: 320
-        height: 600
+        width: 32
+        height: 60
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 98a0115fd524a8f4d950b93cc6d5fa3c
+      spriteID: 3da408b3d354af24b8aadbc3b749b9f9
       internalID: 5250113213487936655
       vertices: []
       indices: 

@@ -78,7 +78,7 @@ public class CharacterController2D : MonoBehaviour
         }
 
         m_WallClimbed = false;
-        if (!m_WallClimbed && !m_Grounded)
+        if (!m_Grounded)
         {
 
             Collider2D[] wallColliders;
@@ -88,15 +88,18 @@ public class CharacterController2D : MonoBehaviour
             {
                 if (wallColliders[i].gameObject != gameObject && (Input.GetAxisRaw("Horizontal") != 0))
                 {
-                    m_WallClimbed = true;
                     animator.SetTrigger("WallClimb");
+                    m_WallClimbed = true;
                     break;
                 }
             }
-            if (m_WallClimbed && m_Rigidbody2D.velocity.y < 0) animator.SetTrigger("JumpDown");
+            if (!m_WallClimbed && m_Rigidbody2D.velocity.y < 0)
+            {
+                animator.SetTrigger("JumpDown");
+            }
         }
     }
-    
+
     public void OnLand()
     {
         animator.SetBool("Land", true);

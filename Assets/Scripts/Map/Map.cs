@@ -166,6 +166,7 @@ public class Map : MonoBehaviour
                 grid[(int)pos.x, (int)pos.y] = mino;
             }
         }
+        printGrid();
     }
 
     public Transform GetTransformAtGridPosition(Vector3 pos)
@@ -193,5 +194,27 @@ public class Map : MonoBehaviour
     public Vector3 Round(Vector3 pos)
     {
         return new Vector3((int)Mathf.Round(pos.x), (int)Mathf.Round(pos.y), 0);
+    }
+
+    public void printGrid()
+    {
+        string gridStr = "";
+        for( int y = gridHeight - 1; y >= 0; --y)
+        {
+            for (int x = 0; x < gridWidth; ++x)
+            {
+                if (grid[x, y] == null)
+                {
+                    gridStr += "-";
+                }
+                else
+                {
+                    gridStr += "*";
+                }
+            }
+            gridStr += '\n';
+        }
+
+        Debug.Log(gridStr);
     }
 }

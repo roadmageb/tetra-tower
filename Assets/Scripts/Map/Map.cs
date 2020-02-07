@@ -46,7 +46,7 @@ public class Map : MonoBehaviour
     {
         for (int x = 0; x < gridWidth; ++x)
         {
-            //Destroy(grid[x, y].gameObject);
+            Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
         }
     }
@@ -84,7 +84,7 @@ public class Map : MonoBehaviour
                 pistSpawner.spawnNth(i);
             }
         }
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         for (int i = 0; i < bitmap.Length; ++i)
         {
             if (bitmap[i])
@@ -105,7 +105,6 @@ public class Map : MonoBehaviour
             {
                 fullRowCount++;
                 fullRowBitmap[y] = true;
-                DeleteMinoAt(y);
             }
         }
 

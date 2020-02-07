@@ -10,7 +10,7 @@ public class ComboInfo
     private int comboSuccessCounter;
     private string comboName;
 
-    public bool CheckCombo(InputArrow inputArrow, int inputAction, int globalSuccessCounter)
+    public bool CheckCombo(InputArrow inputArrow, int inputAction, int globalSuccessCounter, out bool isComboEnd, out bool isPerfectCombo)
     {
         if(globalSuccessCounter == 0 || globalSuccessCounter == comboSuccessCounter)
         {
@@ -18,20 +18,32 @@ public class ComboInfo
             {
                 if (globalSuccessCounter == comboAction.Length - 1 && (comboArrow == InputArrow.Neutral || inputArrow == comboArrow))
                 {
-                    Debug.Log(comboName);
                     comboSuccessCounter = 0;
+                    isComboEnd = true;
+                    isPerfectCombo = inputArrow == comboArrow;
                     return true;
                 }
                 else if(globalSuccessCounter == comboAction.Length - 1)
                 {
+                    isComboEnd = false;
+                    isPerfectCombo = false;
                     return false;
                 }
                 comboSuccessCounter = globalSuccessCounter + 1;
+                isComboEnd = false;
+                isPerfectCombo = false;
                 return true;
             }
         }
         comboSuccessCounter = 0;
+        isComboEnd = false;
+        isPerfectCombo = false;
         return false;
+    }
+
+    public void DoCombo()
+    {
+        Debug.Log(comboName);
     }
 
     public ComboInfo(InputArrow _comboArrow, int[] _comboAction, string _comboName)

@@ -57,10 +57,22 @@ public class PlayerController : Singleton<PlayerController>
                 else if (arrowChecker[(int)InputArrow.Front]) currentInputArrow = InputArrow.Front;
                 else currentInputArrow = InputArrow.NULL;
 
-                bool successCheck = false;
+                bool successCheck = false, perfectComboCheck = false;
+                bool[] comboEnded = new bool[possibleComboes.Count];
+                bool[] perfectComboes = new bool[possibleComboes.Count];
                 for (int i = 0; i < possibleComboes.Count; i++)
                 {
-                    successCheck |= possibleComboes[i].CheckCombo(currentInputArrow, currentInputAction, comboSuccessCounter);
+                    bool isPerfectCombo = false;
+                    successCheck |= possibleComboes[i].CheckCombo(currentInputArrow, currentInputAction, comboSuccessCounter, out comboEnded[i], out perfectComboes[i]);
+                    perfectComboCheck |= perfectComboes[i];
+                }
+
+                for(int i = 0; i < possibleComboes.Count; i++)
+                {
+                    if (comboEnded[i] && (!perfectComboCheck || perfectComboes[i]))
+                    {
+                        possibleComboes[i].DoCombo();
+                    }
                 }
 
                 comboSuccessCounter = successCheck ? comboSuccessCounter + 1 : 0;
@@ -95,7 +107,8 @@ public class PlayerController : Singleton<PlayerController>
         possibleComboes.Add(new ComboInfo(InputArrow.NULL, new int[2] { 3, 1 }, "A"));
         possibleComboes.Add(new ComboInfo(InputArrow.NULL, new int[3] { 3, 1, 1 }, "B"));
         possibleComboes.Add(new ComboInfo(InputArrow.Down, new int[2] { 1, 1 }, "C"));
-        possibleComboes.Add(new ComboInfo(InputArrow.Up, new int[2] { 1, 2 }, "D"));
+        possibleComboes.Add(new ComboInfo(InputArrow.Up, new int[2] { 1, 1 }, "D"));
+        possibleComboes.Add(new ComboInfo(InputArrow.Neutral, new int[2] { 1, 1 }, "E"));
     }
 
     // Update is called once per frame

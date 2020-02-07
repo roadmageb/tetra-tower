@@ -10,9 +10,10 @@ public class WpStick : Weapon
         skillCount = 1;
         commands = new ComboInfo[]
         {
-            new ComboInfo(InputArrow.NULL, new int[]{1}, "타격")
+            new ComboInfo(InputArrow.NULL, new int[]{1}, 5, 18, "타격")
         };
         gaugeEnabled = false;
         addonSize = 3;
     }
+
 }

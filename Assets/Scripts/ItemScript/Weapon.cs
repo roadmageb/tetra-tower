@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon
+public abstract class Weapon
 {
     public ItemRank rank;
     public int skillCount;
@@ -44,6 +44,46 @@ public class Weapon
         if(skillCount > skillNum)
         {
             AttackPtoE attack = new AttackPtoE(damage);
+            
+            //Apply Ctrl effect
+            if(this is IAtkCtrl)
+            {
+                ((IAtkCtrl)this).AtkCtrl(attack, skillNum, enemy);
+            }
+            foreach(Addon ad in addons)
+            {
+                if(ad is IAtkCtrl)
+                {
+                    ((IAtkCtrl)this).AtkCtrl(attack, skillNum, enemy);
+                }
+            }
+
+            //Apply DmgAdd effect
+            if (this is IAtkDmgAdd)
+            {
+                attack.damage += ((IAtkDmgAdd)this).AtkDmgAdd(attack, skillNum, enemy);
+            }
+            foreach (Addon ad in addons)
+            {
+                if (ad is IAtkDmgAdd)
+                {
+                    attack.damage += ((IAtkDmgAdd)ad).AtkDmgAdd(attack, skillNum, enemy);
+                }
+            }
+
+            //Apply DmgAdd effect
+            if (this is IAtkDmgMult)
+            {
+                ((IAtkDmgMult)this).AtkDmgMult(attack, skillNum, enemy);
+            }
+            foreach (Addon ad in addons)
+            {
+                if (ad is IAtkDmgMult)
+                {
+                    ((IAtkDmgMult)ad).AtkDmgMult(attack, skillNum, enemy);
+                }
+            }
+            return attack;
         }
         return null;
     }

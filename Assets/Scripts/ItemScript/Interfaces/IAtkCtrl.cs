@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IAtkCtrl
 {
-    void AtkCtrl(int skillNum);
+    void AtkCtrl(AttackPtoE attack, int skillNum, Enemy enemy);
 }

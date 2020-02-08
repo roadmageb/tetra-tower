@@ -10,7 +10,7 @@ public enum InputAction
 
 public enum InputArrow
 {
-    Up, Down, Front, UpFront, DownFront, NULL
+    Up, Down, Front, UpFront, DownFront, Neutral, NULL
 }
 
 public enum DashDir

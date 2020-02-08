@@ -6,12 +6,14 @@ using Pathfinding;
 public class Enemy : MonoBehaviour
 {
     public Transform target;
-    public float speed = 200;
-    public float nextWayPointDistance = 3;
+    [SerializeField] private float speed = 200;
+    [SerializeField] private float nextWayPointDistance = 3;
+    [SerializeField] private float playerDetectDistance = 1;
+    [SerializeField] private LayerMask playerLayer;
 
     Path path;
     int currentWaypoint = 0;
-    bool reachedEndOfPath = false;
+    bool reachedEndOfPath = false, seekTarget = false;
     Seeker seeker;
     Rigidbody2D rb;
 
@@ -74,7 +76,7 @@ public class Enemy : MonoBehaviour
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
-        if(distance < nextWayPointDistance)
+        if (distance < nextWayPointDistance)
         {
             currentWaypoint++;
         }
@@ -96,8 +98,16 @@ public class Enemy : MonoBehaviour
         InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 
+    private void Update()
+    {
+        seekTarget = Physics2D.OverlapCircle(rb.position, playerDetectDistance, playerLayer) != null;
+    }
+
     private void LateUpdate()
     {
-        SeekTarget();
+        if (seekTarget)
+        {
+            SeekTarget();
+        }
     }
 }

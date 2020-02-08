@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 953998166}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WallCheck
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 9159037862542762908}
   - component: {fileID: 6640821720336430466}
   - component: {fileID: 1295617895}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5409642182703099799}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CeilingCheck
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5706637247803583611}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GroundCheck
   m_TagString: Player
   m_Icon: {fileID: 0}

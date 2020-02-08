@@ -23,6 +23,7 @@ public class CharacterController2D : MonoBehaviour
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
     private bool m_WallClimbed;         // Whether or not the player is wall climbed.
+    public bool m_Controllable = true;
     const float k_CeilingRadius = .2f;  // Radius of the overlap circle to determine if the player can stand up
     const float k_WallRadius = .2f;     // Radius of the overlap circle to determine if the player wall jump
     const int jumpTime = 20;
@@ -57,7 +58,7 @@ public class CharacterController2D : MonoBehaviour
             OnCrouchEvent = new BoolEvent();
     }
     
-    private void Update()
+    private void FixedUpdate()
     {
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
@@ -95,7 +96,7 @@ public class CharacterController2D : MonoBehaviour
             }
             if (!m_WallClimbed && m_Rigidbody2D.velocity.y < 0)
             {
-                animator.SetTrigger("JumpDown");
+                animator.SetBool("JumpDown", true);
             }
         }
     }
@@ -103,90 +104,97 @@ public class CharacterController2D : MonoBehaviour
     public void OnLand()
     {
         animator.SetBool("Land", true);
+        animator.SetBool("JumpDown", false);
     }
 
     public void Move(float move)
     {
-        animator.SetBool("Run", move != 0 ? true : false);
-        //only control the player if grounded or airControl is turned on
-        if (m_Grounded || m_AirControl)
+        if (m_Controllable)
         {
-            if(m_Rigidbody2D.velocity.magnitude < m_MaxSpeed || (!m_Grounded && (move > 0 ^ m_Rigidbody2D.velocity.x > 0)))
+            animator.SetBool("Run", move != 0 ? true : false);
+            //only control the player if grounded or airControl is turned on
+            if (m_Grounded || m_AirControl)
             {
-                m_Rigidbody2D.AddForce(new Vector2(move * m_RunPower, 0));
-            }
+                if (m_Rigidbody2D.velocity.magnitude < m_MaxSpeed || (!m_Grounded && (move > 0 ^ m_Rigidbody2D.velocity.x > 0)))
+                {
+                    m_Rigidbody2D.AddForce(new Vector2(move * m_RunPower, 0));
+                }
 
-            // If the input is moving the player right and the player is facing left...
-            if (move > 0 && !m_FacingRight)
-            {
-                // ... flip the player.
-                Flip();
-            }
-            // Otherwise if the input is moving the player left and the player is facing right...
-            else if (move < 0 && m_FacingRight)
-            {
-                // ... flip the player.
-                Flip();
-            }
-            //Enforce friction when there is no input yet player moving
-            if(m_Grounded && move == 0 && m_Rigidbody2D.velocity.magnitude > 0)
-            {
-                //m_Rigidbody2D.velocity = Vector2.Lerp(m_Rigidbody2D.velocity, new Vector2(0, m_Rigidbody2D.velocity.y), 0.2f);
-                m_Rigidbody2D.velocity = new Vector2(Mathf.Lerp(m_Rigidbody2D.velocity.x, 0, 0.2f), m_Rigidbody2D.velocity.y);
+                // If the input is moving the player right and the player is facing left...
+                if (move > 0 && !m_FacingRight)
+                {
+                    // ... flip the player.
+                    Flip();
+                }
+                // Otherwise if the input is moving the player left and the player is facing right...
+                else if (move < 0 && m_FacingRight)
+                {
+                    // ... flip the player.
+                    Flip();
+                }
+                //Enforce friction when there is no input yet player moving
+                if (m_Grounded && move == 0 && m_Rigidbody2D.velocity.magnitude > 0)
+                {
+                    //m_Rigidbody2D.velocity = Vector2.Lerp(m_Rigidbody2D.velocity, new Vector2(0, m_Rigidbody2D.velocity.y), 0.2f);
+                    m_Rigidbody2D.velocity = new Vector2(Mathf.Lerp(m_Rigidbody2D.velocity.x, 0, 0.2f), m_Rigidbody2D.velocity.y);
+                }
             }
         }
     }
 
     public void Jump(bool jumpKeyDown, bool jumpKey, bool jumpKeyUp)
     {
-        if (jumpKeyDown)
+        if (m_Controllable)
         {
-            if (m_Grounded)
+            if (jumpKeyDown)
             {
-                m_Jumping = true;
-                jumpTimeCounter = jumpTime;
-                animator.SetTrigger("Jump");
-                animator.SetBool("Land", false);
-                m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPowerInitial));
-            }
-            if (m_WallClimbed)
-            {
-                m_WallClimbed = false;
-                //m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed);
+                if (m_Grounded)
+                {
+                    m_Jumping = true;
+                    jumpTimeCounter = jumpTime;
+                    animator.SetTrigger("Jump");
+                    animator.SetBool("Land", false);
+                    m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPowerInitial));
+                }
+                if (m_WallClimbed)
+                {
+                    m_WallClimbed = false;
+                    //m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed);
 
-                if (wallJumpCoroutine != null) StopCoroutine(wallJumpCoroutine);
+                    if (wallJumpCoroutine != null) StopCoroutine(wallJumpCoroutine);
 
-                //m_AirControl = false;
-                //m_Rigidbody2D.velocity = new Vector2(4 * (m_FacingRight ? -1 : 1), m_Rigidbody2D.velocity.y);
-                m_Rigidbody2D.AddForce(new Vector2(m_WallJumpPower * (m_FacingRight ? -1 : 1), m_WallJumpPower));
-                wallJumpCoroutine = StartCoroutine(WallJump());
-                animator.SetTrigger("Jump");
+                    //m_AirControl = false;
+                    //m_Rigidbody2D.velocity = new Vector2(4 * (m_FacingRight ? -1 : 1), m_Rigidbody2D.velocity.y);
+                    m_Rigidbody2D.AddForce(new Vector2(m_WallJumpPower * (m_FacingRight ? -1 : 1), m_WallJumpPower));
+                    wallJumpCoroutine = StartCoroutine(WallJump());
+                    animator.SetTrigger("Jump");
 
-                Flip();
+                    Flip();
+                }
             }
-        }
-        if (jumpKey && m_Jumping)
-        {
-            if (jumpTimeCounter > jumpTime / 2)
+            if (jumpKey && m_Jumping)
             {
-                //m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed / 1.5f);
-                m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPower));
-                jumpTimeCounter -= 1;
+                if (jumpTimeCounter > jumpTime / 2)
+                {
+                    //m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed / 1.5f);
+                    m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPower));
+                    jumpTimeCounter -= 1;
+                }
+                else if (jumpTimeCounter > 0)
+                {
+                    //m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed);
+                    m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPower));
+                    jumpTimeCounter -= 1;
+                }
+                else
+                {
+                    m_Jumping = false;
+                }
             }
-            else if (jumpTimeCounter > 0)
-            {
-                //m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed);
-                m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPower));
-                jumpTimeCounter -= 1;
-            }
-            else
+            if (jumpKeyUp || m_WallClimbed)
             {
                 m_Jumping = false;
             }
-        }
-        if (jumpKeyUp || m_WallClimbed)
-        {
-            m_Jumping = false;
         }
     }
 
@@ -204,6 +212,7 @@ public class CharacterController2D : MonoBehaviour
 
     public IEnumerator Dash(DashDir _dir, Vector2 dashZonePos)
     {
+        m_Controllable = false;
         Vector2 dir = Vector2.zero;
         switch (_dir)
         {
@@ -214,7 +223,7 @@ public class CharacterController2D : MonoBehaviour
         }
 
         RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Floor"));
-        float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - 0.5f;
+        float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - GetComponent<BoxCollider2D>().size.x / 2;
         m_Rigidbody2D.velocity = Vector3.zero;
 
         int dashCount = 10;
@@ -224,6 +233,8 @@ public class CharacterController2D : MonoBehaviour
             yield return null;
             transform.position += destination / dashCount;
         }
+        m_Rigidbody2D.velocity = dir * 10;
+        m_Controllable = true;
     }
 
 

@@ -58,7 +58,7 @@ public class CharacterController2D : MonoBehaviour
             OnCrouchEvent = new BoolEvent();
     }
     
-    private void Update()
+    private void FixedUpdate()
     {
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
@@ -96,7 +96,7 @@ public class CharacterController2D : MonoBehaviour
             }
             if (!m_WallClimbed && m_Rigidbody2D.velocity.y < 0)
             {
-                animator.SetTrigger("JumpDown");
+                animator.SetBool("JumpDown", true);
             }
         }
     }
@@ -104,6 +104,7 @@ public class CharacterController2D : MonoBehaviour
     public void OnLand()
     {
         animator.SetBool("Land", true);
+        animator.SetBool("JumpDown", false);
     }
 
     public void Move(float move)

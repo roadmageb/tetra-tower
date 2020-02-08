@@ -20,7 +20,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private Transform m_WallCheck;                             // A position marking where to check for walls
     [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+    const float k_GroundedRadius = .05f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
     private bool m_WallClimbed;         // Whether or not the player is wall climbed.
     public bool m_Controllable = true;
@@ -103,7 +103,8 @@ public class CharacterController2D : MonoBehaviour
 
     public void OnLand()
     {
-        animator.SetBool("Land", true);
+        Debug.Log("asdf");
+        animator.SetTrigger("Land");
         animator.SetBool("JumpDown", false);
     }
 
@@ -153,7 +154,6 @@ public class CharacterController2D : MonoBehaviour
                     m_Jumping = true;
                     jumpTimeCounter = jumpTime;
                     animator.SetTrigger("Jump");
-                    animator.SetBool("Land", false);
                     m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPowerInitial));
                 }
                 if (m_WallClimbed)

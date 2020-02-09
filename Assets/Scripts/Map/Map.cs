@@ -13,6 +13,7 @@ public class Map : MonoBehaviour
     TetrominoSpawner tetSpawner;
     PistonSpawner pistSpawner;
     RowRemover rowRemover;
+    GameObject go;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +27,21 @@ public class Map : MonoBehaviour
         var rowRemoverObj = GameObject.Find("RowRemoverObj");
         rowRemover = rowRemoverObj.GetComponent<RowRemover>();
 
+        go = new GameObject();
+        go.AddComponent<RowSlider>();
+
         SpawnNextTetromino();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Debug.Log("hello world!");
+            go.GetComponent<RowSlider>().Initialize(1);
+            GameObject go2 = new GameObject();
+            go2.GetComponent<RowSlider>().Initialize(3);
+        }
     }
 
     public bool isFullRowAt(int y)
@@ -78,7 +93,8 @@ public class Map : MonoBehaviour
         int count = 0;
         for (int i = 0; i < bitmap.Length; ++i)
         {
-            if (bitmap[i]) {
+            if (bitmap[i])
+            {
                 start = i;
                 count++;
                 pistSpawner.spawnNth(i);
@@ -92,8 +108,11 @@ public class Map : MonoBehaviour
                 DeleteMinoAt(i);
             }
         }
-        MoveAllRowsDown(start + count, count);
+        GameObject go = new GameObject();
+        go.AddComponent<RowSlider>();
+        go.GetComponent<RowSlider>().Initialize(1);
     }
+
 
     public void RemoveRowsIfFull()
     {

@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float speed = 200;
     [SerializeField] private float nextWayPointDistance = 3;
     [SerializeField] private float playerDetectDistance = 1;
-    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Vector2 groundDetectOffset;
 
     Path path;
@@ -74,14 +73,7 @@ public class Enemy : MonoBehaviour
         }
 
         rb.AddForce(force);
-        if (force.x >= 0.01f)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (force.x <= 0.01f)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
+        transform.localScale = new Vector3(1 * (target.position.x - transform.position.x > 0 ? 1 : -1), 1, 1);
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
@@ -107,13 +99,10 @@ public class Enemy : MonoBehaviour
         InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 
-    private void Update()
-    {
-        seekTarget = Physics2D.OverlapCircle(rb.position, playerDetectDistance, playerLayer) != null;
-    }
-
     private void LateUpdate()
     {
+        //seekTarget = Physics2D.OverlapCircle(rb.position, playerDetectDistance, LayerMask.GetMask("Player")) != null;
+        seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
         if (seekTarget)
         {
             SeekTarget();

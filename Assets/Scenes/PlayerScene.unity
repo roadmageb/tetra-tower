@@ -1664,7 +1664,7 @@ PrefabInstance:
     - target: {fileID: 6641737705354378818, guid: 5a2b3055cf389b04283a422e89cbbf7d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.45
+      value: 2.83
       objectReference: {fileID: 0}
     - target: {fileID: 6641737705354378818, guid: 5a2b3055cf389b04283a422e89cbbf7d,
         type: 3}
@@ -1724,7 +1724,7 @@ PrefabInstance:
     - target: {fileID: 6641737705354378820, guid: 5a2b3055cf389b04283a422e89cbbf7d,
         type: 3}
       propertyPath: playerDetectDistance
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6641737705354378825, guid: 5a2b3055cf389b04283a422e89cbbf7d,
         type: 3}

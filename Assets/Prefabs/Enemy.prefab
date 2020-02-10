@@ -159,11 +159,8 @@ MonoBehaviour:
   target: {fileID: 0}
   speed: 10
   nextWayPointDistance: 0.1
-  playerDetectDistance: 4
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  groundDetectOffset: {x: 0.5, y: 0}
+  playerDetectDistance: 3
+  groundDetectOffset: {x: 0.3, y: 0}
   maxHP: 0
   currentHP: 0
   enemyCtrl: {fileID: 0}

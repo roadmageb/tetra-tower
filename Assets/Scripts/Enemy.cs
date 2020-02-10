@@ -12,9 +12,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Vector2 groundDetectOffset;
 
     Path path;
-    int currentWaypoint = 0;
-    bool reachedEndOfPath = false, seekTarget = false;
     Seeker seeker;
+    int currentWaypoint = 0;
+    float traceTime = 0, traceTimeLimit = 3;
+    bool reachedEndOfPath = false, seekTarget = false;
     Rigidbody2D rb;
 
     public float maxHP;
@@ -69,11 +70,14 @@ public class Enemy : MonoBehaviour
         if (!checkGround.collider)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
-            return;
+        }
+        else
+        {
+            rb.AddForce(force);
+            transform.localScale = new Vector3(1 * (target.position.x - transform.position.x > 0 ? 1 : -1), 1, 1);
         }
 
-        rb.AddForce(force);
-        transform.localScale = new Vector3(1 * (target.position.x - transform.position.x > 0 ? 1 : -1), 1, 1);
+
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
@@ -95,7 +99,7 @@ public class Enemy : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-
+        traceTime = -traceTimeLimit;
         InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 
@@ -103,9 +107,16 @@ public class Enemy : MonoBehaviour
     {
         //seekTarget = Physics2D.OverlapCircle(rb.position, playerDetectDistance, LayerMask.GetMask("Player")) != null;
         seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
-        if (seekTarget)
+        Debug.Log(seekTarget + " " + traceTime);
+        if (seekTarget || Time.time - traceTime < traceTimeLimit)
         {
+            if (seekTarget)
+            {
+                traceTime = Time.time;
+            }
             SeekTarget();
+            Debug.Log("Tracing");
         }
+
     }
 }

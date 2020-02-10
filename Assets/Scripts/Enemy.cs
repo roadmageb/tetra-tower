@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float nextWayPointDistance = 3;
     [SerializeField] private float playerDetectDistance = 1;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private Vector2 groundDetectOffset;
 
     Path path;
     int currentWaypoint = 0;
@@ -63,6 +64,14 @@ public class Enemy : MonoBehaviour
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed;
+
+        RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
+            Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
+        if (!checkGround.collider)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            return;
+        }
 
         rb.AddForce(force);
         if (force.x >= 0.01f)

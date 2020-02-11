@@ -107,7 +107,7 @@ public class Enemy : MonoBehaviour
     {
         //seekTarget = Physics2D.OverlapCircle(rb.position, playerDetectDistance, LayerMask.GetMask("Player")) != null;
         seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
-        Debug.Log(seekTarget + " " + traceTime);
+
         if (seekTarget || Time.time - traceTime < traceTimeLimit)
         {
             if (seekTarget)
@@ -115,7 +115,6 @@ public class Enemy : MonoBehaviour
                 traceTime = Time.time;
             }
             SeekTarget();
-            Debug.Log("Tracing");
         }
 
     }

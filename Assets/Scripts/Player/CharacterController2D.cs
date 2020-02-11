@@ -20,12 +20,12 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private Transform m_WallCheck;                             // A position marking where to check for walls
     [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+    const float k_GroundedRadius = .05f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
     private bool m_WallClimbed;         // Whether or not the player is wall climbed.
     public bool m_Controllable = true;
     const float k_CeilingRadius = .2f;  // Radius of the overlap circle to determine if the player can stand up
-    const float k_WallRadius = .2f;     // Radius of the overlap circle to determine if the player wall jump
+    const float k_WallRadius = .05f;     // Radius of the overlap circle to determine if the player wall jump
     const int jumpTime = 20;
     private Rigidbody2D m_Rigidbody2D;
     public bool m_FacingRight = true;  // For determining which way the player is currently facing.
@@ -58,7 +58,7 @@ public class CharacterController2D : MonoBehaviour
             OnCrouchEvent = new BoolEvent();
     }
     
-    private void Update()
+    private void FixedUpdate()
     {
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
@@ -96,14 +96,15 @@ public class CharacterController2D : MonoBehaviour
             }
             if (!m_WallClimbed && m_Rigidbody2D.velocity.y < 0)
             {
-                animator.SetTrigger("JumpDown");
+                animator.SetBool("JumpDown", true);
             }
         }
     }
 
     public void OnLand()
     {
-        animator.SetBool("Land", true);
+        animator.SetTrigger("Land");
+        animator.SetBool("JumpDown", false);
     }
 
     public void Move(float move)
@@ -134,8 +135,7 @@ public class CharacterController2D : MonoBehaviour
                 //Enforce friction when there is no input yet player moving
                 if (m_Grounded && move == 0 && m_Rigidbody2D.velocity.magnitude > 0)
                 {
-                    //m_Rigidbody2D.velocity = Vector2.Lerp(m_Rigidbody2D.velocity, new Vector2(0, m_Rigidbody2D.velocity.y), 0.2f);
-                    m_Rigidbody2D.velocity = new Vector2(Mathf.Lerp(m_Rigidbody2D.velocity.x, 0, 0.2f), m_Rigidbody2D.velocity.y);
+                    m_Rigidbody2D.velocity = new Vector2(Mathf.Lerp(m_Rigidbody2D.velocity.x, 0, 0.5f), m_Rigidbody2D.velocity.y);
                 }
             }
         }
@@ -152,18 +152,14 @@ public class CharacterController2D : MonoBehaviour
                     m_Jumping = true;
                     jumpTimeCounter = jumpTime;
                     animator.SetTrigger("Jump");
-                    animator.SetBool("Land", false);
                     m_Rigidbody2D.AddForce(new Vector2(0, m_JumpPowerInitial));
                 }
                 if (m_WallClimbed)
                 {
                     m_WallClimbed = false;
-                    //m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpSpeed);
 
                     if (wallJumpCoroutine != null) StopCoroutine(wallJumpCoroutine);
 
-                    //m_AirControl = false;
-                    //m_Rigidbody2D.velocity = new Vector2(4 * (m_FacingRight ? -1 : 1), m_Rigidbody2D.velocity.y);
                     m_Rigidbody2D.AddForce(new Vector2(m_WallJumpPower * (m_FacingRight ? -1 : 1), m_WallJumpPower));
                     wallJumpCoroutine = StartCoroutine(WallJump());
                     animator.SetTrigger("Jump");
@@ -199,7 +195,7 @@ public class CharacterController2D : MonoBehaviour
 
     private IEnumerator WallJump()
     {
-        float multiplifier = 0.012f;
+        float multiplifier = 0.1f;
         m_AirControl = false;
         for (float i = 0; i < 0.1f; i += Time.deltaTime)
         {

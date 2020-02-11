@@ -102,15 +102,6 @@ public class PlayerController : Singleton<PlayerController>
         possibleComboes = new List<ComboInfo>();
     }
 
-    private void Start()
-    {
-        possibleComboes.Add(new ComboInfo(InputArrow.NULL, new int[2] { 3, 1 }, "A"));
-        possibleComboes.Add(new ComboInfo(InputArrow.NULL, new int[3] { 3, 1, 1 }, "B"));
-        possibleComboes.Add(new ComboInfo(InputArrow.Down, new int[2] { 1, 1 }, "C"));
-        possibleComboes.Add(new ComboInfo(InputArrow.Up, new int[2] { 1, 1 }, "D"));
-        possibleComboes.Add(new ComboInfo(InputArrow.Neutral, new int[2] { 1, 1 }, "E"));
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -125,11 +116,11 @@ public class PlayerController : Singleton<PlayerController>
 
         horizontalMove = Input.GetAxisRaw("Horizontal");
         controller.Jump(Input.GetButtonDown("Jump"), Input.GetButton("Jump"), Input.GetButtonUp("Jump"));
-        controller.Move(horizontalMove * Time.fixedDeltaTime);
         GetInput();
     }
 
     private void FixedUpdate()
     {
+        controller.Move(horizontalMove * Time.fixedDeltaTime);
     }
 }

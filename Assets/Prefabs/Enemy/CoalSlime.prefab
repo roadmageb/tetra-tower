@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6641737704435517955}
   - component: {fileID: 6641737704435517952}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemyPlaceHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,8 +94,9 @@ GameObject:
   - component: {fileID: 6641737705354378820}
   - component: {fileID: 6641737705354378823}
   - component: {fileID: 6641737705354378822}
-  m_Layer: 0
-  m_Name: Enemy
+  - component: {fileID: -8731243594631918369}
+  m_Layer: 10
+  m_Name: CoalSlime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,3 +212,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.36235842, y: 0.7015295}
   m_EdgeRadius: 0
+--- !u!95 &-8731243594631918369
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6641737705354378825}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b4bc2c7570f760344b7c140c26bfa5fa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

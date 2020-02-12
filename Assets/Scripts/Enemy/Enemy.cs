@@ -48,42 +48,47 @@ public class Enemy : MonoBehaviour
 
     void SeekTarget()
     {
-        if (path == null)
+        seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
+        if (seekTarget || Time.time - traceTime < traceTimeLimit)
         {
-            return;
-        }
-        if (currentWaypoint >= path.vectorPath.Count)
-        {
-            reachedEndOfPath = true;
-            return;
-        }
-        else
-        {
-            reachedEndOfPath = false;
-        }
+            if (seekTarget)
+            {
+                traceTime = Time.time;
+            }
+            if (path == null) return;
+            if (currentWaypoint >= path.vectorPath.Count)
+            {
+                reachedEndOfPath = true;
+                return;
+            }
+            else
+            {
+                reachedEndOfPath = false;
+            }
 
-        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        Vector2 force = direction * speed;
+            Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+            Vector2 force = direction * speed;
 
-        RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
-            Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
-        if (!checkGround.collider)
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
-        else
-        {
-            rb.AddForce(force);
-            transform.localScale = new Vector3(1 * (target.position.x - transform.position.x > 0 ? 1 : -1), 1, 1);
-        }
+            RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
+                Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
+            if (!checkGround.collider)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
+            else
+            {
+                rb.AddForce(force);
+                transform.localScale = new Vector3(1 * (target.position.x - transform.position.x > 0 ? 1 : -1), 1, 1);
+            }
 
 
 
-        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+            float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
-        if (distance < nextWayPointDistance)
-        {
-            currentWaypoint++;
+            if (distance < nextWayPointDistance)
+            {
+                currentWaypoint++;
+            }
         }
     }
 
@@ -99,15 +104,14 @@ public class Enemy : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        target = GameObject.Find("Player").transform;
         traceTime = -traceTimeLimit;
         InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 
     private void LateUpdate()
     {
-        //seekTarget = Physics2D.OverlapCircle(rb.position, playerDetectDistance, LayerMask.GetMask("Player")) != null;
         seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
-        Debug.Log(seekTarget + " " + traceTime);
         if (seekTarget || Time.time - traceTime < traceTimeLimit)
         {
             if (seekTarget)
@@ -115,8 +119,6 @@ public class Enemy : MonoBehaviour
                 traceTime = Time.time;
             }
             SeekTarget();
-            Debug.Log("Tracing");
         }
-
     }
 }

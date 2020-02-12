@@ -8,6 +8,10 @@ public class Slime : Enemy
     bool startCharge = false;
     [SerializeField] float jumpPower = 100;
 
+    public override bool SeekTarget()
+    {
+        return base.SeekTarget();
+    }
 
     public override void Attack()
     {
@@ -21,7 +25,7 @@ public class Slime : Enemy
     {
         if(Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player")))
         {
-            animator.SetTrigger("Trace");
+            animator.SetBool("Trace", true);
         }
         //SeekTarget();
     }

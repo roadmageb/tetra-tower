@@ -374,6 +374,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6449269568214869874, guid: a7dc011a89f5ace4281e74509393fd3b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6493207445547177491, guid: a7dc011a89f5ace4281e74509393fd3b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1136,7 +1141,7 @@ PrefabInstance:
     - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.0431725
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
         type: 3}
@@ -1182,6 +1187,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CoalSlime
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: attackRange
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: playerDetectDistance
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b5839b76df0a264a84359018d2e1561, type: 3}
@@ -1655,6 +1670,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6449269568214869874, guid: a7dc011a89f5ace4281e74509393fd3b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6493207445547177491, guid: a7dc011a89f5ace4281e74509393fd3b,
         type: 3}

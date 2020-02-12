@@ -10,6 +10,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float speed = 200;
     [SerializeField] protected float nextWayPointDistance = 3;
     [SerializeField] protected float playerDetectDistance = 1;
+    [SerializeField] protected float attackRange = 0.5f;
     [SerializeField] protected Vector2 groundDetectOffset;
 
     Path path;
@@ -52,27 +53,39 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected void SeekTarget()
+    /// <summary>
+    /// Seek and trace target
+    /// </summary>
+    /// <returns>returns if seek ends</returns>
+    public virtual bool SeekTarget()
     {
         seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
-        animator.SetBool("Trace", true);
         if (seekTarget || Time.time - traceTime < traceTimeLimit)
         {
+            UpdatePath();
             if (seekTarget)
             {
                 traceTime = Time.time;
             }
 
-            if (path == null) return;
-            if (currentWaypoint >= path.vectorPath.Count)
+            if (path == null)
+            {
+                animator.SetBool("Trace", false);
+                Debug.Log("asdf");
+                return false;
+            }
+            else
+            {
+                animator.SetBool("Trace", true);
+            }
+            Debug.Log(Vector3.Distance(transform.position, target.position));
+            if (Vector3.Distance(transform.position, target.position) <= attackRange)
             {
                 animator.SetTrigger("Attack");
-                return;
+                return false;
             }
 
-            Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-            Vector2 force = direction * speed;
-
+           Vector2 force = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized * speed;
             RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
             if (!checkGround.collider)
@@ -89,10 +102,12 @@ public abstract class Enemy : MonoBehaviour
             {
                 currentWaypoint++;
             }
+            return true;
         }
         else
         {
-            animator.SetBool("Trace", true);
+            animator.SetBool("Trace", false);
+            return false;
         }
     }
 
@@ -116,7 +131,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void LateUpdate()
     {
-        seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
+        /*seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
         if (seekTarget || Time.time - traceTime < traceTimeLimit)
         {
             if (seekTarget)
@@ -124,6 +139,6 @@ public abstract class Enemy : MonoBehaviour
                 traceTime = Time.time;
             }
             SeekTarget();
-        }
+        }*/
     }
 }

@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     public Transform target;
-    [SerializeField] private float speed = 200;
-    [SerializeField] private float nextWayPointDistance = 3;
-    [SerializeField] private float playerDetectDistance = 1;
-    [SerializeField] private Vector2 groundDetectOffset;
+    public Animator animator;
+    [SerializeField] protected float speed = 200;
+    [SerializeField] protected float nextWayPointDistance = 3;
+    [SerializeField] protected float playerDetectDistance = 1;
+    [SerializeField] protected Vector2 groundDetectOffset;
 
     Path path;
     Seeker seeker;
     int currentWaypoint = 0;
     float traceTime = 0, traceTimeLimit = 3;
-    bool reachedEndOfPath = false, seekTarget = false;
-    Rigidbody2D rb;
+    protected bool seekTarget = false;
+    protected Rigidbody2D rb;
 
     public float maxHP;
     public float currentHP;
     public EnemyCtrl enemyCtrl;
+
+    public virtual void Attack()
+    {
+        
+    }
 
     public void GainAttack(AttackPtoE attack)
     {
@@ -46,24 +52,22 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void SeekTarget()
+    protected void SeekTarget()
     {
         seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
+        animator.SetBool("Trace", true);
         if (seekTarget || Time.time - traceTime < traceTimeLimit)
         {
             if (seekTarget)
             {
                 traceTime = Time.time;
             }
+
             if (path == null) return;
             if (currentWaypoint >= path.vectorPath.Count)
             {
-                reachedEndOfPath = true;
+                animator.SetTrigger("Attack");
                 return;
-            }
-            else
-            {
-                reachedEndOfPath = false;
             }
 
             Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
@@ -81,18 +85,18 @@ public class Enemy : MonoBehaviour
                 transform.localScale = new Vector3(1 * (target.position.x - transform.position.x > 0 ? 1 : -1), 1, 1);
             }
 
-
-
-            float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-
-            if (distance < nextWayPointDistance)
+            if (Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]) < nextWayPointDistance)
             {
                 currentWaypoint++;
             }
         }
+        else
+        {
+            animator.SetBool("Trace", true);
+        }
     }
 
-    void UpdatePath()
+    protected void UpdatePath()
     {
         if (seeker.IsDone())
         {
@@ -100,13 +104,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         target = GameObject.Find("Player").transform;
         traceTime = -traceTimeLimit;
-        InvokeRepeating("UpdatePath", 0, 0.1f);
+        //InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 
     private void LateUpdate()

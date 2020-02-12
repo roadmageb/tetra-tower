@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6641737705354378818}
   - component: {fileID: 6641737705354378821}
-  - component: {fileID: 6641737705354378820}
+  - component: {fileID: 6667287062831341533}
   - component: {fileID: 6641737705354378823}
   - component: {fileID: 6641737705354378822}
   - component: {fileID: -8731243594631918369}
@@ -145,7 +145,7 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &6641737705354378820
+--- !u!114 &6667287062831341533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,17 +154,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6641737705354378825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b8e642b7e027e04da7817d941e3ad5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 00de8c60f43990a4c82f79945edbc800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 10
-  nextWayPointDistance: 0.1
-  playerDetectDistance: 3
-  groundDetectOffset: {x: 0.3, y: 0}
+  animator: {fileID: 0}
+  speed: 0
+  nextWayPointDistance: 3
+  playerDetectDistance: 1
+  groundDetectOffset: {x: 0, y: 0}
   maxHP: 0
   currentHP: 0
   enemyCtrl: {fileID: 0}
+  jumpPower: 1000
 --- !u!50 &6641737705354378823
 Rigidbody2D:
   serializedVersion: 4

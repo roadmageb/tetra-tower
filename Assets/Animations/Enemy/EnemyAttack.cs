@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlimeAttack : StateMachineBehaviour
+public class EnemyAttack : StateMachineBehaviour
 {
     Enemy enemy;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemy = animator.GetComponent<Enemy>();
-        animator.GetComponent<Enemy>().Attack();
+        enemy.Attack();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.localScale = new Vector3(1 * (enemy.target.position.x - animator.transform.position.x > 0 ? 1 : -1), 1, 1);
+        if(enemy.attackFollowPlayer)
+        {
+            animator.transform.localScale = new Vector3(1 * (enemy.target.position.x - animator.transform.position.x > 0 ? 1 : -1), 1, 1);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float playerDetectDistance = 1;
     [SerializeField] protected float attackRange = 0.5f;
     [SerializeField] protected Vector2 groundDetectOffset;
+    public bool attackFollowPlayer = false;
 
     Path path;
     Seeker seeker;
@@ -57,7 +58,7 @@ public abstract class Enemy : MonoBehaviour
     /// Seek and trace target
     /// </summary>
     /// <returns>returns if seek ends</returns>
-    public virtual bool SeekTarget()
+    public virtual void SeekTarget()
     {
         seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
         if (seekTarget || Time.time - traceTime < traceTimeLimit)
@@ -71,18 +72,16 @@ public abstract class Enemy : MonoBehaviour
             if (path == null)
             {
                 animator.SetBool("Trace", false);
-                Debug.Log("asdf");
-                return false;
+                return;
             }
             else
             {
                 animator.SetBool("Trace", true);
             }
-            Debug.Log(Vector3.Distance(transform.position, target.position));
+
             if (Vector3.Distance(transform.position, target.position) <= attackRange)
             {
                 animator.SetTrigger("Attack");
-                return false;
             }
 
            Vector2 force = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized * speed;
@@ -102,12 +101,10 @@ public abstract class Enemy : MonoBehaviour
             {
                 currentWaypoint++;
             }
-            return true;
         }
         else
         {
             animator.SetBool("Trace", false);
-            return false;
         }
     }
 
@@ -129,16 +126,11 @@ public abstract class Enemy : MonoBehaviour
         //InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        /*seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
-        if (seekTarget || Time.time - traceTime < traceTimeLimit)
+        if (Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player")))
         {
-            if (seekTarget)
-            {
-                traceTime = Time.time;
-            }
-            SeekTarget();
-        }*/
+            animator.SetBool("Trace", true);
+        }
     }
 }

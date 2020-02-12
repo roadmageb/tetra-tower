@@ -15,4 +15,13 @@ public class WpStick : Weapon
         gaugeEnabled = false;
         addonSize = 3;
     }
+    public override void PlaySkill(int skillNum, int option)
+    {
+        switch(skillNum)
+        {
+            case 0:
+
+                break;
+        }
+    }
 }

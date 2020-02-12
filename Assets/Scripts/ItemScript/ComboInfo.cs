@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ComboInfo
 {
+    public SkillInfo skill;
     private int[] comboAction;
     private InputArrow comboArrow;
     private PosCond positionCond;
@@ -48,8 +49,9 @@ public class ComboInfo
         Debug.Log(comboName);
     }
 
-    public ComboInfo(InputArrow _comboArrow, int[] _comboAction, float _keyGain, int _delayFrame, string _comboName)
+    public ComboInfo(SkillInfo skillInfo, InputArrow _comboArrow, int[] _comboAction, float _keyGain, int _delayFrame, string _comboName)
     {
+        skill = skillInfo;
         comboArrow = _comboArrow;
         comboAction = _comboAction;
         comboName = _comboName;

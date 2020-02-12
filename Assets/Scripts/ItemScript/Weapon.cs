@@ -7,6 +7,7 @@ public abstract class Weapon
     public ItemRank rank;
     public int skillCount;
     public ComboInfo[] commands;
+    public AnimationClip[] anims;
     public int damage;
     public bool gaugeEnabled;
     public float gaugeSize;
@@ -19,6 +20,14 @@ public abstract class Weapon
         addons = new List<Addon>();
     }
 
+    public AnimationClip GetAnim(int skillNum)
+    {
+        return anims[skillNum];
+    }
+    public virtual void PlaySkill(int skillNum, int option)
+    {
+
+    }
     public bool GainAddon(Addon newAddon)
     {
         if(addons.Count < addonSize)

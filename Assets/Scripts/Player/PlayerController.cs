@@ -9,12 +9,17 @@ public class PlayerController : Singleton<PlayerController>
     public int hp = 0;
     private bool[] actionChecker, arrowChecker;
     private bool isInputOn = false;
-
     public List<ComboInfo> possibleComboes;
 
     private int inputCheckCount = 0, inputFrameLimit = 5;
     private int comboSuccessCounter = 0;
     public int comboTimer = 60, comboCounter = 0;
+
+    public int keyAmount = 0;
+    public float keyPercent = 0f;
+
+    public float damage = 0f;
+    public SkillInfo playingSkill = null;
     
     private void GetInput()
     {
@@ -71,7 +76,8 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     if (comboEnded[i] && (!perfectComboCheck || perfectComboes[i]))
                     {
-                        possibleComboes[i].DoCombo();
+                        playingSkill = possibleComboes[i].skill;
+                        PlaySkillAnim();
                     }
                 }
 
@@ -94,6 +100,18 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    public void PlaySkillWeapon(int option)
+    {
+        playingSkill.wp.PlaySkill(playingSkill.num, option);
+    }
+    public void PlaySkillAnim()
+    {
+        Animator animator = GetComponent<Animator>();
+        AnimatorOverrideController aoc = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        aoc["Attack"] = playingSkill.wp.GetAnim(playingSkill.num);
+        animator.runtimeAnimatorController = aoc;
+        animator.SetTrigger("start");
+    }
     private void Awake()
     {
         controller = GetComponent<CharacterController2D>();

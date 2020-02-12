@@ -7,8 +7,6 @@ public class EffectPool : Singleton<EffectPool>
     public int initEffectNum = 10;
     public GameObject effectPrefab;
     public List<GameObject> pool;
-    public KeyValuePair<string, AnimationClip> test;
-    public Dictionary<string, AnimationClip> animationDictionary; 
     void Start()
     {
         pool = new List<GameObject>();

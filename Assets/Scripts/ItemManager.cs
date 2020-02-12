@@ -5,10 +5,20 @@ using UnityEngine;
 public class ItemManager : Singleton<ItemManager>
 {
     public List<Weapon> weapons;
+    public List<Weapon> weaponDB;
 
+    void test()
+    {
+        GainWeapon(weaponDB[0]);
+    }
     private void Start()
     {
         weapons = new List<Weapon>();
+        weaponDB = new List<Weapon>()
+        {
+            new WpStick()
+        };
+        test();
     }
 
     /// <summary>
@@ -41,9 +51,10 @@ public class ItemManager : Singleton<ItemManager>
     
     public bool GainWeapon(Weapon wp)
     {
-        if(ComboDuplicateCheck(wp).Count == 0)
+        if(weapons.Count < 9 && ComboDuplicateCheck(wp).Count == 0)
         {
             weapons.Add(wp);
+            PlayerController.Instance.ResetPossibleComboes();
             return true;
         }
         return false;
@@ -54,6 +65,7 @@ public class ItemManager : Singleton<ItemManager>
         if(weapons.Contains(wp))
         {
             weapons.Remove(wp);
+            PlayerController.Instance.ResetPossibleComboes();
             return true;
         }
         return false;

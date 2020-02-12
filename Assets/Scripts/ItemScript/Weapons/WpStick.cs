@@ -14,13 +14,18 @@ public class WpStick : Weapon
         };
         gaugeEnabled = false;
         addonSize = 3;
+        anims = new AnimationClip[]
+        {
+            GameManager.Instance.skillAnim["Stick00"]
+        };
     }
     public override void PlaySkill(int skillNum, int option)
     {
+        Transform trns = PlayerController.Instance.transform;
         switch(skillNum)
         {
             case 0:
-
+                EffectPool.Instance.StartEffect(GameManager.Instance.effectAnim["Stick00"], trns.position + Vector3.Scale(new Vector3(1, 0, 0), trns.localScale), trns.localScale);
                 break;
         }
     }

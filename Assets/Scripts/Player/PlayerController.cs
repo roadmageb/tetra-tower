@@ -20,7 +20,10 @@ public class PlayerController : Singleton<PlayerController>
 
     public float damage = 0f;
     public SkillInfo playingSkill = null;
-    
+
+    private Animator animator;
+    private AnimatorOverrideController aoc;
+
     private void GetInput()
     {
         if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2") || Input.GetButtonDown("Action3"))
@@ -106,20 +109,33 @@ public class PlayerController : Singleton<PlayerController>
     }
     public void PlaySkillAnim()
     {
-        Animator animator = GetComponent<Animator>();
-        AnimatorOverrideController aoc = new AnimatorOverrideController(animator.runtimeAnimatorController);
-        aoc["Attack"] = playingSkill.wp.GetAnim(playingSkill.num);
-        animator.runtimeAnimatorController = aoc;
-        animator.SetTrigger("start");
+        AnimationClip a = playingSkill.wp.GetAnim(playingSkill.num);
+        aoc["Attack"] = a;
+        Debug.Log(aoc["Attack"]);
+        Debug.Log(a);
+        animator.SetTrigger("Attack");
     }
     private void Awake()
     {
+        animator = GetComponent<Animator>();
+        aoc = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = aoc;
         controller = GetComponent<CharacterController2D>();
         arrowChecker = new bool[(int)InputArrow.Front + 1];
         actionChecker = new bool[(int)InputAction.NULL];
         possibleComboes = new List<ComboInfo>();
     }
-
+    public void ResetPossibleComboes()
+    {
+        possibleComboes.Clear();
+        foreach (Weapon wp in ItemManager.Instance.weapons)
+        {
+            foreach (ComboInfo combo in wp.commands)
+            {
+                possibleComboes.Add(combo);
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {

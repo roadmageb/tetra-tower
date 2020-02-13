@@ -9,7 +9,7 @@ public class EnemyAttack : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemy = animator.GetComponent<Enemy>();
-        enemy.Attack();
+        //enemy.Attack();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

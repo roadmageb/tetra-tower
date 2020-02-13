@@ -14,12 +14,14 @@ public class Slime : Enemy
 
     public override void Attack()
     {
-        StartCoroutine(SlimeAttack());
+        //StartCoroutine(SlimeAttack());
+        Vector2 direction = new Vector2(target.position.x - transform.position.x > 0 ? 1 : -1, 0.5f);
+        rb.AddForce(direction * jumpPower);
     }
 
     private IEnumerator SlimeAttack()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         Vector2 direction = new Vector2(target.position.x - transform.position.x > 0 ? 1 : -1, 0.5f);
         rb.AddForce(direction * jumpPower);
     }

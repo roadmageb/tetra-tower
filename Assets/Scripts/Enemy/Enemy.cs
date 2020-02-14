@@ -123,6 +123,8 @@ public abstract class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         target = GameObject.Find("Player").transform;
         traceTime = -traceTimeLimit;
+
+
         //InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 

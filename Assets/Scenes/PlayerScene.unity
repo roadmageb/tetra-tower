@@ -1128,12 +1128,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8731243594631918369, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: 1830aa4aa6c2b5041ae7b15c6e1f03d9,
-        type: 2}
     - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1194,46 +1188,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoalSlime
       objectReference: {fileID: 0}
-    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: clipOverrides.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: attackAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: 3268d0c8d0ac54946848245da927d4dc, type: 2}
-    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: traceAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: idleAnim
-      value: 
-      objectReference: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: clipOverrides.Array.data[0].clipNamed
-      value: Idle
-      objectReference: {fileID: 0}
-    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: clipOverrides.Array.data[0].overrideWith
-      value: 
-      objectReference: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: clipOverrides.Array.data[1].clipNamed
-      value: Attack
-      objectReference: {fileID: 0}
-    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
-        type: 3}
-      propertyPath: clipOverrides.Array.data[1].overrideWith
-      value: 
-      objectReference: {fileID: 7400000, guid: 3268d0c8d0ac54946848245da927d4dc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b5839b76df0a264a84359018d2e1561, type: 3}
 --- !u!1001 &1736489983

@@ -112,7 +112,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 31.5
+        width: 36
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -121,7 +121,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7196258670ba7ab4086b1ce0344a6438
+      spriteID: 60d4b990ad14f3d449bdaba8a4cea1af
       internalID: 2992008355213818900
       vertices: []
       indices: 
@@ -131,9 +131,9 @@ TextureImporter:
       name: BWSpear_01_1
       rect:
         serializedVersion: 2
-        x: 31
+        x: 36
         y: 0
-        width: 31.5
+        width: 36
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -142,7 +142,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc1df2640168d3444b00bc449c9e23a5
+      spriteID: f3d8b5af369d2e549a0666b270174385
       internalID: -69927634117861438
       vertices: []
       indices: 
@@ -152,9 +152,9 @@ TextureImporter:
       name: BWSpear_01_2
       rect:
         serializedVersion: 2
-        x: 93
+        x: 72
         y: 0
-        width: 31.5
+        width: 36
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -163,7 +163,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2c543420c24b454592baa20c10c3c98
+      spriteID: a10b05ea6dc75a9489a5cc71a12b17b3
       internalID: -3909673857160890904
       vertices: []
       indices: 
@@ -173,9 +173,9 @@ TextureImporter:
       name: BWSpear_01_3
       rect:
         serializedVersion: 2
-        x: 124
+        x: 108
         y: 0
-        width: 31.5
+        width: 36
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -184,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10a81709010b5634ea012575f287250a
+      spriteID: 3a4463bf1b891a0439303ea0c12f254d
       internalID: 277680277800239299
       vertices: []
       indices: 
@@ -194,9 +194,9 @@ TextureImporter:
       name: BWSpear_01_4
       rect:
         serializedVersion: 2
-        x: 155
+        x: 144
         y: 0
-        width: 31.5
+        width: 36
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -205,7 +205,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46336b2b80681b542a4cf936fcdf17cb
+      spriteID: 396257a138ac3844bbc262a5c0000375
       internalID: -2844293999005757788
       vertices: []
       indices: 
@@ -215,9 +215,9 @@ TextureImporter:
       name: BWSpear_01_5
       rect:
         serializedVersion: 2
-        x: 186
+        x: 180
         y: 0
-        width: 31.5
+        width: 36
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -226,7 +226,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec879be8d44583a4799393dcaebdfcd7
+      spriteID: 37ff01141bee41d48aa5150698d5ed94
       internalID: -8367154092966537156
       vertices: []
       indices: 
@@ -236,9 +236,9 @@ TextureImporter:
       name: BWSpear_01_6
       rect:
         serializedVersion: 2
-        x: 217
+        x: 216
         y: 0
-        width: 31.5
+        width: 36
         height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -247,7 +247,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 13812fa8f1b74184eb6bbaaac22ea6ab
+      spriteID: 53edd3ee6073f92469a955ec218eeeb7
       internalID: 2147260926306757278
       vertices: []
       indices: 

@@ -224,6 +224,7 @@ MonoBehaviour:
   attackRange: 4
   groundDetectOffset: {x: 0, y: 0}
   attackFollowPlayer: 1
+  traceTime: 0
   maxHP: 0
   currentHP: 0
   enemyCtrl: {fileID: 0}
@@ -241,10 +242,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 10
   m_AngularDrag: 0.05
-  m_GravityScale: 5
+  m_GravityScale: 10
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -263,7 +264,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.090660125, y: -0.14843127}
+  m_Offset: {x: 0.10603163, y: -0.09543899}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -274,7 +275,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3172136, y: 0.29710692}
+  m_Size: {x: 0.66378874, y: 0.6847778}
   m_EdgeRadius: 0
 --- !u!95 &-8731243594631918369
 Animator:

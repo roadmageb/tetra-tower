@@ -17,7 +17,8 @@ public abstract class Enemy : MonoBehaviour
     Path path;
     Seeker seeker;
     int currentWaypoint = 0;
-    float traceTime = 0, traceTimeLimit = 3;
+    public float traceTime = 0;
+    float traceTimeLimit = 3;
     protected bool seekTarget = false;
     protected Rigidbody2D rb;
 
@@ -28,6 +29,11 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Attack()
     {
         
+    }
+
+    public virtual void AttackEnd()
+    {
+        animator.SetTrigger("AttackEnd");
     }
 
     public void GainAttack(AttackPtoE attack)

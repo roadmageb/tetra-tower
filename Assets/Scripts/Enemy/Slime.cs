@@ -15,8 +15,26 @@ public class Slime : Enemy
 
     public override void Attack()
     {
+        if (isFloat)
+        {
+            Vector2 targetPos = target.position;
+            Vector2 thisPos = transform.position;
+            targetPos.x = targetPos.x - thisPos.x;
+            targetPos.y = targetPos.y - thisPos.y;
+            float angle = Mathf.Atan2(targetPos.y, targetPos.x) * Mathf.Rad2Deg;
+            Debug.Log(angle);
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, transform.localScale.x > 0 ? angle : angle + 180));
+        }
         Vector2 direction = isFloat ? (Vector2)(target.position - transform.position).normalized: new Vector2(target.position.x - transform.position.x > 0 ? 1 : -1, 0);
         rb.AddForce(direction * jumpPower);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        {
+            AttackEnd();
+        }
     }
 
     IEnumerator SlimeUpCoroutine()

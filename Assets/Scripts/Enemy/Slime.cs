@@ -6,6 +6,7 @@ public class Slime : Enemy
 {
     float attackStartTime, attackWaitTime = 2;
     [SerializeField] float jumpPower = 100;
+    [SerializeField] bool isFloat = false;
 
     public override void SeekTarget()
     {
@@ -14,7 +15,7 @@ public class Slime : Enemy
 
     public override void Attack()
     {
-        Vector2 direction = new Vector2(target.position.x - transform.position.x > 0 ? 1 : -1, 0);
+        Vector2 direction = isFloat ? (Vector2)(target.position - transform.position).normalized: new Vector2(target.position.x - transform.position.x > 0 ? 1 : -1, 0);
         rb.AddForce(direction * jumpPower);
     }
 

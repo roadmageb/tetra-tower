@@ -220,14 +220,15 @@ MonoBehaviour:
   animator: {fileID: 0}
   speed: 0
   nextWayPointDistance: 3
-  playerDetectDistance: 2
-  attackRange: 2
+  playerDetectDistance: 4
+  attackRange: 4
   groundDetectOffset: {x: 0, y: 0}
   attackFollowPlayer: 1
   maxHP: 0
   currentHP: 0
   enemyCtrl: {fileID: 0}
-  jumpPower: 1000
+  jumpPower: 1500
+  isFloat: 0
 --- !u!50 &6641737705354378823
 Rigidbody2D:
   serializedVersion: 4

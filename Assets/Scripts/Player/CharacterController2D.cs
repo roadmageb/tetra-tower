@@ -195,7 +195,7 @@ public class CharacterController2D : MonoBehaviour
 
     private IEnumerator WallJump()
     {
-        float multiplifier = 0.012f;
+        float multiplifier = 0.1f;
         m_AirControl = false;
         for (float i = 0; i < 0.1f; i += Time.deltaTime)
         {

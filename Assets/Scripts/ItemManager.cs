@@ -10,13 +10,15 @@ public class ItemManager : Singleton<ItemManager>
     void test()
     {
         GainWeapon(weaponDB[0]);
+        GainWeapon(weaponDB[1]);
     }
     private void Start()
     {
         weapons = new List<Weapon>();
         weaponDB = new List<Weapon>()
         {
-            new WpStick()
+            new WpStick(),
+            new WpBWSpear()
         };
         test();
     }

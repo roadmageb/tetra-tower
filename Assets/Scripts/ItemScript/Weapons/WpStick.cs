@@ -26,6 +26,14 @@ public class WpStick : Weapon
         {
             case 0:
                 EffectPool.Instance.StartEffect(GameManager.Instance.effectAnim["Stick00"], trns.position + Vector3.Scale(new Vector3(1, 0, 0), trns.localScale), trns.localScale);
+                if(PlayerController.Instance.controller.m_Grounded)
+                {
+                    PlayerController.Instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+                }
+                else
+                {
+                    PlayerController.Instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 10);
+                }
                 break;
         }
     }

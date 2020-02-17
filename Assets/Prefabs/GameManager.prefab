@@ -46,6 +46,14 @@ MonoBehaviour:
   skillAnimSerialize:
   - name: Stick00
     anim: {fileID: 7400000, guid: bc64d58481fdef6429410f0b244b25e0, type: 2}
+  - name: BWSpear00
+    anim: {fileID: 7400000, guid: cf5df84ca85810f40bc0146db6d0af81, type: 2}
+  - name: BWSpear01
+    anim: {fileID: 7400000, guid: ee7bc70d1c4ed8f4985ff19584c57a2f, type: 2}
   effectAnimSerialize:
   - name: Stick00
     anim: {fileID: 7400000, guid: a30de66763b5b2e40a2d49f9352add2e, type: 2}
+  - name: BWSpear00
+    anim: {fileID: 7400000, guid: 75a702a7fd8263943a918ca2305584fd, type: 2}
+  - name: BWSpear01
+    anim: {fileID: 7400000, guid: 7e4431aa473c834408c3fdd51b27051d, type: 2}

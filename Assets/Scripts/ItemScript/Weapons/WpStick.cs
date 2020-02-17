@@ -25,7 +25,7 @@ public class WpStick : Weapon
         switch(skillNum)
         {
             case 0:
-                EffectPool.Instance.StartEffect(GameManager.Instance.effectAnim["Stick00"], trns.position + Vector3.Scale(new Vector3(1, 0, 0), trns.localScale), trns.localScale);
+                EffectPool.Instance.StartEffect(GameManager.Instance.effectAnim["Stick00"], trns.position + Vector3.Scale(new Vector3(1, 1, 0), trns.localScale), trns.localScale);
                 if(PlayerController.Instance.controller.m_Grounded)
                 {
                     PlayerController.Instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);

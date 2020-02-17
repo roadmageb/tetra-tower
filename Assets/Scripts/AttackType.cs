@@ -24,26 +24,3 @@ public class AttackPtoE
         }
     }
 }
-public class AttackEtoP
-{
-    public float damage;
-    public Dictionary<CtrlEtoP, float> ctrls;
-
-    public AttackEtoP(float dmg)
-    {
-        damage = dmg;
-        ctrls = new Dictionary<CtrlEtoP, float>();
-    }
-
-    public void AddCtrl(CtrlEtoP ctrl, float f)
-    {
-        if (ctrls.ContainsKey(ctrl))
-        {
-            ctrls[ctrl] += f;
-        }
-        else
-        {
-            ctrls.Add(ctrl, f);
-        }
-    }
-}

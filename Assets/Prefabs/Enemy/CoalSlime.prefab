@@ -244,10 +244,15 @@ MonoBehaviour:
   attackDamage: 0
   idleAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
   traceAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-  attackAnim: {fileID: 7400000, guid: 3268d0c8d0ac54946848245da927d4dc, type: 2}
   damagedAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
   deathAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
+  attackPattern:
+  - attackAnim: {fileID: 7400000, guid: 3268d0c8d0ac54946848245da927d4dc, type: 2}
+    attackDamage: 1
+    attackCtrl: 0
+    attackFollowPlayer: 0
   attackFollowPlayer: 1
+  currentAttackIndex: 0
   traceTime: 0
   maxHP: 0
   currentHP: 0

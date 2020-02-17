@@ -720,6 +720,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FloatSlime
       objectReference: {fileID: 0}
+    - target: {fileID: 1452202930308258066, guid: f49559505a34d514f90ea174a1a94e8c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1452202930308258073, guid: f49559505a34d514f90ea174a1a94e8c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -773,6 +778,11 @@ PrefabInstance:
     - target: {fileID: 1452202930308258073, guid: f49559505a34d514f90ea174a1a94e8c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1480987033817561222, guid: f49559505a34d514f90ea174a1a94e8c,
+        type: 3}
+      propertyPath: attackAnim.Array.size
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1186,6 +1196,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5235506533381641102, guid: 746461cf5ae526c4d99386a6cde77f2c,
+        type: 3}
+      propertyPath: m_WhatIsGround.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 5235506533381641102, guid: 746461cf5ae526c4d99386a6cde77f2c,
+        type: 3}
+      propertyPath: m_WhatIsWall.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 7922422854691280649, guid: 746461cf5ae526c4d99386a6cde77f2c,
         type: 3}

@@ -3,19 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
+[System.Serializable]
+public class AttackPattern
+{
+    public AnimationClip attackAnim;
+    public float attackDamage;
+    public CtrlEtoP attackCtrl;
+}
+
 public abstract class Enemy : MonoBehaviour
 {
     public Transform target;
     public Animator animator;
+    private AnimatorOverrideController animOverCont;
     [SerializeField] protected float speed = 200;
     [SerializeField] protected float nextWayPointDistance = 3;
     [SerializeField] protected float playerDetectDistance = 1;
     [SerializeField] protected float attackRange = 0.5f;
     [SerializeField] protected Vector2 groundDetectOffset;
     [SerializeField] protected float attackDamage;
-    [SerializeField] private AnimationClip idleAnim, traceAnim, attackAnim, damagedAnim, deathAnim;
-    public bool attackFollowPlayer = false;
-
+    [SerializeField] private AnimationClip idleAnim, traceAnim, damagedAnim, deathAnim;
+    [SerializeField] public AttackPattern[] attackPattern;
+    public bool attackFollowPlayer;
+    public int currentAttackIndex = 0;
+    
     Path path;
     Seeker seeker;
     int currentWaypoint = 0;
@@ -28,9 +39,14 @@ public abstract class Enemy : MonoBehaviour
     public float currentHP;
     public EnemyCtrl enemyCtrl;
 
+    public List<AttackMethod> attackMethods;
+    public delegate void AttackMethod();
+
     public virtual void Attack()
     {
-        
+        currentAttackIndex = Random.Range(0, attackPattern.Length);
+        animOverCont["EnemyAttackAnim"] = attackPattern[currentAttackIndex].attackAnim;
+        animator.SetTrigger("Attack");
     }
 
     public virtual void AttackEnd()
@@ -89,7 +105,7 @@ public abstract class Enemy : MonoBehaviour
 
             if (Vector3.Distance(transform.position, target.position) <= attackRange)
             {
-                animator.SetTrigger("Attack");
+                Attack();
             }
 
            Vector2 force = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized * speed;
@@ -132,14 +148,13 @@ public abstract class Enemy : MonoBehaviour
         target = GameObject.Find("Player").transform;
         traceTime = -traceTimeLimit;
 
-        AnimatorOverrideController animOverCont = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animOverCont = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animOverCont;
         animOverCont["EnemyIdleAnim"] = idleAnim;
         animOverCont["EnemyTraceAnim"] = traceAnim;
-        animOverCont["EnemyAttackAnim"] = attackAnim;
         animOverCont["EnemyDamagedAnim"] = damagedAnim;
         animOverCont["EnemyDeathAnim"] = deathAnim;
-
+        attackMethods = new List<AttackMethod>();
         //InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 

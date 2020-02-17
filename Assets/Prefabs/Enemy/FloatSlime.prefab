@@ -166,6 +166,12 @@ MonoBehaviour:
   playerDetectDistance: 4
   attackRange: 4
   groundDetectOffset: {x: 0, y: 0}
+  attackDamage: 0
+  idleAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
+  traceAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
+  attackAnim: {fileID: 7400000, guid: 062be41d60b3d3241a26b2728517784c, type: 2}
+  damagedAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
+  deathAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
   attackFollowPlayer: 1
   traceTime: 0
   maxHP: 0
@@ -230,7 +236,7 @@ Animator:
   m_GameObject: {fileID: 1452202930308258066}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 6f0e0aea5fcf1234185aa7c748ad2a95, type: 2}
+  m_Controller: {fileID: 9100000, guid: b4bc2c7570f760344b7c140c26bfa5fa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

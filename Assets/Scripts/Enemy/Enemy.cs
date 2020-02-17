@@ -12,6 +12,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float playerDetectDistance = 1;
     [SerializeField] protected float attackRange = 0.5f;
     [SerializeField] protected Vector2 groundDetectOffset;
+    [SerializeField] protected float attackDamage;
+    [SerializeField] private AnimationClip idleAnim, traceAnim, attackAnim, damagedAnim, deathAnim;
     public bool attackFollowPlayer = false;
 
     Path path;
@@ -130,6 +132,13 @@ public abstract class Enemy : MonoBehaviour
         target = GameObject.Find("Player").transform;
         traceTime = -traceTimeLimit;
 
+        AnimatorOverrideController animOverCont = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = animOverCont;
+        animOverCont["EnemyIdleAnim"] = idleAnim;
+        animOverCont["EnemyTraceAnim"] = traceAnim;
+        animOverCont["EnemyAttackAnim"] = attackAnim;
+        animOverCont["EnemyDamagedAnim"] = damagedAnim;
+        animOverCont["EnemyDeathAnim"] = deathAnim;
 
         //InvokeRepeating("UpdatePath", 0, 0.1f);
     }

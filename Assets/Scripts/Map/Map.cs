@@ -90,6 +90,13 @@ public class Map : MonoBehaviour
     IEnumerator waitAndDelete(bool[] bitmap)
     {
 		pistonSpawner.spawnIfFull(isFull);
+
+		yield return null;
+        while (Piston.pistonCount != 0)
+        {
+            yield return null;
+        }
+        
     }
 
 

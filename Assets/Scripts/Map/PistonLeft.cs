@@ -19,6 +19,7 @@ class PistonLeft : Piston
         if (transform.position.x <= Constants.Base.x - 7.5)
         {
             isMoving = false;
+            pistonCount--;
             Destroy(gameObject);
         }
         transform.position -= new Vector3(releaseVelocity * Time.deltaTime, 0, 0);

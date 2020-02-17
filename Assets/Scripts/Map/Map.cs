@@ -89,28 +89,7 @@ public class Map : MonoBehaviour
 
     IEnumerator waitAndDelete(bool[] bitmap)
     {
-        int start = -1;
-        int count = 0;
-        for (int i = 0; i < bitmap.Length; ++i)
-        {
-            if (bitmap[i])
-            {
-                start = i;
-                count++;
-                pistSpawner.spawnNth(i);
-            }
-        }
-        yield return new WaitForSeconds(2);
-        for (int i = 0; i < bitmap.Length; ++i)
-        {
-            if (bitmap[i])
-            {
-                DeleteMinoAt(i);
-            }
-        }
-        GameObject go = new GameObject();
-        go.AddComponent<RowSlider>();
-        go.GetComponent<RowSlider>().Initialize(1);
+		pistonSpawner.spawnIfFull(isFull);
     }
 
 

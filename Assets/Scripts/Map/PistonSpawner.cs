@@ -30,6 +30,18 @@ public class PistonSpawner : MonoBehaviour
         }
     }
 
+    public void spawnIfFull(bool[] isFull)
+    {
+        for (int i = 0; i < isFull.Length; ++i)
+        {
+            if (isFull[i])
+            {
+                spawnNth(i);
+            }
+        }
+
+    }
+
     public void spawnNth(int n)
     {
         spawnLeftNth(n);

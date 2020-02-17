@@ -10,10 +10,10 @@ public class Map : MonoBehaviour
     public static int gridWidth = 10;
     public static int gridHeight = 20;
     public static Transform[,] grid = new Transform[gridWidth, gridHeight];
+    public static GridUtils gridUtils = new GridUtils();
     TetrominoSpawner tetSpawner;
-    PistonSpawner pistSpawner;
-    RowRemover rowRemover;
-    GameObject go;
+    PistonSpawner pistonSpawner;
+    RowSlider rowSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -22,42 +22,31 @@ public class Map : MonoBehaviour
         tetSpawner = tetSpawnerObj.GetComponent<TetrominoSpawner>();
 
         var pistonSpawnerObj = GameObject.Find("PistonSpawnerObj");
-        pistSpawner = pistonSpawnerObj.GetComponent<PistonSpawner>();
+        pistonSpawner= pistonSpawnerObj.GetComponent<PistonSpawner>();
 
-        var rowRemoverObj = GameObject.Find("RowRemoverObj");
-        rowRemover = rowRemoverObj.GetComponent<RowRemover>();
+        gridUtils.Initialize(grid);
 
-        go = new GameObject();
-        go.AddComponent<RowSlider>();
+        rowSlider = new GameObject().AddComponent<RowSlider>();
+        rowSlider.Initialize(gridUtils);
 
         SpawnNextTetromino();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("hello world!");
-            go.GetComponent<RowSlider>().Initialize(1);
-            GameObject go2 = new GameObject();
-            go2.GetComponent<RowSlider>().Initialize(3);
+            reportError();
         }
     }
 
-    public bool isFullRowAt(int y)
+    void reportError()
     {
-        for (int x = 0; x < gridWidth; ++x)
-        {
-            if (grid[x, y] == null)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        printGrid();
+        Debug.Log(rowSlider.coroutineCount);
     }
 
-    public void DeleteMinoAt(int y)
+    public void DestroyRow(int y)
     {
         for (int x = 0; x < gridWidth; ++x)
         {
@@ -65,6 +54,18 @@ public class Map : MonoBehaviour
             grid[x, y] = null;
         }
     }
+
+    public void DestroyRowsIfFull(bool[] isFull)
+    {
+        for (int i = 0; i < isFull.Length; ++i)
+        {
+            if (isFull[i])
+            {
+                DestroyRow(i);
+            }
+        }
+    }
+
 
     public void MoveRowDown(int y, int num)
     {
@@ -74,77 +75,54 @@ public class Map : MonoBehaviour
             {
                 grid[x, y - num] = grid[x, y];
                 grid[x, y] = null;
-                grid[x, y - num].position += new Vector3(0, -num, 0);
+                // replaced by rowSlider
+                //grid[x, y - num].position += new Vector3(0, -num, 0);
             }
         }
     }
 
-    public void MoveAllRowsDown(int from, int num)
+    public void MoveAllRowsDown(bool[] isFull, int[] shiftAmount)
     {
-        for (int i = from; i < gridHeight; ++i)
+        for (int i = 1; i < gridHeight; ++i)
         {
-            MoveRowDown(i, num);
+            if (!isFull[i]) {
+                MoveRowDown(i, -shiftAmount[i]);
+            }
         }
     }
 
-    IEnumerator waitAndDelete(bool[] bitmap)
+    IEnumerator waitAndDelete(bool[] isFull)
     {
-		pistonSpawner.spawnIfFull(isFull);
+        pistonSpawner.spawnIfFull(isFull);
 
-		yield return null;
+        yield return null;
         while (Piston.pistonCount != 0)
         {
             yield return null;
         }
-        
+
+        DestroyRowsIfFull(isFull);
+        rowSlider.slideDown();
+
+        yield return null; // required for waiting one frame so that coroutineCount can increase.
+        while (rowSlider.coroutineCount != 0)
+        {
+            yield return null;
+        }
+        MoveAllRowsDown(isFull, gridUtils.shiftDown);
     }
 
 
     public void RemoveRowsIfFull()
     {
-        bool[] fullRowBitmap = new bool[gridHeight];
-        int fullRowCount = 0;
-        for (int y = 0; y < gridHeight; ++y)
-        {
-            if (isFullRowAt(y))
-            {
-                fullRowCount++;
-                fullRowBitmap[y] = true;
-            }
-        }
+        gridUtils.isFullUpdate();
+        gridUtils.shiftAmountUpdate();
 
-        if (fullRowCount > 0)
+        if (gridUtils.fullRowCount > 0)
         {
-            StartCoroutine(waitAndDelete(fullRowBitmap));
+            StartCoroutine(waitAndDelete(gridUtils.isFull));
         }
     }
-
-    public void DeleteRow()
-    {
-        bool[] fullRowBitmap = new bool[gridHeight];
-        int fullRowCount = 0;
-        for (int y = 0; y < gridHeight; ++y)
-        {
-            if (isFullRowAt(y))
-            {
-                fullRowCount++;
-                fullRowBitmap[y] = true;
-                DeleteMinoAt(y);
-                MoveAllRowsDown(y + 1, 1);
-                //rowRemover.RemoveRow(y);
-                --y;
-            }
-            else
-            {
-                //Debug.Log($"{y} is not full\n");
-            }
-        }
-        if (fullRowCount > 0)
-        {
-            StartCoroutine(waitAndDelete(fullRowBitmap));
-        }
-    }
-
     public void UpdateGrid(Tetromino tetromino)
     {
         for (int y = 0; y < gridHeight; ++y)
@@ -170,7 +148,7 @@ public class Map : MonoBehaviour
                 grid[(int)pos.x, (int)pos.y] = mino;
             }
         }
-        printGrid();
+        //printGrid();
     }
 
     public Transform GetTransformAtGridPosition(Vector3 pos)

@@ -6,57 +6,101 @@ public class RowSlider : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    Map map;
     bool isSliding;
-    int rowNum;
-    int count;
+
+    GridUtils gridUtils;
+
+    // coroutines do not run in parallel. No need for semaphores.
+    public int coroutineCount { get; set; }
+
 
     void Start()
     {
-        map = GameObject.FindGameObjectWithTag("MapTag").GetComponent<Map>();
         isSliding = false;
-        rowNum = 1;
-        count = 0;
+        coroutineCount = 0;
     }
 
-    void slideDown()
+    IEnumerator slideDownRow(int row, int amount)
     {
-        for (int y = rowNum; y < Map.gridHeight; ++y)
+        coroutineCount++;
+        float gravity = 9.8f;
+        float gravityAdd = 40;
+        Vector3 velocity = Vector3.zero;
+        Vector3 shift;
+
+        bool minoExists = false;
+        for( int i = 0; i < Constants.gridWidth; ++i)
         {
-            for (int x = 0; x < Map.gridWidth; ++x)
+            if (Map.grid[i, row] != null)
             {
-                if (Map.grid[x,y] != null)
-                {
-                    Map.grid[x,y].position += new Vector3(0, -0.01f, 0);
-                }
+                minoExists = true;
             }
         }
+        if (!minoExists)
+        {
+            coroutineCount--;
+            yield break;
+        }
+
+        while (true)
+        {
+            velocity.y -= gravity * Time.deltaTime;
+            gravity += gravityAdd * Time.deltaTime;
+            shift = velocity * Time.deltaTime;
+
+            for (int i = 0; i < Constants.gridWidth; ++i)
+            {
+                if (Map.grid[i, row] != null)
+                {
+                    if (Map.grid[i, row].position.y > row + amount)
+                    {
+                        Map.grid[i, row].position += shift;
+                    } else
+                    {
+                        Vector3 pos = Map.grid[i, row].position;
+                        pos.y = row + amount;
+                        Map.grid[i, row].position = pos;
+                        coroutineCount--;
+                        yield break;
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
+
+
+    void slideDownRows(bool[] isFull, int[] shiftAmount)
+    {
+        for (int row = 1; row < Constants.gridHeight; ++row)
+        {
+            StartCoroutine(slideDownRow(row, shiftAmount[row]));
+        }
+
     }
     
-    public void Initialize(int row)
+    public void Initialize(GridUtils gridUtils)
+    {
+        this.gridUtils = gridUtils;
+    }
+
+    public void slideDown()
     {
         isSliding = true;
-        rowNum = row;
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if (isSliding)
         {
-            slideDown();
-            count++;
-            if (count == 100)
-            {
-                count = 0;
-                isSliding = false;
-            }
+            slideDownRows(gridUtils.isFull, gridUtils.shiftDown);
+            isSliding = false;
         }
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            rowNum = 1;
             isSliding = true;
         }
     }

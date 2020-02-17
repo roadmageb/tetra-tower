@@ -19,7 +19,7 @@ public class ComboInfo
         {
             if(comboAction[globalSuccessCounter] == inputAction)
             {
-                if (globalSuccessCounter == comboAction.Length - 1 && (comboArrow == InputArrow.Neutral || inputArrow == comboArrow))
+                if (globalSuccessCounter == comboAction.Length - 1 && (comboArrow == InputArrow.NULL || inputArrow == comboArrow))
                 {
                     comboSuccessCounter = 0;
                     isComboEnd = true;

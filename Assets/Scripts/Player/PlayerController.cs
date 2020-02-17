@@ -63,14 +63,13 @@ public class PlayerController : Singleton<PlayerController>
                 else if (arrowChecker[(int)InputArrow.Up]) currentInputArrow = InputArrow.Up;
                 else if (arrowChecker[(int)InputArrow.Down]) currentInputArrow = InputArrow.Down;
                 else if (arrowChecker[(int)InputArrow.Front]) currentInputArrow = InputArrow.Front;
-                else currentInputArrow = InputArrow.NULL;
+                else currentInputArrow = InputArrow.Neutral;
 
                 bool successCheck = false, perfectComboCheck = false;
                 bool[] comboEnded = new bool[possibleComboes.Count];
                 bool[] perfectComboes = new bool[possibleComboes.Count];
                 for (int i = 0; i < possibleComboes.Count; i++)
                 {
-                    bool isPerfectCombo = false;
                     successCheck |= possibleComboes[i].CheckCombo(currentInputArrow, currentInputAction, comboSuccessCounter, out comboEnded[i], out perfectComboes[i]);
                     perfectComboCheck |= perfectComboes[i];
                 }

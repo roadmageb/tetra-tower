@@ -110,9 +110,9 @@ public class PlayerController : Singleton<PlayerController>
     public void PlaySkillAnim()
     {
         AnimationClip a = playingSkill.wp.GetAnim(playingSkill.num);
-        aoc["Attack"] = a;
-        Debug.Log(aoc["Attack"]);
-        Debug.Log(a);
+
+        aoc["PlayerAttack"] = a;
+        Debug.Log(aoc["PlayerAttack"]);
         animator.SetTrigger("Attack");
     }
     private void Awake()

@@ -41,7 +41,7 @@ public class Tetromino : MonoBehaviour
         gravity += gravityAdd * Time.deltaTime;
         shift = velocity * Time.deltaTime;
         transform.position += shift;
-        Debug.Log(transform.position + " " + fallDestination);
+        //Debug.Log(transform.position + " " + fallDestination);
         
         if (transform.position.y <= fallDestination.y)
         {
@@ -128,8 +128,7 @@ public class Tetromino : MonoBehaviour
         {
 
             Vector3 pos = mino.position + shift;
-            //pos.y = Mathf.Floor(pos.y);
-            Debug.Log(pos.ToString("F16"));
+            //Debug.Log(pos.ToString("F16"));
             pos = Vector3Utils.Map(pos, Mathf.Round);
             if( map.CheckIsInsideGrid(pos) == false)
             {

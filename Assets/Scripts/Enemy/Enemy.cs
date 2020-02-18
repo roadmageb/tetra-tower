@@ -60,12 +60,17 @@ public abstract class Enemy : MonoBehaviour
 
     public void GainAttack(AttackPtoE attack)
     {
-        currentHP -= attack.damage;
+        GetDamage(attack.damage);
+        enemyCtrl.ApplyCtrl(attack);
+    }
+
+    public void GetDamage(float damage)
+    {
+        currentHP -= damage;
         if (currentHP <= 0)
         {
             Death();
         }
-        enemyCtrl.ApplyCtrl(attack);
     }
 
     public void Death()

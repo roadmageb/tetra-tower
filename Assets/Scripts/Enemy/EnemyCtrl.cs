@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyCtrl : MonoBehaviour
 {
+    Enemy enemy;
     public float stunImmTime = 6, freezeImmTime = 6;
 
     public bool isStun;
@@ -20,12 +21,23 @@ public class EnemyCtrl : MonoBehaviour
     bool isFreezeImm;
     float totalFreeze, currentFreeze, totalFreezeImm, currentFreezeImm;
 
+    private void Start()
+    {
+        enemy = GetComponent<Enemy>();
+    }
+
     private void Update()
     {
-        if (isStun) currentStun += Time.deltaTime;
-        if (currentStun > totalStun) EndStun();
-        if (isFreeze) currentFreeze += Time.deltaTime;
-        if (currentFreeze > totalFreeze) EndFreeze();
+        if (isStun)
+        {
+            currentStun += Time.deltaTime;
+            if (currentStun > totalStun) EndStun();
+        }
+        if (isFreeze)
+        {
+            currentFreeze += Time.deltaTime;
+            if (currentFreeze > totalFreeze) EndFreeze();
+        }
 
         if (isBurn) timerBurn += Time.deltaTime;
         if (isBurn && timerBurn > 1)
@@ -33,6 +45,7 @@ public class EnemyCtrl : MonoBehaviour
             timerBurn -= 1f;
             tickBurn = true;
             if (--leftBurn <= 0) isBurn = false;
+            enemy.GetDamage(PlayerController.Instance.hp * 0.15f);
         }
 
         if (isStunImm) currentStunImm += Time.deltaTime;
@@ -99,7 +112,9 @@ public class EnemyCtrl : MonoBehaviour
             else
             {
                 isStun = true;
+                totalStun = f;
                 currentStun = 0;
+                enemy.animator.SetTrigger("Damaged");
             }
             
             return true;

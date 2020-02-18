@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TestTool : MonoBehaviour
 {
     public InputField damageInput;
+    public Enemy enemy;
 
     public void TestGetDamage()
     {
@@ -24,6 +25,11 @@ public class TestTool : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            AttackPtoE temp = new AttackPtoE(1);
+            temp.AddCtrl(CtrlPtoE.Stun, 6);
+            enemy.GainAttack(temp);
+        }
     }
 }

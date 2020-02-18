@@ -18,7 +18,7 @@ public class Slime : Enemy
         StartCoroutine(SlimeAttackWaitCoroutine());
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
         {
@@ -26,10 +26,20 @@ public class Slime : Enemy
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (playerAttackable && !attackedPlayer && collision.gameObject.tag.Equals("Player"))
+        {
+            attackedPlayer = true;
+            PlayerController.Instance.GetDamage(attackPattern[currentAttackIndex].attackDamage);
+        }
+    }
+
     IEnumerator SlimeAttackWaitCoroutine()
     {
         StartCoroutine(SlimeUpCoroutine());
         yield return new WaitForSeconds(1.5f);
+        playerAttackable = true;
         if (isFloat)
         {
             Vector2 targetPos = target.position;

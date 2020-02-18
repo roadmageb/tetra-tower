@@ -11,7 +11,7 @@ public class TestTool : MonoBehaviour
     {
         if (damageInput.text != "")
         {
-            LifeStoneManager.Instance.GetDamage(int.Parse(damageInput.text));
+            PlayerController.Instance.GetDamage(int.Parse(damageInput.text));
         }
     }
 

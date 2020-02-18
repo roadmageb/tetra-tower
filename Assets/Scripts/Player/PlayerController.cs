@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
 {
+    public LifeStoneManager lifeStoneManager;
     public CharacterController2D controller;
     private float horizontalMove = 0f;
     public int hp = 0;
@@ -94,8 +95,14 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    public void GetDamage(int damage)
+    {
+        lifeStoneManager.DestroyLifeStone(damage);
+    }
+
     private void Awake()
     {
+        lifeStoneManager = GameObject.Find("LifeStoneManager").GetComponent<LifeStoneManager>();
         controller = GetComponent<CharacterController2D>();
         arrowChecker = new bool[(int)InputArrow.Front + 1];
         actionChecker = new bool[(int)InputAction.NULL];

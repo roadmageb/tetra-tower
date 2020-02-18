@@ -250,8 +250,8 @@ MonoBehaviour:
   - attackAnim: {fileID: 7400000, guid: 3268d0c8d0ac54946848245da927d4dc, type: 2}
     attackDamage: 1
     attackCtrl: 0
-    attackFollowPlayer: 0
   attackFollowPlayer: 1
+  playerAttackable: 0
   currentAttackIndex: 0
   traceTime: 0
   maxHP: 0
@@ -290,7 +290,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.10603163, y: -0.09543899}

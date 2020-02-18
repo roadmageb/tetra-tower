@@ -7,7 +7,7 @@ using Pathfinding;
 public class AttackPattern
 {
     public AnimationClip attackAnim;
-    public float attackDamage;
+    public int attackDamage;
     public CtrlEtoP attackCtrl;
 }
 
@@ -25,6 +25,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private AnimationClip idleAnim, traceAnim, damagedAnim, deathAnim;
     [SerializeField] public AttackPattern[] attackPattern;
     public bool attackFollowPlayer;
+    public bool playerAttackable = false;
+    public bool attackedPlayer = false;
     public int currentAttackIndex = 0;
     
     Path path;
@@ -42,16 +44,18 @@ public abstract class Enemy : MonoBehaviour
     public List<AttackMethod> attackMethods;
     public delegate void AttackMethod();
 
-    public virtual void Attack()
+    public virtual void AttackStart()
     {
         currentAttackIndex = Random.Range(0, attackPattern.Length);
         animOverCont["EnemyAttackAnim"] = attackPattern[currentAttackIndex].attackAnim;
-        animator.SetTrigger("Attack");
+        attackedPlayer = false;
+        animator.SetBool("Attack", true);
     }
 
     public virtual void AttackEnd()
     {
-        animator.SetTrigger("AttackEnd");
+        attackedPlayer = false;
+        animator.SetBool("Attack", false);
     }
 
     public void GainAttack(AttackPtoE attack)
@@ -105,7 +109,7 @@ public abstract class Enemy : MonoBehaviour
 
             if (Vector3.Distance(transform.position, target.position) <= attackRange)
             {
-                Attack();
+                AttackStart();
             }
 
            Vector2 force = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized * speed;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeStoneManager : Singleton<LifeStoneManager>
+public class LifeStoneManager : MonoBehaviour
 {
     public class LifeStoneInfo
     {
@@ -272,7 +272,7 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
         Instantiate(lifeStoneTop, lifeStoneInitialPos + new Vector2(0, (row - 1) * lifeStoneFrameOffset + lifeStoneEdgeOffset), Quaternion.identity, lifeStoneUI);
     }
 
-    public void GetDamage(int amount)
+    public void DestroyLifeStone(int amount)
     {
         for(int i = 0; i < amount; i++)
         {

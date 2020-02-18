@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : Singleton<PlayerController>
 {
     public CharacterController2D controller;
@@ -19,10 +20,17 @@ public class PlayerController : Singleton<PlayerController>
     public float keyPercent = 0f;
 
     public float damage = 0f;
+    public Queue<SkillInfo> skillQueue;
     public SkillInfo playingSkill = null;
 
     private Animator animator;
     private AnimatorOverrideController aoc;
+
+    public struct PlayerAttribute
+    {
+        public float gravityScale;
+    }
+    PlayerAttribute originPlayerAttribute;
 
     private void GetInput()
     {
@@ -78,8 +86,7 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     if (comboEnded[i] && (!perfectComboCheck || perfectComboes[i]))
                     {
-                        playingSkill = possibleComboes[i].skill;
-                        PlaySkillAnim();
+                        skillQueue.Enqueue(possibleComboes[i].skill);
                     }
                 }
 
@@ -108,14 +115,13 @@ public class PlayerController : Singleton<PlayerController>
     }
     public void PlaySkillAnim()
     {
-        AnimationClip a = playingSkill.wp.GetAnim(playingSkill.num);
-
-        aoc["PlayerAttack"] = a;
-        Debug.Log(aoc["PlayerAttack"]);
+        controller.m_Attacking = true;
+        aoc["PlayerAttack"] = playingSkill.wp.GetAnim(playingSkill.num);
         animator.SetTrigger("Attack");
     }
     private void Awake()
     {
+        skillQueue = new Queue<SkillInfo>();
         animator = GetComponent<Animator>();
         aoc = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = aoc;
@@ -123,6 +129,8 @@ public class PlayerController : Singleton<PlayerController>
         arrowChecker = new bool[(int)InputArrow.Front + 1];
         actionChecker = new bool[(int)InputAction.NULL];
         possibleComboes = new List<ComboInfo>();
+
+        originPlayerAttribute.gravityScale = GetComponent<Rigidbody2D>().gravityScale;
     }
     public void ResetPossibleComboes()
     {
@@ -138,6 +146,11 @@ public class PlayerController : Singleton<PlayerController>
     // Update is called once per frame
     void Update()
     {
+        if(!controller.m_Attacking && skillQueue.Count > 0)
+        {
+            playingSkill = skillQueue.Dequeue();
+            PlaySkillAnim();
+        }
         if(comboCounter < comboTimer)
         {
             comboCounter++;
@@ -155,5 +168,10 @@ public class PlayerController : Singleton<PlayerController>
     private void FixedUpdate()
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime);
+    }
+
+    public void ResetPlayerAttribute()
+    {
+        GetComponent<Rigidbody2D>().gravityScale = originPlayerAttribute.gravityScale;
     }
 }

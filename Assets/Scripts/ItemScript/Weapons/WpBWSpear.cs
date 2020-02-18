@@ -47,9 +47,21 @@ public class WpBWSpear : Weapon
                 }
                 else
                 {
-                    rb2D.velocity = new Vector2(0, 8);
+                    rb2D.velocity = new Vector2(0, 0);
+                    rb2D.gravityScale = 0;
                 }
                 break;
         }
+    }
+    protected override int GetDamage(int skillNum)
+    {
+        switch (skillNum)
+        {
+            case 0:
+                return 3;
+            case 1:
+                return 4;
+        }
+        return 0;
     }
 }

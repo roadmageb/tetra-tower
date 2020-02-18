@@ -33,6 +33,10 @@ public class PlayerController : Singleton<PlayerController>
     }
     PlayerAttribute originPlayerAttribute;
 
+    public void PlayerAttack(Enemy enemy)
+    {
+        enemy.GainAttack(playingSkill.wp.CalcAttack(playingSkill.num, enemy));
+    }
     private void GetInput()
     {
         if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2") || Input.GetButtonDown("Action3"))

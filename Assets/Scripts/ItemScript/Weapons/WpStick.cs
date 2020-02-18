@@ -37,4 +37,13 @@ public class WpStick : Weapon
                 break;
         }
     }
+    protected override int GetDamage(int skillNum)
+    {
+        switch (skillNum)
+        {
+            case 0:
+                return 2;
+        }
+        return 0;
+    }
 }

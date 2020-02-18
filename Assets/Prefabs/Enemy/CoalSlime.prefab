@@ -252,9 +252,10 @@ MonoBehaviour:
     attackCtrl: 0
   attackFollowPlayer: 1
   playerAttackable: 0
+  attackedPlayer: 0
   currentAttackIndex: 0
   traceTime: 0
-  maxHP: 0
+  maxHP: 5
   currentHP: 0
   enemyCtrl: {fileID: 0}
   jumpPower: 1500

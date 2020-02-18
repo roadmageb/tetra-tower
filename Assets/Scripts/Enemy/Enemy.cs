@@ -38,7 +38,7 @@ public abstract class Enemy : MonoBehaviour
     protected Rigidbody2D rb;
 
     public float maxHP;
-    public float currentHP;
+    [HideInInspector] public float currentHP;
     public EnemyCtrl enemyCtrl;
 
     public List<AttackMethod> attackMethods;
@@ -146,11 +146,13 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
+        enemyCtrl = GetComponent<EnemyCtrl>();
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         target = GameObject.Find("Player").transform;
         traceTime = -traceTimeLimit;
+        currentHP = maxHP;
 
         animOverCont = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animOverCont;

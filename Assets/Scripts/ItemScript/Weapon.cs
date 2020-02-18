@@ -8,7 +8,6 @@ public abstract class Weapon
     public int skillCount;
     public ComboInfo[] commands;
     public AnimationClip[] anims;
-    public int damage;
     public bool gaugeEnabled;
     public float gaugeSize;
     public float gaugeCurrent;
@@ -47,12 +46,15 @@ public abstract class Weapon
         }
         return false;
     }
-
+    protected virtual int GetDamage(int skillNum)
+    {
+        return 0;
+    }
     public AttackPtoE CalcAttack(int skillNum, Enemy enemy)
     {
         if(skillCount > skillNum)
         {
-            AttackPtoE attack = new AttackPtoE(damage);
+            AttackPtoE attack = new AttackPtoE(GetDamage(skillNum));
             
             //Apply Ctrl effect
             if(this is IAtkCtrl)

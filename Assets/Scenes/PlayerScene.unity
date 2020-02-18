@@ -765,6 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageInput: {fileID: 988096523}
+  enemy: {fileID: 620514958}
 --- !u!114 &533069119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,6 +847,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &620514958 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
+    type: 3}
+  m_PrefabInstance: {fileID: 2068010329}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00de8c60f43990a4c82f79945edbc800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &640780321 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4807440602330399239, guid: 746461cf5ae526c4d99386a6cde77f2c,

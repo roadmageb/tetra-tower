@@ -32,7 +32,7 @@ public class WpStick : Weapon
                 }
                 else
                 {
-                    PlayerController.Instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 10);
+                    PlayerController.Instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 8);
                 }
                 break;
         }

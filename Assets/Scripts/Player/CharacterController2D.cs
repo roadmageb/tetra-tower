@@ -20,6 +20,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private Transform m_WallCheck;                             // A position marking where to check for walls
     [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
+    public bool m_Attacking;
     const float k_GroundedRadius = .05f; // Radius of the overlap circle to determine if grounded
     public bool m_Grounded;            // Whether or not the player is grounded.
     private bool m_WallClimbed;         // Whether or not the player is wall climbed.
@@ -71,7 +72,7 @@ public class CharacterController2D : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 m_Grounded = true;
-                if (!wasGrounded)
+                if (!wasGrounded && !m_Attacking)
                 {
                     OnLandEvent.Invoke();
                 }
@@ -87,20 +88,19 @@ public class CharacterController2D : MonoBehaviour
 
             for (int i = 0; i < wallColliders.Length; i++)
             {
-                if (wallColliders[i].gameObject != gameObject && (Input.GetAxisRaw("Horizontal") != 0))
+                if (wallColliders[i].gameObject != gameObject && (Input.GetAxisRaw("Horizontal") != 0) && !m_Attacking)
                 {
                     animator.SetTrigger("WallClimb");
                     m_WallClimbed = true;
                     break;
                 }
             }
-            if (!m_WallClimbed && m_Rigidbody2D.velocity.y < 0)
+            if (!m_WallClimbed && m_Rigidbody2D.velocity.y < 0 && !m_Attacking)
             {
                 animator.SetBool("JumpDown", true);
             }
         }
     }
-
     public void OnLand()
     {
         animator.SetTrigger("Land");
@@ -109,7 +109,7 @@ public class CharacterController2D : MonoBehaviour
 
     public void Move(float move)
     {
-        if (m_Controllable)
+        if (m_Controllable && !m_Attacking)
         {
             animator.SetBool("Run", move != 0 ? true : false);
             //only control the player if grounded or airControl is turned on
@@ -143,7 +143,7 @@ public class CharacterController2D : MonoBehaviour
 
     public void Jump(bool jumpKeyDown, bool jumpKey, bool jumpKeyUp)
     {
-        if (m_Controllable)
+        if (m_Controllable && !m_Attacking)
         {
             if (jumpKeyDown)
             {

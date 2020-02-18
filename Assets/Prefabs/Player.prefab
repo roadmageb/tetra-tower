@@ -170,6 +170,7 @@ MonoBehaviour:
   m_CeilingCheck: {fileID: 5409642182703099799}
   m_WallCheck: {fileID: 953998166}
   m_CrouchDisableCollider: {fileID: 0}
+  m_Attacking: 0
   m_Grounded: 0
   m_Controllable: 1
   m_FacingRight: 1

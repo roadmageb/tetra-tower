@@ -10,13 +10,21 @@ public class PlayerController : Singleton<PlayerController>
     public int hp = 0;
     private bool[] actionChecker, arrowChecker;
     private bool isInputOn = false;
-
     public List<ComboInfo> possibleComboes;
 
     private int inputCheckCount = 0, inputFrameLimit = 5;
     private int comboSuccessCounter = 0;
     public int comboTimer = 60, comboCounter = 0;
-    
+
+    public int keyAmount = 0;
+    public float keyPercent = 0f;
+
+    public float damage = 0f;
+    public SkillInfo playingSkill = null;
+
+    private Animator animator;
+    private AnimatorOverrideController aoc;
+
     private void GetInput()
     {
         if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2") || Input.GetButtonDown("Action3"))
@@ -56,14 +64,13 @@ public class PlayerController : Singleton<PlayerController>
                 else if (arrowChecker[(int)InputArrow.Up]) currentInputArrow = InputArrow.Up;
                 else if (arrowChecker[(int)InputArrow.Down]) currentInputArrow = InputArrow.Down;
                 else if (arrowChecker[(int)InputArrow.Front]) currentInputArrow = InputArrow.Front;
-                else currentInputArrow = InputArrow.NULL;
+                else currentInputArrow = InputArrow.Neutral;
 
                 bool successCheck = false, perfectComboCheck = false;
                 bool[] comboEnded = new bool[possibleComboes.Count];
                 bool[] perfectComboes = new bool[possibleComboes.Count];
                 for (int i = 0; i < possibleComboes.Count; i++)
                 {
-                    bool isPerfectCombo = false;
                     successCheck |= possibleComboes[i].CheckCombo(currentInputArrow, currentInputAction, comboSuccessCounter, out comboEnded[i], out perfectComboes[i]);
                     perfectComboCheck |= perfectComboes[i];
                 }
@@ -72,7 +79,8 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     if (comboEnded[i] && (!perfectComboCheck || perfectComboes[i]))
                     {
-                        possibleComboes[i].DoCombo();
+                        playingSkill = possibleComboes[i].skill;
+                        PlaySkillAnim();
                     }
                 }
 
@@ -94,21 +102,46 @@ public class PlayerController : Singleton<PlayerController>
             }
         }
     }
-
+    
     public void GetDamage(int damage)
     {
         lifeStoneManager.DestroyLifeStone(damage);
     }
 
+    public void PlaySkillWeapon(int option)
+    {
+        playingSkill.wp.PlaySkill(playingSkill.num, option);
+    }
+    public void PlaySkillAnim()
+    {
+        AnimationClip a = playingSkill.wp.GetAnim(playingSkill.num);
+
+        aoc["PlayerAttack"] = a;
+        Debug.Log(aoc["PlayerAttack"]);
+        animator.SetTrigger("Attack");
+    }
     private void Awake()
     {
         lifeStoneManager = GameObject.Find("LifeStoneManager").GetComponent<LifeStoneManager>();
+        animator = GetComponent<Animator>();
+        aoc = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = aoc;
         controller = GetComponent<CharacterController2D>();
         arrowChecker = new bool[(int)InputArrow.Front + 1];
         actionChecker = new bool[(int)InputAction.NULL];
         possibleComboes = new List<ComboInfo>();
     }
-
+    public void ResetPossibleComboes()
+    {
+        possibleComboes.Clear();
+        foreach (Weapon wp in ItemManager.Instance.weapons)
+        {
+            foreach (ComboInfo combo in wp.commands)
+            {
+                possibleComboes.Add(combo);
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {

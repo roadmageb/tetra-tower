@@ -60,6 +60,7 @@ public class EnemyCtrl : MonoBehaviour
         isStunImm = true;
         totalStunImm = stunImmTime;
         currentStunImm = 0;
+        enemy.animator.SetBool("CtrlPtoE", false);
     }
     public void EndFreeze()
     {
@@ -67,6 +68,7 @@ public class EnemyCtrl : MonoBehaviour
         isFreezeImm = true;
         totalFreezeImm = freezeImmTime;
         currentFreezeImm = 0;
+        enemy.animator.SetBool("CtrlPtoE", false);
     }
     public Dictionary<CtrlPtoE, bool> ApplyCtrl(AttackPtoE attack)
     {
@@ -116,7 +118,8 @@ public class EnemyCtrl : MonoBehaviour
                 currentStun = 0;
                 enemy.animator.SetTrigger("Damaged");
             }
-            
+
+            enemy.animator.SetBool("CtrlPtoE", true);
             return true;
         }
     }
@@ -137,6 +140,8 @@ public class EnemyCtrl : MonoBehaviour
                 isFreeze = true;
                 currentFreeze = 0;
             }
+
+            enemy.animator.SetBool("CtrlPtoE", true);
             return true;
         }
     }

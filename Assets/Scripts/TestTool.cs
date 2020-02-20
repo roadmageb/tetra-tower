@@ -27,9 +27,13 @@ public class TestTool : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            AttackPtoE temp = new AttackPtoE(1);
-            temp.AddCtrl(CtrlPtoE.Stun, 6);
+            AttackPtoE temp = new AttackPtoE(3);
+            temp.AddCtrl(CtrlPtoE.Freeze, 6);
             enemy.GainAttack(temp);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            enemy.GetDamage(2);
         }
     }
 }

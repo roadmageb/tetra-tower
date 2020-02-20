@@ -36,6 +36,7 @@ public class EnemyCtrl : MonoBehaviour
         if (isFreeze)
         {
             currentFreeze += Time.deltaTime;
+            Debug.Log("Freeze");
             if (currentFreeze > totalFreeze) EndFreeze();
         }
 
@@ -45,6 +46,7 @@ public class EnemyCtrl : MonoBehaviour
             timerBurn -= 1f;
             tickBurn = true;
             if (--leftBurn <= 0) isBurn = false;
+
             enemy.GetDamage(PlayerController.Instance.hp * 0.15f);
         }
 
@@ -116,7 +118,6 @@ public class EnemyCtrl : MonoBehaviour
                 isStun = true;
                 totalStun = f;
                 currentStun = 0;
-                enemy.animator.SetTrigger("Damaged");
             }
 
             enemy.animator.SetBool("CtrlPtoE", true);
@@ -127,17 +128,21 @@ public class EnemyCtrl : MonoBehaviour
     {
         if (isFreezeImm)
         {
+            Debug.Log("a");
             return false;
         }
         else
         {
-            if(!isFreeze)
+            if(isFreeze)
             {
+                Debug.Log("b");
                 totalFreeze = f;
             }
             else
             {
+                Debug.Log("c");
                 isFreeze = true;
+                totalFreeze = f;
                 currentFreeze = 0;
             }
 

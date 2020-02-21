@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TetrominoSpawner : MonoBehaviour
 {
+    public Map map;
     public GameObject[] prefab_tetrominos;
     public Shuffler shapeShuffler = new Shuffler(7);
     public Shuffler colorShuffler = new Shuffler(4);
@@ -11,6 +12,11 @@ public class TetrominoSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+    }
+
+    public void Initialize(Map map)
+    {
+        this.map = map;
     }
 
     // Update is called once per frame
@@ -29,6 +35,15 @@ public class TetrominoSpawner : MonoBehaviour
 
     public void spawnNth(int i)
     {
-        GameObject nextTetromino = Instantiate(prefab_tetrominos[i], new Vector3(5.0f, 16.0f, 0.0f), Quaternion.identity) as GameObject;
+        var initialGridPosition = new Vector3Int(5, 18, 0);
+        GameObject nextTetrominoObj = Instantiate(prefab_tetrominos[i]) as GameObject;
+
+        Tetromino nextTetromino = nextTetrominoObj.GetComponent<Tetromino>();
+        if (i == 4) // square
+        {
+            nextTetromino.allowRotation = false;
+        }
+        nextTetromino.Initialize(map, initialGridPosition);
+        //nextTetromino.transform.parent = map.transform;
     }
 }

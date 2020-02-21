@@ -62,14 +62,18 @@ public class EnemyCtrl : MonoBehaviour
         isStunImm = true;
         totalStunImm = stunImmTime;
         currentStunImm = 0;
+
+        enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
         enemy.animator.SetBool("CtrlPtoE", false);
     }
-    public void EndFreeze()
+    public void EndFreeze() 
     {
         isFreeze = false;
         isFreezeImm = true;
         totalFreezeImm = freezeImmTime;
         currentFreezeImm = 0;
+
+        enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
         enemy.animator.SetBool("CtrlPtoE", false);
     }
     public Dictionary<CtrlPtoE, bool> ApplyCtrl(AttackPtoE attack)
@@ -120,6 +124,7 @@ public class EnemyCtrl : MonoBehaviour
                 currentStun = 0;
             }
 
+            enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(1, 1, 0);
             enemy.animator.SetBool("CtrlPtoE", true);
             return true;
         }
@@ -146,6 +151,7 @@ public class EnemyCtrl : MonoBehaviour
                 currentFreeze = 0;
             }
 
+            enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
             enemy.animator.SetBool("CtrlPtoE", true);
             return true;
         }
@@ -158,6 +164,8 @@ public class EnemyCtrl : MonoBehaviour
             isBurn = true;
             timerBurn = 0;
         }
+
+        enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
         return true;
     }
 }

@@ -785,24 +785,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00de8c60f43990a4c82f79945edbc800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &640780321 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4807440602330399239, guid: 746461cf5ae526c4d99386a6cde77f2c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1736489983}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &640780322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 640780321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8933997a2a672cd4eabeb55bac61e858, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &747777911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1366,11 +1348,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5235506533381641102, guid: 746461cf5ae526c4d99386a6cde77f2c,
-        type: 3}
-      propertyPath: m_WallJumpPower
-      value: 1200
-      objectReference: {fileID: 0}
     - target: {fileID: 7922422854691280649, guid: 746461cf5ae526c4d99386a6cde77f2c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1431,11 +1408,6 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: a455c037dbd22d048bf6b96c99f61e76, type: 2}
-    - target: {fileID: 9159037862542762908, guid: 746461cf5ae526c4d99386a6cde77f2c,
-        type: 3}
-      propertyPath: m_LinearDrag
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 746461cf5ae526c4d99386a6cde77f2c, type: 3}
 --- !u!1 &1803451645

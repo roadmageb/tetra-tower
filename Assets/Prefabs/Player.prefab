@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953998165}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.378, y: 0.6, z: 0}
+  m_LocalPosition: {x: 0.378, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7922422854691280649}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8646724655403436600}
   - component: {fileID: 5235506533381641102}
   - component: {fileID: 9159037862542762908}
-  - component: {fileID: 6640821720336430466}
+  - component: {fileID: 2144859914183472573}
   - component: {fileID: 1295617895}
   m_Layer: 11
   m_Name: Player
@@ -158,18 +158,14 @@ MonoBehaviour:
   m_RunPower: 12000
   m_JumpPowerInitial: 1600
   m_JumpPower: 80
-  m_WallJumpPower: 1000
+  m_WallJumpPower: 1200
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  m_WhatIsWall:
-    serializedVersion: 2
-    m_Bits: 512
   m_GroundCheck: {fileID: 5706637247803583611}
   m_CeilingCheck: {fileID: 5409642182703099799}
   m_WallCheck: {fileID: 953998166}
-  m_CrouchDisableCollider: {fileID: 0}
   m_Attacking: 0
   m_Grounded: 0
   m_Controllable: 1
@@ -189,9 +185,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnCrouchEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!50 &9159037862542762908
 Rigidbody2D:
   serializedVersion: 4
@@ -205,7 +198,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 2
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 10
   m_Material: {fileID: 0}
@@ -213,8 +206,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &6640821720336430466
-BoxCollider2D:
+--- !u!60 &2144859914183472573
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -226,7 +219,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.04, y: 0.821}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.54, y: 0.02}
@@ -236,9 +229,18 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.8219046, y: 1.6521642}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.24, y: -0.0075}
+      - {x: 0.2678398, y: 0.8429113}
+      - {x: 0.39307466, y: 0.97532326}
+      - {x: 0.3941184, y: 1.3959433}
+      - {x: 0.15, y: 1.65}
+      - {x: -0.29, y: 1.65}
+      - {x: -0.5050516, y: 1.294205}
+      - {x: -0.50224054, y: 1.084292}
+      - {x: -0.32088962, y: 0.87310725}
+      - {x: -0.29, y: -0.0075}
 --- !u!95 &1295617895
 Animator:
   serializedVersion: 3
@@ -298,6 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1322785407596685772}
   - component: {fileID: 6305096617712908012}
+  - component: {fileID: 640780322}
   m_Layer: 11
   m_Name: PlayerAttack
   m_TagString: Untagged
@@ -345,6 +348,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &640780322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807440602330399239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8933997a2a672cd4eabeb55bac61e858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5922792149540268032
 GameObject:
   m_ObjectHideFlags: 0

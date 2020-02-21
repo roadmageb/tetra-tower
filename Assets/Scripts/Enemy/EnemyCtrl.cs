@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyCtrl : MonoBehaviour
 {
+    Enemy enemy;
     public float stunImmTime = 6, freezeImmTime = 6;
 
     public bool isStun;
@@ -20,12 +21,24 @@ public class EnemyCtrl : MonoBehaviour
     bool isFreezeImm;
     float totalFreeze, currentFreeze, totalFreezeImm, currentFreezeImm;
 
+    private void Start()
+    {
+        enemy = GetComponent<Enemy>();
+    }
+
     private void Update()
     {
-        if (isStun) currentStun += Time.deltaTime;
-        if (currentStun > totalStun) EndStun();
-        if (isFreeze) currentFreeze += Time.deltaTime;
-        if (currentFreeze > totalFreeze) EndFreeze();
+        if (isStun)
+        {
+            currentStun += Time.deltaTime;
+            if (currentStun > totalStun) EndStun();
+        }
+        if (isFreeze)
+        {
+            currentFreeze += Time.deltaTime;
+            Debug.Log("Freeze");
+            if (currentFreeze > totalFreeze) EndFreeze();
+        }
 
         if (isBurn) timerBurn += Time.deltaTime;
         if (isBurn && timerBurn > 1)
@@ -33,6 +46,8 @@ public class EnemyCtrl : MonoBehaviour
             timerBurn -= 1f;
             tickBurn = true;
             if (--leftBurn <= 0) isBurn = false;
+
+            enemy.GetDamage(PlayerController.Instance.hp * 0.15f);
         }
 
         if (isStunImm) currentStunImm += Time.deltaTime;
@@ -47,13 +62,19 @@ public class EnemyCtrl : MonoBehaviour
         isStunImm = true;
         totalStunImm = stunImmTime;
         currentStunImm = 0;
+
+        enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+        enemy.animator.SetBool("CtrlPtoE", false);
     }
-    public void EndFreeze()
+    public void EndFreeze() 
     {
         isFreeze = false;
         isFreezeImm = true;
         totalFreezeImm = freezeImmTime;
         currentFreezeImm = 0;
+
+        enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+        enemy.animator.SetBool("CtrlPtoE", false);
     }
     public Dictionary<CtrlPtoE, bool> ApplyCtrl(AttackPtoE attack)
     {
@@ -99,9 +120,12 @@ public class EnemyCtrl : MonoBehaviour
             else
             {
                 isStun = true;
+                totalStun = f;
                 currentStun = 0;
             }
-            
+
+            enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(1, 1, 0);
+            enemy.animator.SetBool("CtrlPtoE", true);
             return true;
         }
     }
@@ -109,19 +133,26 @@ public class EnemyCtrl : MonoBehaviour
     {
         if (isFreezeImm)
         {
+            Debug.Log("a");
             return false;
         }
         else
         {
-            if(!isFreeze)
+            if(isFreeze)
             {
+                Debug.Log("b");
                 totalFreeze = f;
             }
             else
             {
+                Debug.Log("c");
                 isFreeze = true;
+                totalFreeze = f;
                 currentFreeze = 0;
             }
+
+            enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(0, 0, 1);
+            enemy.animator.SetBool("CtrlPtoE", true);
             return true;
         }
     }
@@ -133,6 +164,8 @@ public class EnemyCtrl : MonoBehaviour
             isBurn = true;
             timerBurn = 0;
         }
+
+        enemy.transform.Find("EnemyPlaceHolder").GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
         return true;
     }
 }

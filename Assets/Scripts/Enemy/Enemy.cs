@@ -38,7 +38,7 @@ public abstract class Enemy : MonoBehaviour
     protected Rigidbody2D rb;
 
     public float maxHP;
-    [HideInInspector] public float currentHP;
+    public float currentHP;
     public EnemyCtrl enemyCtrl;
 
     public List<AttackMethod> attackMethods;
@@ -60,16 +60,30 @@ public abstract class Enemy : MonoBehaviour
 
     public void GainAttack(AttackPtoE attack)
     {
-        currentHP -= attack.damage;
+        GetDamage(attack.damage);
+        enemyCtrl.ApplyCtrl(attack);
+    }
+
+    public void GetDamage(float damage)
+    {
+        currentHP -= damage * (enemyCtrl.isFreeze ? 1.5f : 1);
+        if (enemyCtrl.isFreeze)
+        {
+            enemyCtrl.EndFreeze();
+        }
         if (currentHP <= 0)
         {
             Death();
         }
-        enemyCtrl.ApplyCtrl(attack);
+        else
+        {
+            animator.SetTrigger("Damaged");
+        }
     }
 
     public void Death()
     {
+        animator.SetTrigger("Death");
         Debug.Log("I die");
     }
 

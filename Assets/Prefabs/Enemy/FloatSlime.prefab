@@ -177,6 +177,7 @@ MonoBehaviour:
     attackCtrl: 0
   attackFollowPlayer: 0
   playerAttackable: 0
+  attackedPlayer: 0
   currentAttackIndex: 0
   traceTime: 0
   maxHP: 0
@@ -260,7 +261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3196583379887790570}
   - component: {fileID: 4068505111661613440}
-  m_Layer: 12
+  m_Layer: 9
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

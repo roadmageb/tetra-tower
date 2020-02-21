@@ -17,10 +17,10 @@ TagManager:
   - 
   - 
   - Floor
-  - Wall
+  - HitBox
   - Enemy
   - Player
-  - HitBox
+  - 
   - 
   - 
   - 

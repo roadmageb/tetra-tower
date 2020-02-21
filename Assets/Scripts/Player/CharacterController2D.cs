@@ -14,11 +14,9 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float m_WallJumpPower = 10f;                       // Amount of speed added when the player wall jumps.
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
-    [SerializeField] private LayerMask m_WhatIsWall;                            // A mask determining what is wall to the character
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
     [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
     [SerializeField] private Transform m_WallCheck;                             // A position marking where to check for walls
-    [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
     public bool m_Attacking;
     const float k_GroundedRadius = .05f; // Radius of the overlap circle to determine if grounded
@@ -44,8 +42,6 @@ public class CharacterController2D : MonoBehaviour
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
 
-    public BoolEvent OnCrouchEvent;
-    private bool m_wasCrouching = false;
 
     private void Awake()
     {
@@ -54,9 +50,6 @@ public class CharacterController2D : MonoBehaviour
 
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
-
-        if (OnCrouchEvent == null)
-            OnCrouchEvent = new BoolEvent();
     }
     
     private void FixedUpdate()
@@ -84,7 +77,7 @@ public class CharacterController2D : MonoBehaviour
         {
 
             Collider2D[] wallColliders;
-            wallColliders = Physics2D.OverlapCircleAll(m_WallCheck.position, k_WallRadius, m_WhatIsWall);
+            wallColliders = Physics2D.OverlapCircleAll(m_WallCheck.position, k_WallRadius, m_WhatIsGround);
 
             for (int i = 0; i < wallColliders.Length; i++)
             {
@@ -92,12 +85,18 @@ public class CharacterController2D : MonoBehaviour
                 {
                     animator.SetTrigger("WallClimb");
                     m_WallClimbed = true;
+                    m_Rigidbody2D.gravityScale = 0;
+                    m_Rigidbody2D.velocity = Vector2.zero;
                     break;
                 }
             }
-            if (!m_WallClimbed && m_Rigidbody2D.velocity.y < 0 && !m_Attacking)
+            if (!m_WallClimbed)
             {
-                animator.SetBool("JumpDown", true);
+                m_Rigidbody2D.gravityScale = 10;
+                if(m_Rigidbody2D.velocity.y < 0 && !m_Attacking)
+                {
+                    animator.SetBool("JumpDown", true);
+                }
             }
         }
     }

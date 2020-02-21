@@ -23,6 +23,9 @@ public class Map : MonoBehaviour
 
     public Vector3Int basePosition;
 
+    public bool[] isFull;
+    public int[] shiftAmount;
+
     void Start()
     {
 
@@ -32,7 +35,6 @@ public class Map : MonoBehaviour
         tetrominoSpawner.Initialize(this);
 
         pistonSpawner = Instantiate(pistonSpawnerPrefab).GetComponent<PistonSpawner>();
-        pistonSpawner.Instantiate();
 
         debugMap = GameObject.Find("DebugMap").GetComponent<DebugMap>();
 

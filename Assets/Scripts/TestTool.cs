@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class TestTool : MonoBehaviour
 {
     public InputField damageInput;
+    public Enemy enemy;
 
     public void TestGetDamage()
     {
         if (damageInput.text != "")
         {
-            LifeStoneManager.Instance.GetDamage(int.Parse(damageInput.text));
+            PlayerController.Instance.GetDamage(int.Parse(damageInput.text));
         }
     }
 
@@ -24,6 +25,15 @@ public class TestTool : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            AttackPtoE temp = new AttackPtoE(3);
+            temp.AddCtrl(CtrlPtoE.Stun, 6);
+            enemy.GainAttack(temp);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            enemy.GetDamage(2);
+        }
     }
 }

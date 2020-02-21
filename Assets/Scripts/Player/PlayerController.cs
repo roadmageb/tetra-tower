@@ -2,20 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : Singleton<PlayerController>
 {
+    public LifeStoneManager lifeStoneManager;
     public CharacterController2D controller;
     private float horizontalMove = 0f;
     public int hp = 0;
     private bool[] actionChecker, arrowChecker;
     private bool isInputOn = false;
-
     public List<ComboInfo> possibleComboes;
 
     private int inputCheckCount = 0, inputFrameLimit = 5;
     private int comboSuccessCounter = 0;
     public int comboTimer = 60, comboCounter = 0;
-    
+
+    public int keyAmount = 0;
+    public float keyPercent = 0f;
+
+    public float damage = 0f;
+    public Queue<SkillInfo> skillQueue;
+    public SkillInfo playingSkill = null;
+
+    private Animator animator;
+    private AnimatorOverrideController aoc;
+
+    public struct PlayerAttribute
+    {
+        public float gravityScale;
+    }
+    PlayerAttribute originPlayerAttribute;
+
+    public void PlayerAttack(Enemy enemy)
+    {
+        enemy.GainAttack(playingSkill.wp.CalcAttack(playingSkill.num, enemy));
+    }
     private void GetInput()
     {
         if (Input.GetButtonDown("Action1") || Input.GetButtonDown("Action2") || Input.GetButtonDown("Action3"))
@@ -55,14 +76,13 @@ public class PlayerController : Singleton<PlayerController>
                 else if (arrowChecker[(int)InputArrow.Up]) currentInputArrow = InputArrow.Up;
                 else if (arrowChecker[(int)InputArrow.Down]) currentInputArrow = InputArrow.Down;
                 else if (arrowChecker[(int)InputArrow.Front]) currentInputArrow = InputArrow.Front;
-                else currentInputArrow = InputArrow.NULL;
+                else currentInputArrow = InputArrow.Neutral;
 
                 bool successCheck = false, perfectComboCheck = false;
                 bool[] comboEnded = new bool[possibleComboes.Count];
                 bool[] perfectComboes = new bool[possibleComboes.Count];
                 for (int i = 0; i < possibleComboes.Count; i++)
                 {
-                    bool isPerfectCombo = false;
                     successCheck |= possibleComboes[i].CheckCombo(currentInputArrow, currentInputAction, comboSuccessCounter, out comboEnded[i], out perfectComboes[i]);
                     perfectComboCheck |= perfectComboes[i];
                 }
@@ -71,7 +91,7 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     if (comboEnded[i] && (!perfectComboCheck || perfectComboes[i]))
                     {
-                        possibleComboes[i].DoCombo();
+                        skillQueue.Enqueue(possibleComboes[i].skill);
                     }
                 }
 
@@ -93,23 +113,55 @@ public class PlayerController : Singleton<PlayerController>
             }
         }
     }
+    
+    public void GetDamage(int damage)
+    {
+        lifeStoneManager.DestroyLifeStone(damage);
+    }
 
+    public void PlaySkillWeapon(int option)
+    {
+        playingSkill.wp.PlaySkill(playingSkill.num, option);
+    }
+    public void PlaySkillAnim()
+    {
+        controller.m_Attacking = true;
+        aoc["PlayerAttack"] = playingSkill.wp.GetAnim(playingSkill.num);
+        animator.SetTrigger("Attack");
+    }
     private void Awake()
     {
+        lifeStoneManager = GameObject.Find("LifeStoneManager").GetComponent<LifeStoneManager>();
+        skillQueue = new Queue<SkillInfo>();
+        animator = GetComponent<Animator>();
+        aoc = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = aoc;
         controller = GetComponent<CharacterController2D>();
         arrowChecker = new bool[(int)InputArrow.Front + 1];
         actionChecker = new bool[(int)InputAction.NULL];
         possibleComboes = new List<ComboInfo>();
-    }
 
-    private void Start()
+        originPlayerAttribute.gravityScale = GetComponent<Rigidbody2D>().gravityScale;
+    }
+    public void ResetPossibleComboes()
     {
-
+        possibleComboes.Clear();
+        foreach (Weapon wp in ItemManager.Instance.weapons)
+        {
+            foreach (ComboInfo combo in wp.commands)
+            {
+                possibleComboes.Add(combo);
+            }
+        }
     }
-
     // Update is called once per frame
     void Update()
     {
+        if(!controller.m_Attacking && skillQueue.Count > 0)
+        {
+            playingSkill = skillQueue.Dequeue();
+            PlaySkillAnim();
+        }
         if(comboCounter < comboTimer)
         {
             comboCounter++;
@@ -127,5 +179,10 @@ public class PlayerController : Singleton<PlayerController>
     private void FixedUpdate()
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime);
+    }
+
+    public void ResetPlayerAttribute()
+    {
+        GetComponent<Rigidbody2D>().gravityScale = originPlayerAttribute.gravityScale;
     }
 }

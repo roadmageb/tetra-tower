@@ -7,7 +7,7 @@ public abstract class Weapon
     public ItemRank rank;
     public int skillCount;
     public ComboInfo[] commands;
-    public int damage;
+    public AnimationClip[] anims;
     public bool gaugeEnabled;
     public float gaugeSize;
     public float gaugeCurrent;
@@ -19,6 +19,14 @@ public abstract class Weapon
         addons = new List<Addon>();
     }
 
+    public AnimationClip GetAnim(int skillNum)
+    {
+        return anims[skillNum];
+    }
+    public virtual void PlaySkill(int skillNum, int option)
+    {
+
+    }
     public bool GainAddon(Addon newAddon)
     {
         if(addons.Count < addonSize)
@@ -38,12 +46,15 @@ public abstract class Weapon
         }
         return false;
     }
-
+    protected virtual int GetDamage(int skillNum)
+    {
+        return 0;
+    }
     public AttackPtoE CalcAttack(int skillNum, Enemy enemy)
     {
         if(skillCount > skillNum)
         {
-            AttackPtoE attack = new AttackPtoE(damage);
+            AttackPtoE attack = new AttackPtoE(GetDamage(skillNum));
             
             //Apply Ctrl effect
             if(this is IAtkCtrl)

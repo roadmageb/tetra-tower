@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4919284640469419544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4919284640469419551}
+  - component: {fileID: 4919284640469419550}
+  m_Layer: 0
+  m_Name: LifeStoneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4919284640469419551
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4919284640469419544}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4919284640469419550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4919284640469419544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a995278161cdc409c5e4c520645462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeStoneTop: {fileID: 6858100794250058672, guid: 38ae714167519644885639d322ac3f1e,
+    type: 3}
+  lifeStoneMiddle: {fileID: 6636404355997450500, guid: 8fc68ec90705dda40a4f677884b4594b,
+    type: 3}
+  lifeStoneBottom: {fileID: 5716292433405033532, guid: b53c5c3aa6e28d142a8ed9f84fd43b0d,
+    type: 3}
+  lifeStoneNormal: {fileID: 8219772619613557450, guid: c8770095a7add1141ab9a967f4e227e6,
+    type: 3}
+  lifeStoneFrameOffset: 71.43
+  lifeStoneEdgeOffset: 44.64285
+  lifeStoneInitialPos: {x: 250, y: 150}

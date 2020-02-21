@@ -35,5 +35,5 @@ public enum CtrlPtoE
 
 public enum CtrlEtoP
 {
-    Slow, KeyLeft, KeyRight, KeyDown, KeySpc, Paralysis
+    None, Slow, KeyLeft, KeyRight, KeyDown, KeySpc, Paralysis
 }

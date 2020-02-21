@@ -7,6 +7,7 @@ public class RowSlider : MonoBehaviour
     // Start is called before the first frame update
 
     bool isSliding;
+    Map map;
 
     GridUtils gridUtils;
 
@@ -20,7 +21,13 @@ public class RowSlider : MonoBehaviour
         coroutineCount = 0;
     }
 
-    IEnumerator slideDownRow(int row, int amount)
+    public void Initialize(Map map)
+    {
+        this.map = map;
+        this.gridUtils = map.gridUtils;
+    }
+
+    IEnumerator slideDownRowOld(int row, int amount)
     {
         coroutineCount++;
         float gravity = 9.8f;
@@ -29,13 +36,14 @@ public class RowSlider : MonoBehaviour
         Vector3 shift;
 
         bool minoExists = false;
-        for( int i = 0; i < Constants.gridWidth; ++i)
+        for (int i = 0; i < Map.gridWidth; ++i)
         {
-            if (Map.grid[i, row] != null)
+            if (map.grid[i, row] != null)
             {
                 minoExists = true;
             }
         }
+
         if (!minoExists)
         {
             coroutineCount--;
@@ -48,18 +56,18 @@ public class RowSlider : MonoBehaviour
             gravity += gravityAdd * Time.deltaTime;
             shift = velocity * Time.deltaTime;
 
-            for (int i = 0; i < Constants.gridWidth; ++i)
+            for (int i = 0; i < Map.gridWidth; ++i)
             {
-                if (Map.grid[i, row] != null)
+                if (map.grid[i, row] != null)
                 {
-                    if (Map.grid[i, row].position.y > row + amount)
+                    if (map.grid[i, row].position.y > row + amount)
                     {
-                        Map.grid[i, row].position += shift;
+                        map.grid[i, row].position += shift;
                     } else
                     {
-                        Vector3 pos = Map.grid[i, row].position;
+                        Vector3 pos = map.grid[i, row].position;
                         pos.y = row + amount;
-                        Map.grid[i, row].position = pos;
+                        map.grid[i, row].position = pos;
                         coroutineCount--;
                         yield break;
                     }
@@ -69,13 +77,78 @@ public class RowSlider : MonoBehaviour
         }
     }
 
-
-
-    void slideDownRows(bool[] isFull, int[] shiftAmount)
+    IEnumerator SlideDownRow(int row)
     {
-        for (int row = 1; row < Constants.gridHeight; ++row)
+        coroutineCount++;
+
+        float gravity = 9.8f;
+        float gravityAdd = 40;
+        Vector3 velocity = Vector3.zero;
+        Vector3 shift;
+
+        bool minoExists = false;
+        for (int i = 0; i < Map.gridWidth; ++i)
         {
-            StartCoroutine(slideDownRow(row, shiftAmount[row]));
+            if (map.grid[i, row] != null)
+            {
+                minoExists = true;
+            }
+        }
+
+        if (!minoExists)
+        {
+            coroutineCount--;
+            yield break;
+        }
+
+        while (true)
+        {
+            velocity.y -= gravity * Time.deltaTime;
+            gravity += gravityAdd * Time.deltaTime;
+            shift = velocity * Time.deltaTime;
+
+            for (int i = 0; i < Map.gridWidth; ++i)
+            {
+                if (map.grid[i, row] != null)
+                {
+                    var mino = map.grid[i, row].gameObject.GetComponent<Mino>();
+
+                    if (map.grid[i, row].position.y > mino.fallDestination)
+                    {
+                        map.grid[i, row].position += shift;
+                    } else
+                    {
+                        Vector3 pos = map.grid[i, row].position;
+                        pos.y = mino.fallDestination;
+                        map.grid[i, row].position = pos;
+
+                        if (i == Map.gridWidth - 1)
+                        {
+                            coroutineCount--;
+                            yield break;
+                        }
+                    }
+                }
+            }
+            yield return null;
+        }
+
+    }
+
+    void SlideDownRows()
+    {
+        for (int row = 0; row < Map.gridHeight; ++row)
+        {
+            StartCoroutine(SlideDownRow(row));
+        }
+    }
+
+
+    void slideDownRowsOld(bool[] isFull, int[] shiftAmount)
+    {
+        for (int row = 1; row < Map.gridHeight; ++row)
+        {
+            StartCoroutine(slideDownRowOld(row, shiftAmount[row]));
         }
 
     }
@@ -95,7 +168,7 @@ public class RowSlider : MonoBehaviour
     {
         if (isSliding)
         {
-            slideDownRows(gridUtils.isFull, gridUtils.shiftDown);
+            SlideDownRows();
             isSliding = false;
         }
 

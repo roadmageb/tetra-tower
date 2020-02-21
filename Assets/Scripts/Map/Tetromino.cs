@@ -8,31 +8,39 @@ public class Tetromino : MonoBehaviour
 
     public bool allowRotation = true;
 
-    bool isFalling = false;
-    float gravity = 9.8F;
-    float gravityAdd = 40;
-    Vector3 velocity = Vector3.zero;
-    Vector3 shift;
+    public bool isFalling = false;
+    public float gravity = 9.8F;
+    public float gravityAdd = 40;
+    public Vector3 velocity = Vector3.zero;
+    public Vector3 shift;
 
-    Vector3 fallDestination;
+    public Vector3Int gridPosition;
 
-    Map map;
+    public Vector3Int fallDestination;
+    public Map map;
 
-    void Start()
+    public void Move(Vector3Int offset)
     {
-        //map = GameObject.Find("Map").GetComponent<Map>();
-        map = GameObject.FindGameObjectWithTag("MapTag").GetComponent<Map>();
+        gridPosition += offset;
+        transform.position = gridPosition;
+    }
+
+    public void Initialize(Map map, Vector3Int gridPosition)
+    {
+        this.map = map;
+        this.gridPosition = gridPosition;
+        this.transform.position = gridPosition;
     }
    
-    // Update is called once per frame
     void Update()
     {
         if (isFalling)
         {
-            Fall();
+            //Fall();
+            ImmediateFallForDebug();
             return;
         }
-        CheckUserInput();
+        PlayerInput();
     }
 
     void Fall()
@@ -41,7 +49,7 @@ public class Tetromino : MonoBehaviour
         gravity += gravityAdd * Time.deltaTime;
         shift = velocity * Time.deltaTime;
         transform.position += shift;
-        Debug.Log(transform.position + " " + fallDestination);
+        //Debug.Log(transform.position + " " + fallDestination);
         
         if (transform.position.y <= fallDestination.y)
         {
@@ -51,28 +59,43 @@ public class Tetromino : MonoBehaviour
             // initialize
             velocity = Vector3.zero;
             map.UpdateGrid(this);
+
             prepareNextTetromino();
         }
     }
 
+    void ImmediateFallForDebug()
+    {
+        gridPosition = fallDestination;
 
-    void CheckUserInput()
+        transform.position = gridPosition;
+
+        isFalling = false;
+
+        map.UpdateGrid(this);
+        prepareNextTetromino();
+    }
+
+
+    void PlayerInput()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            var shift = new Vector3(1, 0, 0);
+            var shift = new Vector3Int(1, 0, 0);
             if (canShift(shift))
             {
-                transform.position += shift;
+                Move(shift);
                 map.UpdateGrid(this);
+                transform.position = gridPosition;
+
             }
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            var shift = new Vector3(-1, 0, 0);
+            var shift = new Vector3Int(-1, 0, 0);
             if (canShift(shift))
             {
-                transform.position += shift;
+                Move(shift);
                 map.UpdateGrid(this);
             }
         }
@@ -84,6 +107,7 @@ public class Tetromino : MonoBehaviour
             }
 
             rotateCounterclockwise();
+
             if (!IsValidPosition())
             {
                 rotateClockwise();
@@ -97,10 +121,10 @@ public class Tetromino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            var shift = new Vector3(0, -1, 0);
+            var shift = new Vector3Int(0, -1, 0);
             if (canShift(shift))
             {
-                transform.position += shift;
+                Move(shift);
                 map.UpdateGrid(this);
             } else
             {
@@ -122,15 +146,13 @@ public class Tetromino : MonoBehaviour
         map.SpawnNextTetromino();
     }
 
-    bool canShift(Vector3 shift)
+    bool canShift(Vector3Int shift)
     {
-        foreach (Transform mino in transform)
+        foreach (Transform child in transform)
         {
+            var mino = child.gameObject.GetComponent<Mino>();
+            var pos = shift + mino.GetGridPosition();
 
-            Vector3 pos = mino.position + shift;
-            //pos.y = Mathf.Floor(pos.y);
-            Debug.Log(pos.ToString("F16"));
-            pos = Vector3Utils.Map(pos, Mathf.Round);
             if( map.CheckIsInsideGrid(pos) == false)
             {
                 return false;
@@ -148,42 +170,57 @@ public class Tetromino : MonoBehaviour
 
     bool IsValidPosition ()
     {
-        return canShift(new Vector3(0, 0, 0)); // return true if the current position is valid
+        return canShift(new Vector3Int(0, 0, 0)); // return true if the current position is valid
     }
 
     void rotateClockwise()
     {
-        rotateByDegree(90);
+        //rotateByDegree(90f);
+
+        foreach (Mino mino in GetComponentsInChildren<Mino>())
+        {
+            var newX = - mino.localPosition.y;
+            var newY = mino.localPosition.x;
+        }
     }
 
     void rotateCounterclockwise()
     {
-        rotateByDegree(-90);
+        foreach (Mino mino in GetComponentsInChildren<Mino>())
+        {
+            var newX = - mino.localPosition.y;
+            var newY = mino.localPosition.x;
+            mino.localPosition.x = newX;
+            mino.localPosition.y = newY;
+
+            mino.transform.localPosition = mino.localPosition;
+        }
     }
 
     void rotateByDegree(float degree)
     {
         transform.Rotate(0, 0, degree);
         transform.position = Vector3Utils.Map(transform.position, Mathf.Round);
+        Debug.Log(transform.position.ToString("F15"));
         foreach (Transform mino in transform)
         {
             mino.position = Vector3Utils.Map(mino.position, Mathf.Round);
+            Debug.Log(mino.position.ToString("F15"));
         }
-
     }
 
     void ComputeDestinationPosition()
     {
-        Vector3 pos = Vector3.zero;
+        Vector3Int shift = Vector3Int.zero;
 
-        while (canShift(pos))
+        while (canShift(shift))
         {
-            pos += Vector3.down;
+            shift += Vector3Int.down;
         }
 
-        pos = pos + Vector3.up;
-        fallDestination = transform.position + pos;
-        fallDestination = Vector3Utils.Map(fallDestination, Mathf.Round);
+        shift = shift + Vector3Int.up;
+        //fallDestination = Vector3IntUtils.Map(transform.position + pos, Mathf.Round);
+        fallDestination = gridPosition + shift;
     }
 }
  

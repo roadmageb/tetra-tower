@@ -4,6 +4,7 @@ using UnityEngine;
 
 abstract class Piston: MonoBehaviour
 {
+    public static int pistonCount {get; set;}
 
     protected bool isMoving;
     protected bool isMovingCenter;
@@ -15,6 +16,7 @@ abstract class Piston: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pistonCount++;
         isMoving = true;
         isMovingCenter = true;
     }

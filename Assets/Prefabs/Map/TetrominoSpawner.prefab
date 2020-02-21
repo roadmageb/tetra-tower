@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6032314800246976660}
   - component: {fileID: 6032314800246976683}
   m_Layer: 0
-  m_Name: TetrominoSpawnerObj
+  m_Name: TetrominoSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6032314800246976682}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9325185, y: 9.04629, z: -11.159889}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,19 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9408fbc9010681a4b96fcff7d554bff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab_J: {fileID: 120201108581377932, guid: 943ecd7f3c047c14e8c4b4bfb851dcca, type: 3}
-  prefab_L: {fileID: 8707993381091702165, guid: a433ff9f6d47aba46b7a3610721db77a,
-    type: 3}
-  prefab_Long: {fileID: 2424081379499713618, guid: c942980daf1973d46a48a65465dd40e7,
-    type: 3}
-  prefab_S: {fileID: 4548068968784471257, guid: db07e26060980f047a3a2b4abf342de6,
-    type: 3}
-  prefab_Square: {fileID: 752543812029114920, guid: 4a1e0960bb956b34bbee908ee498513a,
-    type: 3}
-  prefab_T: {fileID: 4608325491590623973, guid: 4d524e5fc983b734b8a558175930f397,
-    type: 3}
-  prefab_Z: {fileID: 4046085147087558979, guid: 60ec2442a57e0f84fa108fdda99c27e4,
-    type: 3}
+  map: {fileID: 0}
   prefab_tetrominos:
   - {fileID: 120201108581377932, guid: 943ecd7f3c047c14e8c4b4bfb851dcca, type: 3}
   - {fileID: 8707993381091702165, guid: a433ff9f6d47aba46b7a3610721db77a, type: 3}

@@ -55,21 +55,21 @@ public class EnemyCtrl : MonoBehaviour
         totalFreezeImm = freezeImmTime;
         currentFreezeImm = 0;
     }
-    public List<KeyValuePair<CtrlPtoE, bool>> ApplyCtrl(AttackPtoE attack)
+    public Dictionary<CtrlPtoE, bool> ApplyCtrl(AttackPtoE attack)
     {
-        List<KeyValuePair<CtrlPtoE, bool>> result = new List<KeyValuePair<CtrlPtoE, bool>>();
-        foreach (KeyValuePair<CtrlPtoE, float> ctrl in attack.ctrl)
+        Dictionary<CtrlPtoE, bool> result = new Dictionary<CtrlPtoE, bool>();
+        foreach (KeyValuePair<CtrlPtoE, float> ctrl in attack.ctrls)
         {
             switch(ctrl.Key)
             {
                 case CtrlPtoE.Stun:
-                    result.Add(new KeyValuePair<CtrlPtoE, bool>(ctrl.Key, ApplyStun(ctrl.Value)));
+                    result.Add(ctrl.Key, ApplyStun(ctrl.Value));
                     break;
                 case CtrlPtoE.Freeze:
-                    result.Add(new KeyValuePair<CtrlPtoE, bool>(ctrl.Key, ApplyFreeze(ctrl.Value)));
+                    result.Add(ctrl.Key, ApplyFreeze(ctrl.Value));
                     break;
                 case CtrlPtoE.Burn:
-                    result.Add(new KeyValuePair<CtrlPtoE, bool>(ctrl.Key, ApplyBurn((int)ctrl.Value)));
+                    result.Add(ctrl.Key, ApplyBurn((int)ctrl.Value));
                     break;
             }
         }

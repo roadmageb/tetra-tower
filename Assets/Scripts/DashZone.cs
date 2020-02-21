@@ -31,7 +31,7 @@ public class DashZone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDashable)
+        if (isDashable && PlayerController.Instance.controller.m_Controllable)
         {
             if (dashDir == DashDir.Up && Input.GetKeyDown(KeyCode.UpArrow) ||
                dashDir == DashDir.Down && Input.GetKeyDown(KeyCode.DownArrow) ||

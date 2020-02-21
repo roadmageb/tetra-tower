@@ -28,7 +28,7 @@ public class GridUtils
     public bool[] isFullUpdate()
     {
         fullRowCount = 0;
-        System.Array.Clear(isFull, 0, isFull.Length); // clear isFull
+        isFull = new bool[height]; // clear
 
         bool isFullRowAt(int rowNum){
             for (int x = 0; x < width; ++x)
@@ -55,7 +55,7 @@ public class GridUtils
 
     public int[] shiftAmountUpdate()
     {
-        System.Array.Clear(shiftDown, 0, shiftDown.Length); // clear shiftDown
+        shiftDown = new int[height];
 
         int shift = 0;
 
@@ -95,4 +95,28 @@ public class GridUtils
         Debug.Log(isFull);
         Debug.Log(shiftDown);
     }
+    public void printGrid(Transform[,] grid)
+    {
+        int width = grid.GetLength(0);
+        int height = grid.GetLength(1);
+        string gridStr = "";
+        for( int y = height - 1; y >= 0; --y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                if (grid[x, y] == null)
+                {
+                    gridStr += "-";
+                }
+                else
+                {
+                    gridStr += "*";
+                }
+            }
+            gridStr += '\n';
+        }
+
+        Debug.Log(gridStr);
+    }
+
 }

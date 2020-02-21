@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0, z: 0}
-  localPosition: {x: 0, y: 0, z: 0}
+  localPosition: {x: -1, y: 0, z: 0}
 --- !u!1 &2141463927693134441
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0, z: 0}
-  localPosition: {x: 0, y: 0, z: 0}
+  localPosition: {x: 1, y: 0, z: 0}
 --- !u!1 &2424081379499713618
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,4 +432,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0, z: 0}
-  localPosition: {x: 0, y: 0, z: 0}
+  localPosition: {x: -2, y: 0, z: 0}

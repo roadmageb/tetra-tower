@@ -111,6 +111,7 @@ public class TileCombiner : Singleton<TileCombiner>
                     halfSize,
                     halfSize,
                     seperatedTiles[stage, theme][i + "_" + index[mergeIndex[i, 0]] + index[mergeIndex[i, 1]] + index[mergeIndex[i, 2]]].GetPixels());
+                tx.filterMode = FilterMode.Point;
                 tx.Apply();
             }
             combinedTiles[stage, theme].Add(index, Sprite.Create(tx, new Rect(0, 0, tileSize, tileSize), new Vector2(0.5f, 0.5f), 32));

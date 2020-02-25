@@ -126,7 +126,7 @@ public abstract class Enemy : MonoBehaviour
                 AttackStart();
             }
 
-           Vector2 force = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized * speed;
+            Vector2 force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed;
             RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
             if (!checkGround.collider)

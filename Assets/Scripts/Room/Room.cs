@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
+    //For test
+    public Room nextRoom;
+    //For test
+
     public void MovePlayerToRoom(Vector2 dir)
     {
-
+        Vector2 destination = (Vector2)PlayerController.Instance.transform.position + dir * 2;
+        PlayerController.Instance.transform.position = destination;
+        StartCoroutine(CameraController.Instance.MoveCamera(nextRoom.transform.position));
+        GameManager.Instance.aStarPath.UpdateGraphs(new Bounds(nextRoom.transform.position, new Vector3(160, 160)));
     }
 
 

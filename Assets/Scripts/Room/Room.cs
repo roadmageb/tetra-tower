@@ -13,7 +13,7 @@ public class Room : MonoBehaviour
         Vector2 destination = (Vector2)PlayerController.Instance.transform.position + dir * 2;
         PlayerController.Instance.transform.position = destination;
         StartCoroutine(CameraController.Instance.MoveCamera(nextRoom.transform.position));
-        GameManager.Instance.aStarPath.UpdateGraphs(new Bounds(nextRoom.transform.position, new Vector3(160, 160)));
+        GameManager.Instance.aStarPath.transform.position = nextRoom.transform.position;
     }
 
 

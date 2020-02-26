@@ -6,7 +6,7 @@ public class RowSlider : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    bool isSliding;
+    public bool isSliding;
     Map map;
 
     GridUtils gridUtils;
@@ -14,11 +14,18 @@ public class RowSlider : MonoBehaviour
     // coroutines do not run in parallel. No need for semaphores.
     public int coroutineCount { get; set; }
 
+    float[] rowDestinations;
+
+
+    float[] rowY;
+
+
 
     void Start()
     {
         isSliding = false;
         coroutineCount = 0;
+
     }
 
     public void Initialize(Map map)
@@ -98,6 +105,8 @@ public class RowSlider : MonoBehaviour
             gravity += gravityAdd * Time.deltaTime;
             shift = velocity * Time.deltaTime;
 
+            bool exit = false;
+
             for (int i = 0; i < Map.gridWidth; ++i)
             {
                 if (map.grid[i, row] != null)
@@ -113,33 +122,17 @@ public class RowSlider : MonoBehaviour
                         pos.y = mino.fallDestination;
                         map.grid[i, row].position = pos;
 
-                        if (i == Map.gridWidth - 1)
-                        {
-                            coroutineCount--;
-                            yield break;
-                        }
+                        exit = true;
                     }
                 }
             }
-            yield return null;
-        }
 
-    }
-
-    void SlideDownRows()
-    {
-        for (int row = 0; row < Map.gridHeight; ++row)
-        {
-            StartCoroutine(SlideDownRow(row));
-        }
-    }
-
-
-    void slideDownRowsOld(bool[] isFull, int[] shiftAmount)
-    {
-        for (int row = 1; row < Map.gridHeight; ++row)
-        {
-            StartCoroutine(slideDownRowOld(row, shiftAmount[row]));
+            if (exit)
+            {
+                coroutineCount--;
+                yield break;
+            }
+            yield return null; // required for continuous flow
         }
 
     }
@@ -151,21 +144,9 @@ public class RowSlider : MonoBehaviour
 
     public void slideDown()
     {
-        isSliding = true;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isSliding)
+        for (int row = 0; row < Map.gridHeight; ++row) // must be starting from 0
         {
-            SlideDownRows();
-            isSliding = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            isSliding = true;
+            StartCoroutine(SlideDownRow(row));
         }
     }
 } 

@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageNum: 1
-  themeNum: 01000000
+  themeNum: 02000000
   tileTexture:
-  - {fileID: 2800000, guid: e41b46fcd7148834b8c28fee662ff58e, type: 3}
+  - {fileID: 2800000, guid: 3ba6ae72bd0d2d94fa989fd47f72e88b, type: 3}

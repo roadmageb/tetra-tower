@@ -62,7 +62,7 @@ public class Tetromino : MonoBehaviour
 
             // initialize
             velocity = Vector3.zero;
-            map.UpdateGrid(this);
+            //map.UpdateGrid(this);
 
             prepareNextTetromino();
         }
@@ -89,8 +89,7 @@ public class Tetromino : MonoBehaviour
             if (canShift(shift))
             {
                 Move(shift);
-                map.UpdateGrid(this);
-                transform.position = gridPosition;
+                //map.UpdateGrid(this);
 
             }
         }
@@ -100,7 +99,7 @@ public class Tetromino : MonoBehaviour
             if (canShift(shift))
             {
                 Move(shift);
-                map.UpdateGrid(this);
+                //map.UpdateGrid(this);
             }
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -116,7 +115,7 @@ public class Tetromino : MonoBehaviour
             {
                 rotateClockwise();
             }
-            map.UpdateGrid(this);
+            //map.UpdateGrid(this);
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -129,7 +128,7 @@ public class Tetromino : MonoBehaviour
             if (canShift(shift))
             {
                 Move(shift);
-                map.UpdateGrid(this);
+                //map.UpdateGrid(this);
             } else
             {
                 map.UpdateGrid(this);
@@ -179,13 +178,9 @@ public class Tetromino : MonoBehaviour
 
     void rotateClockwise()
     {
-        //rotateByDegree(90f);
-
-        foreach (Mino mino in GetComponentsInChildren<Mino>())
-        {
-            var newX = - mino.localPosition.y;
-            var newY = mino.localPosition.x;
-        }
+        rotateCounterclockwise();
+        rotateCounterclockwise();
+        rotateCounterclockwise();
     }
 
     void rotateCounterclockwise()
@@ -198,18 +193,6 @@ public class Tetromino : MonoBehaviour
             mino.localPosition.y = newY;
 
             mino.transform.localPosition = mino.localPosition;
-        }
-    }
-
-    void rotateByDegree(float degree)
-    {
-        transform.Rotate(0, 0, degree);
-        transform.position = Vector3Utils.Map(transform.position, Mathf.Round);
-        Debug.Log(transform.position.ToString("F15"));
-        foreach (Transform mino in transform)
-        {
-            mino.position = Vector3Utils.Map(mino.position, Mathf.Round);
-            Debug.Log(mino.position.ToString("F15"));
         }
     }
 

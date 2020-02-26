@@ -50,7 +50,7 @@ public class DebugMap : MonoBehaviour
 
     public Vector3 basePosition
     { 
-        get { 
+        get {
             return transform.position + new Vector3(1, 1, 0);
         } 
     }

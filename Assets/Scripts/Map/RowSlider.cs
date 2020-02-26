@@ -86,16 +86,7 @@ public class RowSlider : MonoBehaviour
         Vector3 velocity = Vector3.zero;
         Vector3 shift;
 
-        bool minoExists = false;
-        for (int i = 0; i < Map.gridWidth; ++i)
-        {
-            if (map.grid[i, row] != null)
-            {
-                minoExists = true;
-            }
-        }
-
-        if (!minoExists)
+        if (map.isRowEmpty[row])
         {
             coroutineCount--;
             yield break;

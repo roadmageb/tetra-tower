@@ -24,6 +24,7 @@ public class Map : MonoBehaviour
     public Vector3Int basePosition;
 
     public bool[] isFull;
+    public bool[] isRowEmpty;
     public int[] shiftAmount;
 
     public Tetromino currentTetromino;
@@ -122,10 +123,10 @@ public class Map : MonoBehaviour
         }
     }
 
-    IEnumerator WaitAndDelete(bool[] isFull)
+    IEnumerator DebugDelete(bool[] isFull)
     {
-        pistonSpawner.spawnIfFull(isFull);
 
+        pistonSpawner.spawnIfFull(isFull);
         yield return null;
         while (Piston.pistonCount != 0)
         {
@@ -133,44 +134,33 @@ public class Map : MonoBehaviour
         }
 
         DestroyRowsIfFull(isFull);
-        rowSlider.slideDown();
+        MoveAllRowsDown(isFull, gridUtils.shiftDown);
+        yield return new WaitForSeconds(5);
 
-        yield return null; // required for waiting one frame so that coroutineCount can increase.
+        gridUtils.IsRowEmptyUpdate();
+
+        Debug.Log("move row down Finished!");
+        rowSlider.slideDown();
+        yield return null;
         while (rowSlider.coroutineCount != 0)
         {
+            Debug.Log("coroutineCount = " + rowSlider.coroutineCount);
             yield return null;
         }
-        MoveAllRowsDown(isFull, gridUtils.shiftDown);
+        Debug.Log("rowslider Finished!");
+        Debug.Log("lock release");
+        inputLock = false;
     }
-
 
     public void RemoveRowsIfFull()
     {
 
-        IEnumerator DebugDelete(bool[] isFull)
-        {
-            pistonSpawner.spawnIfFull(isFull);
-            yield return null;
-
-            while (Piston.pistonCount != 0)
-            {
-                yield return null; 
-            }
-
-            DestroyRowsIfFull(isFull);
-            MoveAllRowsDown(isFull, gridUtils.shiftDown);
-
-            rowSlider.slideDown();
-            yield return null;
-
-            while (rowSlider.coroutineCount != 0)
-            {
-                yield return null;
-            }
-        }
-
         gridUtils.isFullUpdate();
         gridUtils.shiftAmountUpdate();
+
+        isFull = gridUtils.isFull;
+        shiftAmount = gridUtils.shiftDown;
+        isRowEmpty = gridUtils.isRowEmpty;
 
         if (gridUtils.fullRowCount > 0)
         {

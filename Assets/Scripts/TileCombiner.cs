@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TileCombiner : Singleton<TileCombiner>
 {
+    public bool isTest;
     public const int tileSize = 32;
     public int halfSize
     {
@@ -78,12 +79,13 @@ public class TileCombiner : Singleton<TileCombiner>
                 foreach(Pair<string, int> p in cutIndex)
                 {
                     Texture2D tx = new Texture2D(halfSize, halfSize);
-                    tx.SetPixels(0, 0, halfSize, halfSize, tileTexture[i].GetPixels((k * tileNumPerPart + p.k) * halfSize, halfSize * j, halfSize, halfSize));
+                    tx.SetPixels(0, 0, halfSize, halfSize, tileTexture[i].GetPixels((k * tileNumPerPart + p.k) * halfSize, halfSize * (themeNum[i] - j - 1), halfSize, halfSize));
                     tx.Apply();
                     seperatedTiles[i, j].Add(k + "_" + p.t, tx);
                 }
             }
         }
+        if (isTest) Test();
     }
     /// <summary>
     /// 

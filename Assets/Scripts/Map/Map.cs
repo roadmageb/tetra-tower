@@ -40,7 +40,7 @@ public class Map : MonoBehaviour
 
     void Start()
     {
-        scaleFactor = 2;
+        scaleFactor = 3;
         scaleVector = Vector3Int.one * (scaleFactor - 1);
         transform.localScale += scaleVector;
 
@@ -139,7 +139,7 @@ public class Map : MonoBehaviour
 
         DestroyRowsIfFull(isFull);
         MoveAllRowsDown(isFull, gridUtils.shiftDown);
-        yield return new WaitForSeconds(5);
+        //yield return new WaitForSeconds(5);
 
         gridUtils.IsRowEmptyUpdate();
 

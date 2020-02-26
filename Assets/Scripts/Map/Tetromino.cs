@@ -22,14 +22,14 @@ public class Tetromino : MonoBehaviour
     public void Move(Vector3Int offset)
     {
         gridPosition += offset;
-        transform.position = gridPosition;
+        transform.position = map.basePosition + map.scaleFactor * gridPosition;
     }
 
     public void Initialize(Map map, Vector3Int gridPosition)
     {
         this.map = map;
         this.gridPosition = gridPosition;
-        this.transform.position = gridPosition;
+        this.transform.position = map.basePosition + map.scaleFactor * gridPosition;
     }
    
     void Update()

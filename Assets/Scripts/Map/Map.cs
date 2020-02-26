@@ -43,6 +43,11 @@ public class Map : MonoBehaviour
         tetrominoSpawner.Initialize(this);
 
         pistonSpawner = Instantiate(pistonSpawnerPrefab).GetComponent<PistonSpawner>();
+        pistonSpawner.Initialize(this);
+
+        pistonMask = GameObject.Find("PistonMask");
+        pistonMask.transform.position = transform.position + scaleFactor * new Vector3(5.5f, 10.5f, 0);
+        pistonMask.transform.localScale += scaleVector;
 
         debugMap = GameObject.Find("DebugMap").GetComponent<DebugMap>();
 

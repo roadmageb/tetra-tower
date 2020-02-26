@@ -6,7 +6,7 @@ class PistonRight : Piston
 {
     protected override void compress()
     {
-        if (transform.position.x <= Constants.Base.x + 10.5)
+        if (transform.position.x <= map.basePosition.x + map.scaleFactor * 4.5)
         {
             isMovingCenter = false;
             return;
@@ -16,7 +16,7 @@ class PistonRight : Piston
 
     protected override void release()
     {
-        if (transform.position.x >= Constants.Base.x + 16.5)
+        if (transform.position.x >= map.basePosition.x + map.scaleFactor * 9.0)
         {
             isMoving = false;
             pistonCount--;

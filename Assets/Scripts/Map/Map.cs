@@ -26,6 +26,17 @@ public class Map : MonoBehaviour
     public bool[] isFull;
     public int[] shiftAmount;
 
+    public Tetromino currentTetromino;
+
+    public bool inputLock;
+
+    public int scaleFactor;
+    public Vector3Int scaleVector;
+
+    public GameObject pistonMask;
+
+    public Camera mainCamera;
+
     void Start()
     {
         scaleFactor = 2;
@@ -163,6 +174,7 @@ public class Map : MonoBehaviour
 
         if (gridUtils.fullRowCount > 0)
         {
+            inputLock = true;
             //StartCoroutine(WaitAndDelete(gridUtils.isFull));
             StartCoroutine(DebugDelete(gridUtils.isFull));
         }

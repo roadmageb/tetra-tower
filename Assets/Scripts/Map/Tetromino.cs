@@ -40,7 +40,11 @@ public class Tetromino : MonoBehaviour
             ImmediateFallForDebug();
             return;
         }
-        PlayerInput();
+
+        if (!map.inputLock)
+        {
+            PlayerInput();
+        }
     }
 
     void Fall()

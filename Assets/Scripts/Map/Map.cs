@@ -28,8 +28,16 @@ public class Map : MonoBehaviour
 
     void Start()
     {
+        scaleFactor = 2;
+        scaleVector = Vector3Int.one * (scaleFactor - 1);
+        transform.localScale += scaleVector;
 
-        basePosition = new Vector3Int(1, 1, 0);
+        transform.position = new Vector3Int(1, -10 * scaleFactor, 0);
+
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        mainCamera.orthographicSize = 40;
+
+        basePosition = Vector3Utils.ToVector3Int(transform.position) + new Vector3Int(scaleFactor, scaleFactor, 0);
 
         tetrominoSpawner = Instantiate(tetrominoSpawnerPrefab).GetComponent<TetrominoSpawner>();
         tetrominoSpawner.Initialize(this);

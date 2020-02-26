@@ -72,7 +72,7 @@ public class Tetromino : MonoBehaviour
     {
         gridPosition = fallDestination;
 
-        transform.position = gridPosition;
+        transform.position = map.basePosition + map.scaleFactor * gridPosition;
 
         isFalling = false;
 

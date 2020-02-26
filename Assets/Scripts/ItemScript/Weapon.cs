@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon
+public abstract class Weapon : ScriptableObject
 {
     public ItemRank rank;
     public int skillCount;

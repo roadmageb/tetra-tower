@@ -74,18 +74,17 @@ public class Map : MonoBehaviour
         SpawnNextTetromino();
     }
 
+    void DestroyRow(int y)
+    {
+        for (int x = 0; x < gridWidth; ++x)
+        {
+            Destroy(grid[x, y].gameObject);
+            grid[x, y] = null;
+        }
+    }
+
     public void DestroyRowsIfFull(bool[] isFull)
     {
-
-        void DestroyRow(int y)
-        {
-            for (int x = 0; x < gridWidth; ++x)
-            {
-                Destroy(grid[x, y].gameObject);
-                grid[x, y] = null;
-            }
-        }
-
         for (int i = 0; i < isFull.Length; ++i)
         {
             if (isFull[i])
@@ -96,25 +95,30 @@ public class Map : MonoBehaviour
     }
 
 
-    public void MoveAllRowsDown(bool[] isFull, int[] shiftAmount)
+    void MoveRowDown(int y, int num)
     {
-        void MoveRowDown(int y, int num)
+        if (num == 0)
         {
-            for (int x = 0; x < gridWidth; ++x)
-            {
-                if (grid[x, y] != null)
-                {
-                    // for delayed transform shift
-                    var mino = grid[x, y].gameObject.GetComponent<Mino>();
-                    mino.fallDestination = y - num;
-
-                    grid[x, y - num] = grid[x, y];
-                    grid[x, y] = null;
-
-                }
-            }
+            return; // do nothing
         }
 
+        for (int x = 0; x < gridWidth; ++x)
+        {
+            if (grid[x, y] != null)
+            {
+                // for delayed transform shift
+                var mino = grid[x, y].gameObject.GetComponent<Mino>();
+                mino.slideDestination = y - num;
+
+                grid[x, y - num] = grid[x, y];
+                grid[x, y] = null;
+
+            }
+        }
+    }
+
+    public void MoveAllRowsDown(bool[] isFull, int[] shiftAmount)
+    {
         for (int i = 1; i < gridHeight; ++i)
         {
             if (!isFull[i]) {

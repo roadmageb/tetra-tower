@@ -113,13 +113,14 @@ public class RowSlider : MonoBehaviour
                 {
                     var mino = map.grid[i, row].gameObject.GetComponent<Mino>();
 
-                    if (map.grid[i, row].position.y > mino.fallDestination)
+                    if (map.grid[i, row].position.y > ConvertGridYtoRealY(row))
                     {
                         map.grid[i, row].position += shift;
-                    } else
+                    } 
+                    else
                     {
                         Vector3 pos = map.grid[i, row].position;
-                        pos.y = mino.fallDestination;
+                        pos.y = ConvertGridYtoRealY(row);
                         map.grid[i, row].position = pos;
 
                         exit = true;
@@ -140,6 +141,23 @@ public class RowSlider : MonoBehaviour
     public void Initialize(GridUtils gridUtils)
     {
         this.gridUtils = gridUtils;
+    }
+
+    void MoveRowBy(int row, Vector3 shift)
+    {
+        for (int col = 0; col < Map.gridWidth; ++col)
+        {
+            var mino = map.grid[col, row];
+            if (mino)
+            {
+                mino.position += shift;
+            }
+        }
+    }
+
+    public float ConvertGridYtoRealY(int y)
+    {
+        return map.basePosition.y + map.scaleFactor * y;
     }
 
     public void slideDown()

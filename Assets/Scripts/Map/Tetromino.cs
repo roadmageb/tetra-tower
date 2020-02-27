@@ -32,7 +32,7 @@ public class Tetromino : MonoBehaviour
         this.map = map;
         this.gridPosition = gridPosition;
         this.transform.position = map.basePosition + map.scaleFactor * gridPosition;
-        initialVelocity = new Vector3(0, -100, 0);
+        initialVelocity = new Vector3(0, 0, 0);
         this.velocity = initialVelocity;
     }
    
@@ -213,7 +213,6 @@ public class Tetromino : MonoBehaviour
         }
 
         shift = shift + Vector3Int.up;
-        //fallDestination = Vector3IntUtils.Map(transform.position + pos, Mathf.Round);
         fallDestination = gridPosition + shift;
         realFallDestination = map.basePosition + map.scaleFactor * fallDestination;
         gridPosition = fallDestination;

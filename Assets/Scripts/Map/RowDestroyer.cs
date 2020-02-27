@@ -38,6 +38,7 @@ public class RowDestroyer : MonoBehaviour
             else
             {
                 map.inputLock = true;
+                map.pistonSpawner.Reset();
 
                 map.gridUtils.isFullUpdate();
                 map.gridUtils.shiftAmountUpdate();

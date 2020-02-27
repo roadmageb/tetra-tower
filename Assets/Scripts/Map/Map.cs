@@ -42,6 +42,8 @@ public class Map : MonoBehaviour
 
     public bool tetrominoFalling;
 
+    public int coroutineCount;
+
     void Start()
     {
         scaleFactor = 3;
@@ -81,7 +83,10 @@ public class Map : MonoBehaviour
         rowDestroyer.Initialize(this);
 
         tetrominoFalling = false;
+
+        coroutineCount = 0;
     }
+
 
     void DestroyRow(int y)
     {
@@ -138,6 +143,8 @@ public class Map : MonoBehaviour
 
     IEnumerator DebugDelete(bool[] isFull)
     {
+        int id = coroutineCount++;
+
         while (tetrominoFalling)
         {
             yield return null;
@@ -149,8 +156,8 @@ public class Map : MonoBehaviour
         {
             yield return null; 
         }
-
         inputLock = true;
+
         rowDestroyer.RequestDestroyRows();
         //yield return new WaitForSeconds(5);
 

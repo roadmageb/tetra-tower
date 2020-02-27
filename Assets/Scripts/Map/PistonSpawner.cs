@@ -76,4 +76,10 @@ public class PistonSpawner : MonoBehaviour
         pistonRight = pistonRightObj.GetComponent<PistonRight>();
         pistonRight.Initialize(map, n);
     }
+
+    public void Reset()
+    {
+        nthPistonExists = new bool[Map.gridHeight];
+    }
+
 } 

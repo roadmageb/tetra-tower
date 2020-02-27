@@ -32,7 +32,7 @@ public class Tetromino : MonoBehaviour
         this.map = map;
         this.gridPosition = gridPosition;
         this.transform.position = map.basePosition + map.scaleFactor * gridPosition;
-        initialVelocity = new Vector3(0, 0, 0);
+        initialVelocity = new Vector3(0, -10, 0);
         this.velocity = initialVelocity;
     }
    
@@ -50,8 +50,36 @@ public class Tetromino : MonoBehaviour
             PlayerInput();
         }
     }
-
     void Fall()
+    {
+        velocity.y -= gravity * Time.deltaTime;
+        gravity += gravityAdd * Time.deltaTime;
+        shift = velocity * Time.deltaTime;
+
+        int finishCount = 0;
+
+        foreach (Mino mino in GetComponentsInChildren<Mino>())
+        {
+            mino.transform.position += shift;
+
+            if (mino.transform.position.y <= map.basePosition.y + map.scaleFactor * mino.slideDestination)
+            {
+                var pos = mino.transform.position;
+                pos.y = map.basePosition.y + map.scaleFactor * mino.slideDestination;
+                mino.transform.position = pos;
+                finishCount++;
+            }
+        }
+
+        if (finishCount == 4)
+        {
+            velocity = initialVelocity;
+            map.tetrominoFalling = false;
+            prepareNextTetromino();
+        }
+    }
+
+    void FallOld()
     {
         velocity.y -= gravity * Time.deltaTime;
         gravity += gravityAdd * Time.deltaTime;

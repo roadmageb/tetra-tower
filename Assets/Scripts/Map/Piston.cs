@@ -21,8 +21,8 @@ abstract class Piston: MonoBehaviour
         pistonCount++;
         isMoving = true;
         isMovingCenter = true;
-        compressVelocity = 0.5f * map.scaleFactor;
-        releaseVelocity = 3f * map.scaleFactor;
+        compressVelocity = 5f * map.scaleFactor;
+        releaseVelocity = 30f * map.scaleFactor;
     }
 
     // Update is called once per frame

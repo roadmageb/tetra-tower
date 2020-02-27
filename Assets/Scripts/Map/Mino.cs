@@ -8,7 +8,7 @@ public class Mino : MonoBehaviour
 
 
     public float originalPosition;
-    public int slideDestination;
+    public float slideDestination;
 
     public Vector3Int localPosition;
 

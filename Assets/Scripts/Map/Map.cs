@@ -44,6 +44,10 @@ public class Map : MonoBehaviour
 
     public int coroutineCount;
 
+    public Vector3[] rowPosition;
+
+    public bool isFalling;
+
     void Start()
     {
         scaleFactor = 3;
@@ -85,6 +89,17 @@ public class Map : MonoBehaviour
         tetrominoFalling = false;
 
         coroutineCount = 0;
+
+        rowPosition = new Vector3[Map.gridHeight];
+        ResetRowPosition();
+    }
+
+    void ResetRowPosition()
+    {
+        for (int i = 0; i < Map.gridHeight; ++i)
+        {
+            rowPosition[i] = basePosition + scaleFactor * new Vector3(0, i, 0);
+        }
     }
 
 
@@ -143,6 +158,8 @@ public class Map : MonoBehaviour
 
     IEnumerator DebugDelete(bool[] isFull)
     {
+        RowSlider localRowSlider = new GameObject().AddComponent<RowSlider>();
+        localRowSlider.Initialize(this);
         int id = coroutineCount++;
 
         while (tetrominoFalling)
@@ -176,13 +193,11 @@ public class Map : MonoBehaviour
             rowDestroyer.destroyFinished = false;
         }
 
-        RowSlider localRowSlider = new GameObject().AddComponent<RowSlider>();
-        localRowSlider.Initialize(this);
-
         gridUtils.IsRowEmptyUpdate();
         localRowSlider.UpdateGridBitmap();
 
         inputLock = false;
+        isFalling = true;
 
         localRowSlider.slideDown();
         Debug.Log("move row down Finished!");
@@ -192,6 +207,9 @@ public class Map : MonoBehaviour
             Debug.Log("coroutineCount = " + localRowSlider.coroutineCount);
             yield return null;
         }
+
+        isFalling = false;
+
         Debug.Log("rowslider Finished!");
         Debug.Log("lock release");
     }
@@ -220,8 +238,8 @@ public class Map : MonoBehaviour
         foreach (Transform child in tetromino.transform)
         {
             var mino = child.gameObject.GetComponent<Mino>();
-            //Vector3 pos = Vector3Utils.Map(RelativePosition(mino.position), Mathf.Round);
             var pos = mino.GetGridPosition();
+            mino.slideDestination = pos.y;
 
             if (pos.y < gridHeight)
             {

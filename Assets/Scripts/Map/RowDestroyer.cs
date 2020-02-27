@@ -35,6 +35,7 @@ public class RowDestroyer : MonoBehaviour
             {
                 return;
             }
+
             else
             {
                 map.inputLock = true;

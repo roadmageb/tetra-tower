@@ -17,6 +17,7 @@ public class RowSlider : MonoBehaviour
     public bool[,] gridBitmap;
 
 
+
     void Start()
     {
         isSliding = false;
@@ -51,7 +52,7 @@ public class RowSlider : MonoBehaviour
             gravity += gravityAdd * Time.deltaTime;
             shift = velocity * Time.deltaTime;
 
-            bool exit = false;
+            bool finished = false;
 
             for (int i = 0; i < Map.gridWidth; ++i)
             {
@@ -62,6 +63,8 @@ public class RowSlider : MonoBehaviour
                     if (map.grid[i, row].position.y > ConvertGridYtoRealY(row))
                     {
                         map.grid[i, row].position += shift;
+
+                        map.rowPosition[row] = map.grid[i, row].position;
                     } 
                     else
                     {
@@ -69,12 +72,13 @@ public class RowSlider : MonoBehaviour
                         pos.y = ConvertGridYtoRealY(row);
                         map.grid[i, row].position = pos;
 
-                        exit = true;
+                        map.rowPosition[row].y = pos.y;
+                        finished = true;
                     }
                 }
             }
 
-            if (exit)
+            if (finished)
             {
                 coroutineCount--;
                 yield break;

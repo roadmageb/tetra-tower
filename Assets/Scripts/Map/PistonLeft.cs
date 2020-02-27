@@ -21,6 +21,7 @@ class PistonLeft : Piston
             isMoving = false;
             pistonCount--;
             Destroy(gameObject);
+            map.pistonSpawner.nthPistonExists[currentRow] = false;
         }
         transform.position -= new Vector3(releaseVelocity * Time.deltaTime, 0, 0);
     }

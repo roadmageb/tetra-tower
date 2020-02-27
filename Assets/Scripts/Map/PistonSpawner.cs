@@ -14,9 +14,12 @@ public class PistonSpawner : MonoBehaviour
 
     public Map map;
 
+    public bool[] nthPistonExists;
+
     public void Initialize(Map map)
     {
         this.map = map;
+        nthPistonExists = new bool[Map.gridHeight];
     }
 
     // Update is called once per frame
@@ -48,8 +51,12 @@ public class PistonSpawner : MonoBehaviour
 
     public void spawnNth(int n)
     {
-        spawnLeftNth(n);
-        spawnRightNth(n);
+        if (!nthPistonExists[n])
+        {
+            spawnLeftNth(n);
+            spawnRightNth(n);
+            nthPistonExists[n] = true;
+        }
     }
 
     public void spawnLeftNth(int n)
@@ -58,7 +65,7 @@ public class PistonSpawner : MonoBehaviour
         pistonLeftObj.transform.localScale += map.scaleVector;
         pistonLeftObj.transform.position = map.basePosition + map.scaleFactor * new Vector3(-0.5f, (float) n, 0);
         pistonLeft = pistonLeftObj.GetComponent<PistonLeft>();
-        pistonLeft.Initialize(map);
+        pistonLeft.Initialize(map, n);
     }
 
     public void spawnRightNth(int n)
@@ -67,6 +74,6 @@ public class PistonSpawner : MonoBehaviour
         pistonRightObj.transform.position = map.basePosition + map.scaleFactor * new Vector3(9.5f, (float) n, pistonZ);
         pistonRightObj.transform.localScale += map.scaleVector;
         pistonRight = pistonRightObj.GetComponent<PistonRight>();
-        pistonRight.Initialize(map);
+        pistonRight.Initialize(map, n);
     }
 } 

@@ -9,9 +9,9 @@ public class Map : MonoBehaviour
     public GameObject pistonSpawnerPrefab;
     public GameObject debugMapPrefab;
 
-    TetrominoSpawner tetrominoSpawner;
-    PistonSpawner pistonSpawner;
-    DebugMap debugMap;
+    public TetrominoSpawner tetrominoSpawner;
+    public PistonSpawner pistonSpawner;
+    public DebugMap debugMap;
 
     public static int count = 0;
 
@@ -19,7 +19,7 @@ public class Map : MonoBehaviour
     public const int gridHeight = 20;
     public Transform[,] grid;
     public GridUtils gridUtils = new GridUtils();
-    RowSlider rowSlider;
+    public RowSlider rowSlider;
 
     public Vector3Int basePosition;
 
@@ -37,6 +37,8 @@ public class Map : MonoBehaviour
     public GameObject pistonMask;
 
     public Camera mainCamera;
+
+    public RowDestroyer rowDestroyer;
 
     void Start()
     {
@@ -72,6 +74,9 @@ public class Map : MonoBehaviour
         rowSlider.Initialize(this);
 
         SpawnNextTetromino();
+
+        rowDestroyer = new GameObject().AddComponent<RowDestroyer>();
+        rowDestroyer.Initialize(this);
     }
 
     void DestroyRow(int y)
@@ -138,10 +143,23 @@ public class Map : MonoBehaviour
         }
 
         inputLock = true;
-        DestroyRowsIfFull(isFull);
-        MoveAllRowsDown(isFull, gridUtils.shiftDown);
+        rowDestroyer.RequestDestroyRows();
         //yield return new WaitForSeconds(5);
 
+
+        while (!rowDestroyer.destroyFinished)
+        {
+            yield return null;
+        }
+        rowDestroyer.requestCount--;
+        if (rowDestroyer.requestCount != 0)
+        {
+            yield break;
+        }
+        else
+        {
+            rowDestroyer.destroyFinished = false;
+        }
         gridUtils.IsRowEmptyUpdate();
 
         Debug.Log("move row down Finished!");
@@ -165,11 +183,10 @@ public class Map : MonoBehaviour
 
         isFull = gridUtils.isFull;
         shiftAmount = gridUtils.shiftDown;
-        isRowEmpty = gridUtils.isRowEmpty;
+        //isRowEmpty = gridUtils.isRowEmpty;
 
         if (gridUtils.fullRowCount > 0)
         {
-            inputLock = true;
             //StartCoroutine(WaitAndDelete(gridUtils.isFull));
             StartCoroutine(DebugDelete(gridUtils.isFull));
         }

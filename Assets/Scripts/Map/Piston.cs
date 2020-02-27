@@ -6,15 +6,18 @@ abstract class Piston: MonoBehaviour
 {
     public static int pistonCount {get; set;}
 
+    public int currentRow;
+
     protected bool isMoving;
     protected bool isMovingCenter;
     protected float compressVelocity;
     protected float releaseVelocity;
     public Map map;
 
-    public void Initialize(Map map)
+    public void Initialize(Map map, int row)
     {
         this.map = map;
+        this.currentRow = row;
         pistonCount++;
         isMoving = true;
         isMovingCenter = true;

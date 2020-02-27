@@ -19,7 +19,7 @@ public class Map : MonoBehaviour
     public const int gridHeight = 20;
     public Transform[,] grid;
     public GridUtils gridUtils = new GridUtils();
-    public RowSlider rowSlider;
+    //public RowSlider rowSlider;
 
     public Vector3Int basePosition;
 
@@ -69,9 +69,9 @@ public class Map : MonoBehaviour
 
         gridUtils.Initialize(grid);
 
-        rowSlider = new GameObject().AddComponent<RowSlider>();
-        rowSlider.name = "RowSlider";
-        rowSlider.Initialize(this);
+        //rowSlider = new GameObject().AddComponent<RowSlider>();
+        //rowSlider.name = "RowSlider";
+        //rowSlider.Initialize(this);
 
         SpawnNextTetromino();
 
@@ -160,19 +160,25 @@ public class Map : MonoBehaviour
         {
             rowDestroyer.destroyFinished = false;
         }
-        gridUtils.IsRowEmptyUpdate();
 
+        RowSlider localRowSlider = new GameObject().AddComponent<RowSlider>();
+        localRowSlider.Initialize(this);
+
+        gridUtils.IsRowEmptyUpdate();
+        localRowSlider.UpdateGridBitmap();
+
+        inputLock = false;
+
+        localRowSlider.slideDown();
         Debug.Log("move row down Finished!");
-        rowSlider.slideDown();
         yield return null;
-        while (rowSlider.coroutineCount != 0)
+        while (localRowSlider.coroutineCount != 0)
         {
-            Debug.Log("coroutineCount = " + rowSlider.coroutineCount);
+            Debug.Log("coroutineCount = " + localRowSlider.coroutineCount);
             yield return null;
         }
         Debug.Log("rowslider Finished!");
         Debug.Log("lock release");
-        inputLock = false;
     }
 
     public void RemoveRowsIfFull()

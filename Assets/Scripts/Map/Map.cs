@@ -40,6 +40,8 @@ public class Map : MonoBehaviour
 
     public RowDestroyer rowDestroyer;
 
+    public bool tetrominoFalling;
+
     void Start()
     {
         scaleFactor = 3;
@@ -77,6 +79,8 @@ public class Map : MonoBehaviour
 
         rowDestroyer = new GameObject().AddComponent<RowDestroyer>();
         rowDestroyer.Initialize(this);
+
+        tetrominoFalling = false;
     }
 
     void DestroyRow(int y)
@@ -134,6 +138,10 @@ public class Map : MonoBehaviour
 
     IEnumerator DebugDelete(bool[] isFull)
     {
+        while (tetrominoFalling)
+        {
+            yield return null;
+        }
 
         pistonSpawner.spawnIfFull(isFull);
         yield return null;
@@ -201,19 +209,6 @@ public class Map : MonoBehaviour
 
     public void UpdateGrid(Tetromino tetromino)
     {
-        for (int y = 0; y < gridHeight; ++y)
-        {
-            for (int x = 0; x < gridWidth; ++x)
-            {
-                if (grid[x, y] != null)
-                {
-                    if (grid[x, y].parent == tetromino.transform)
-                    {
-                        grid[x, y] = null;
-                    }
-                }
-            }
-        }
 
         foreach (Transform child in tetromino.transform)
         {

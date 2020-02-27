@@ -11,12 +11,14 @@ public class Tetromino : MonoBehaviour
     public bool isFalling = false;
     public float gravity = 9.8F;
     public float gravityAdd = 40;
-    public Vector3 velocity = Vector3.zero;
-    public Vector3 shift;
+    public Vector3 velocity;
+    public Vector3 initialVelocity;
 
+    public Vector3 shift;
     public Vector3Int gridPosition;
 
     public Vector3Int fallDestination;
+    public Vector3Int realFallDestination;
     public Map map;
 
     public void Move(Vector3Int offset)
@@ -30,14 +32,16 @@ public class Tetromino : MonoBehaviour
         this.map = map;
         this.gridPosition = gridPosition;
         this.transform.position = map.basePosition + map.scaleFactor * gridPosition;
+        initialVelocity = new Vector3(0, -100, 0);
+        this.velocity = initialVelocity;
     }
    
     void Update()
     {
         if (isFalling)
         {
-            //Fall();
-            ImmediateFallForDebug();
+            Fall();
+            //ImmediateFallForDebug();
             return;
         }
 
@@ -55,14 +59,16 @@ public class Tetromino : MonoBehaviour
         transform.position += shift;
         //Debug.Log(transform.position + " " + fallDestination);
         
-        if (transform.position.y <= fallDestination.y)
+        if (transform.position.y <= realFallDestination.y)
         {
-            transform.position = fallDestination;
+            gridPosition = fallDestination;
+            transform.position = realFallDestination;
             isFalling = false;
 
             // initialize
-            velocity = Vector3.zero;
-            //map.UpdateGrid(this);
+            velocity = initialVelocity;
+
+            map.tetrominoFalling = false;
 
             prepareNextTetromino();
         }
@@ -120,6 +126,7 @@ public class Tetromino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             isFalling = true;
+            map.tetrominoFalling = true;
             ComputeDestinationPosition();
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -208,6 +215,10 @@ public class Tetromino : MonoBehaviour
         shift = shift + Vector3Int.up;
         //fallDestination = Vector3IntUtils.Map(transform.position + pos, Mathf.Round);
         fallDestination = gridPosition + shift;
+        realFallDestination = map.basePosition + map.scaleFactor * fallDestination;
+        gridPosition = fallDestination;
+        map.UpdateGrid(this);
+
     }
 }
  

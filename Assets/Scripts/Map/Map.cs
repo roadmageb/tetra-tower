@@ -137,6 +137,7 @@ public class Map : MonoBehaviour
             yield return null; 
         }
 
+        inputLock = true;
         DestroyRowsIfFull(isFull);
         MoveAllRowsDown(isFull, gridUtils.shiftDown);
         //yield return new WaitForSeconds(5);

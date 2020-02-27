@@ -10,9 +10,15 @@ public class Door : MonoBehaviour
     {
         if (collision.tag.Equals("Player"))
         {
-            room.MovePlayerToRoom(doorDir);
+            StartCoroutine(room.MovePlayerToRoom(doorDir));
         }
     }
+
+    public void Open(bool open)
+    {
+        GetComponent<Collider2D>().isTrigger = open;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -1594,6 +1594,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1488918057
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1666060593}
+    m_Modifications:
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.0431725
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378818, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641737705354378825, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: m_Name
+      value: CoalSlime (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7b5839b76df0a264a84359018d2e1561, type: 3}
 --- !u!1 &1557119658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,6 +1847,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b359baaa37bdd724e90c5a3bd3db51e5, type: 3}
+--- !u!4 &1666060593 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6174790273782022647, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1200950240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1682002050
 PrefabInstance:
   m_ObjectHideFlags: 0

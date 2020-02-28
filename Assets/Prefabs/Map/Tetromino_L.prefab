@@ -94,7 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64db0e592bc9cb48b2ab03686fdbcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0, z: 0}
+  toBeDestroyed: 0
+  originalPosition: 0
+  slideDestination: 0
   localPosition: {x: -1, y: -1, z: 0}
 --- !u!1 &3073989581572451485
 GameObject:
@@ -190,7 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64db0e592bc9cb48b2ab03686fdbcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0, z: 0}
+  toBeDestroyed: 0
+  originalPosition: 0
+  slideDestination: 0
   localPosition: {x: -1, y: 0, z: 0}
 --- !u!1 &7027370650894760469
 GameObject:
@@ -286,7 +290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64db0e592bc9cb48b2ab03686fdbcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0, z: 0}
+  toBeDestroyed: 0
+  originalPosition: 0
+  slideDestination: 0
   localPosition: {x: 1, y: 0, z: 0}
 --- !u!1 &8670524787981405666
 GameObject:
@@ -382,7 +388,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64db0e592bc9cb48b2ab03686fdbcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0, z: 0}
+  toBeDestroyed: 0
+  originalPosition: 0
+  slideDestination: 0
   localPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &8707993381091702165
 GameObject:
@@ -432,4 +440,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowRotation: 1
+  isFalling: 0
+  gravity: 9.8
+  gravityAdd: 40
+  velocity: {x: 0, y: 0, z: 0}
+  shift: {x: 0, y: 0, z: 0}
   gridPosition: {x: 0, y: 0, z: 0}
+  fallDestination: {x: 0, y: 0, z: 0}
+  map: {fileID: 0}

@@ -6,8 +6,9 @@ public class Mino : MonoBehaviour
 {
     public bool toBeDestroyed;
 
-    [SerializeField]
-    public int fallDestination;
+
+    public float originalPosition;
+    public float slideDestination;
 
     public Vector3Int localPosition;
 

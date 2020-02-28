@@ -7,9 +7,10 @@ public class GridUtils
 {
     // Start is called before the first frame update
 
-    public bool[] isFull { get; set; }
-    public int[] shiftDown { get; set; }
-    public int fullRowCount { get; set; }
+    public bool[] isFull;
+    public int[] shiftDown;
+    public int fullRowCount;
+    public bool[] isRowEmpty;
 
     public Transform[,] grid;
     int width;
@@ -18,11 +19,31 @@ public class GridUtils
     public void Initialize(Transform[,] _grid)
     {
         grid = _grid;
-        width  = grid.GetLength(0);
+        width = grid.GetLength(0);
         height = grid.GetLength(1);
         isFull = new bool[height];
+        isRowEmpty = new bool[height];
         shiftDown = new int[height];
         fullRowCount = 0;
+    }
+
+    bool IsRowEmpty(int row)
+    {
+        for( int i = 0; i < Map.gridWidth; ++i)
+        {
+            if (grid[i, row] != null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void IsRowEmptyUpdate()
+    {
+        for(int row = 0; row < Map.gridHeight; ++row)
+        {
+            isRowEmpty[row] = IsRowEmpty(row);
+        }
     }
 
     public bool[] isFullUpdate()

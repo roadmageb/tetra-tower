@@ -6,7 +6,7 @@ public class RowSlider : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    bool isSliding;
+    public bool isSliding;
     Map map;
 
     GridUtils gridUtils;
@@ -14,67 +14,21 @@ public class RowSlider : MonoBehaviour
     // coroutines do not run in parallel. No need for semaphores.
     public int coroutineCount { get; set; }
 
+    public bool[,] gridBitmap;
+
+
 
     void Start()
     {
         isSliding = false;
         coroutineCount = 0;
+
     }
 
     public void Initialize(Map map)
     {
         this.map = map;
-        this.gridUtils = map.gridUtils;
-    }
-
-    IEnumerator slideDownRowOld(int row, int amount)
-    {
-        coroutineCount++;
-        float gravity = 9.8f;
-        float gravityAdd = 40;
-        Vector3 velocity = Vector3.zero;
-        Vector3 shift;
-
-        bool minoExists = false;
-        for (int i = 0; i < Map.gridWidth; ++i)
-        {
-            if (map.grid[i, row] != null)
-            {
-                minoExists = true;
-            }
-        }
-
-        if (!minoExists)
-        {
-            coroutineCount--;
-            yield break;
-        }
-
-        while (true)
-        {
-            velocity.y -= gravity * Time.deltaTime;
-            gravity += gravityAdd * Time.deltaTime;
-            shift = velocity * Time.deltaTime;
-
-            for (int i = 0; i < Map.gridWidth; ++i)
-            {
-                if (map.grid[i, row] != null)
-                {
-                    if (map.grid[i, row].position.y > row + amount)
-                    {
-                        map.grid[i, row].position += shift;
-                    } else
-                    {
-                        Vector3 pos = map.grid[i, row].position;
-                        pos.y = row + amount;
-                        map.grid[i, row].position = pos;
-                        coroutineCount--;
-                        yield break;
-                    }
-                }
-            }
-            yield return null;
-        }
+        gridUtils = map.gridUtils;
     }
 
     IEnumerator SlideDownRow(int row)
@@ -86,16 +40,7 @@ public class RowSlider : MonoBehaviour
         Vector3 velocity = Vector3.zero;
         Vector3 shift;
 
-        bool minoExists = false;
-        for (int i = 0; i < Map.gridWidth; ++i)
-        {
-            if (map.grid[i, row] != null)
-            {
-                minoExists = true;
-            }
-        }
-
-        if (!minoExists)
+        if (map.gridUtils.isRowEmpty[row])
         {
             coroutineCount--;
             yield break;
@@ -107,48 +52,38 @@ public class RowSlider : MonoBehaviour
             gravity += gravityAdd * Time.deltaTime;
             shift = velocity * Time.deltaTime;
 
+            bool finished = false;
+
             for (int i = 0; i < Map.gridWidth; ++i)
             {
-                if (map.grid[i, row] != null)
+                Debug.Log(i + ' ' + row);
+                if (gridBitmap[i, row])
                 {
-                    var mino = map.grid[i, row].gameObject.GetComponent<Mino>();
 
-                    if (map.grid[i, row].position.y > mino.fallDestination)
+                    if (map.grid[i, row].position.y > ConvertGridYtoRealY(row))
                     {
                         map.grid[i, row].position += shift;
-                    } else
+
+                        map.rowPosition[row] = map.grid[i, row].position;
+                    } 
+                    else
                     {
                         Vector3 pos = map.grid[i, row].position;
-                        pos.y = mino.fallDestination;
+                        pos.y = ConvertGridYtoRealY(row);
                         map.grid[i, row].position = pos;
 
-                        if (i == Map.gridWidth - 1)
-                        {
-                            coroutineCount--;
-                            yield break;
-                        }
+                        map.rowPosition[row].y = pos.y;
+                        finished = true;
                     }
                 }
             }
-            yield return null;
-        }
 
-    }
-
-    void SlideDownRows()
-    {
-        for (int row = 0; row < Map.gridHeight; ++row)
-        {
-            StartCoroutine(SlideDownRow(row));
-        }
-    }
-
-
-    void slideDownRowsOld(bool[] isFull, int[] shiftAmount)
-    {
-        for (int row = 1; row < Map.gridHeight; ++row)
-        {
-            StartCoroutine(slideDownRowOld(row, shiftAmount[row]));
+            if (finished)
+            {
+                coroutineCount--;
+                yield break;
+            }
+            yield return null; // required for continuous flow
         }
 
     }
@@ -158,23 +93,44 @@ public class RowSlider : MonoBehaviour
         this.gridUtils = gridUtils;
     }
 
-    public void slideDown()
+    void MoveRowBy(int row, Vector3 shift)
     {
-        isSliding = true;
+        for (int col = 0; col < Map.gridWidth; ++col)
+        {
+            var mino = map.grid[col, row];
+            if (mino)
+            {
+                mino.position += shift;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public float ConvertGridYtoRealY(int y)
     {
-        if (isSliding)
-        {
-            SlideDownRows();
-            isSliding = false;
-        }
+        return map.basePosition.y + map.scaleFactor * y;
+    }
 
-        if (Input.GetKeyDown(KeyCode.S))
+    public void slideDown()
+    {
+        for (int row = 0; row < Map.gridHeight; ++row) // must be starting from 0
         {
-            isSliding = true;
+            StartCoroutine(SlideDownRow(row));
+        }
+    }
+
+    public void UpdateGridBitmap()
+    {
+        gridBitmap = new bool[Map.gridWidth, Map.gridHeight];
+
+        for(int row = 0; row < Map.gridHeight; ++row)
+        {
+            for (int col = 0; col < Map.gridWidth; ++col)
+            {
+                if (map.grid[col, row])
+                {
+                    gridBitmap[col, row] = true;
+                }
+            }
         }
     }
 } 

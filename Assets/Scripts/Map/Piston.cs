@@ -6,19 +6,23 @@ abstract class Piston: MonoBehaviour
 {
     public static int pistonCount {get; set;}
 
+    public int currentRow;
+
     protected bool isMoving;
     protected bool isMovingCenter;
-    //protected float compressVelocity = 0.5f;
-    //protected float releaseVelocity = 3.0f;
-    protected float compressVelocity = 5f;
-    protected float releaseVelocity = 30f;
+    protected float compressVelocity;
+    protected float releaseVelocity;
+    public Map map;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Initialize(Map map, int row)
     {
+        this.map = map;
+        this.currentRow = row;
         pistonCount++;
         isMoving = true;
         isMovingCenter = true;
+        compressVelocity = 5f * map.scaleFactor;
+        releaseVelocity = 30f * map.scaleFactor;
     }
 
     // Update is called once per frame

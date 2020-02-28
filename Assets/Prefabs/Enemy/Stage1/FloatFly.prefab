@@ -236,18 +236,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   animator: {fileID: 0}
-  speed: 200
-  nextWayPointDistance: 3
-  playerDetectDistance: 1
+  speed: 10
+  nextWayPointDistance: 0.1
+  playerDetectDistance: 7
   attackRange: 0.5
   groundDetectOffset: {x: 0, y: 0}
-  attackDamage: 0
   idleAnim: {fileID: 0}
   traceAnim: {fileID: 0}
   damagedAnim: {fileID: 0}
   deathAnim: {fileID: 0}
-  attackPattern: []
+  attackPattern:
+  - attackAnim: {fileID: 0}
+    attackDamage: 0
+    attackCtrl: 0
   detectType: 1
+  ignoreGround: 1
   attackFollowPlayer: 0
   playerAttackable: 0
   attackedPlayer: 0
@@ -257,7 +260,6 @@ MonoBehaviour:
   currentHP: 0
   enemyCtrl: {fileID: 0}
   jumpPower: 100
-  isFloat: 0
 --- !u!50 &6641737705354378823
 Rigidbody2D:
   serializedVersion: 4
@@ -273,7 +275,7 @@ Rigidbody2D:
   m_Mass: 2
   m_LinearDrag: 10
   m_AngularDrag: 0.05
-  m_GravityScale: 10
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

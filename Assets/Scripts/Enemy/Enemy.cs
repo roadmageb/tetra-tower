@@ -21,10 +21,10 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float playerDetectDistance = 1;
     [SerializeField] protected float attackRange = 0.5f;
     [SerializeField] protected Vector2 groundDetectOffset;
-    [SerializeField] protected float attackDamage;
     [SerializeField] private AnimationClip idleAnim, traceAnim, damagedAnim, deathAnim;
     [SerializeField] public AttackPattern[] attackPattern;
     [SerializeField] private EnemyDetectType detectType;
+    [SerializeField] private bool ignoreGround;
     public bool attackFollowPlayer;
     public bool playerAttackable = false;
     public bool attackedPlayer = false;
@@ -59,10 +59,7 @@ public abstract class Enemy : MonoBehaviour
         animator.SetBool("Attack", false);
     }
 
-    public virtual void IdleAction()
-    {
-
-    }
+    public virtual void IdleAction() { }
 
     public void GainAttack(AttackPtoE attack)
     {
@@ -140,7 +137,7 @@ public abstract class Enemy : MonoBehaviour
             Vector2 force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed;
             RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
-            if (!checkGround.collider)
+            if (!ignoreGround && !checkGround.collider)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Slime : Enemy
 {
-    float attackStartTime, attackWaitTime = 2;
     [SerializeField] float jumpPower = 100;
     [SerializeField] bool isFloat = false;
 

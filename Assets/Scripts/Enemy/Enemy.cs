@@ -58,6 +58,11 @@ public abstract class Enemy : MonoBehaviour
         animator.SetBool("Attack", false);
     }
 
+    public virtual void IdleAction()
+    {
+
+    }
+
     public void GainAttack(AttackPtoE attack)
     {
         GetDamage(attack.damage);
@@ -71,20 +76,13 @@ public abstract class Enemy : MonoBehaviour
         {
             enemyCtrl.EndFreeze();
         }
-        if (currentHP <= 0)
-        {
-            Death();
-        }
-        else
-        {
-            animator.SetTrigger("Damaged");
-        }
+        animator.SetTrigger(currentHP <= 0 ? "Death" : "Damaged");
     }
 
-    public void Death()
+    public virtual void DeathAction()
     {
-        animator.SetTrigger("Death");
         Debug.Log("I die");
+        Destroy(animator.gameObject);
     }
 
     void OnPathComplete(Path p)
@@ -100,7 +98,7 @@ public abstract class Enemy : MonoBehaviour
     /// Seek and trace target
     /// </summary>
     /// <returns>returns if seek ends</returns>
-    public virtual void SeekTarget()
+    public virtual void TraceAction()
     {
         seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
         if (seekTarget || Time.time - traceTime < traceTimeLimit)
@@ -126,7 +124,7 @@ public abstract class Enemy : MonoBehaviour
                 AttackStart();
             }
 
-           Vector2 force = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized * speed;
+            Vector2 force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed;
             RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
             if (!checkGround.collider)

@@ -8,11 +8,6 @@ public class Slime : Enemy
     [SerializeField] float jumpPower = 100;
     [SerializeField] bool isFloat = false;
 
-    public override void SeekTarget()
-    {
-        base.SeekTarget();
-    }
-
     public void AttackPattern1()
     {
         StartCoroutine(SlimeAttackWaitCoroutine());

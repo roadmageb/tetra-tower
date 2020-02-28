@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     private StringAnim[] effectAnimSerialize;
     public Dictionary<string, AnimationClip> skillAnim;
     public Dictionary<string, AnimationClip> effectAnim;
-
+    public AstarPath aStarPath;
 
     private void Awake()
     {
@@ -24,5 +24,6 @@ public class GameManager : Singleton<GameManager>
         {
             effectAnim.Add(s.name, s.anim);
         }
+        aStarPath = GameObject.Find("A*").GetComponent<AstarPath>();
     }
 }

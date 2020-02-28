@@ -57,3 +57,4 @@ MonoBehaviour:
     anim: {fileID: 7400000, guid: 75a702a7fd8263943a918ca2305584fd, type: 2}
   - name: BWSpear01
     anim: {fileID: 7400000, guid: 7e4431aa473c834408c3fdd51b27051d, type: 2}
+  aStarPath: {fileID: 0}

@@ -33,6 +33,22 @@ public class PlayerController : Singleton<PlayerController>
     }
     PlayerAttribute originPlayerAttribute;
 
+    public IEnumerator MovePlayer(Vector3 _dest)
+    {
+        controller.m_Controllable = false;
+        GetComponent<Collider2D>().enabled = false;
+        Vector3 from = transform.position;
+        Vector3 to = new Vector3(_dest.x, _dest.y, transform.position.z);
+        for (float timer = 0; timer < Room.roomMoveTime; timer += Time.deltaTime)
+        {
+            yield return null;
+            transform.position = Vector3.Lerp(from, to, timer / Room.roomMoveTime);
+        }
+        transform.position = to;
+        controller.m_Controllable = true;
+        GetComponent<Collider2D>().enabled = true;
+    }
+
     public void PlayerAttack(Enemy enemy)
     {
         enemy.GainAttack(playingSkill.wp.CalcAttack(playingSkill.num, enemy));

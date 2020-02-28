@@ -5,6 +5,14 @@ using UnityEngine.Tilemaps;
 
 public class Room : MonoBehaviour
 {
+    //For test
+    public Room nextRoom;
+    //For test
+
+    public bool roomCleared = false;
+    public Transform enemy = null;
+    public static float roomMoveTime = 0.2f;
+    public Door[] doors;
     public Tilemap wallTileMap;
     bool[,] wallCheckArray;
     int[,] adjIndex;
@@ -25,6 +33,15 @@ public class Room : MonoBehaviour
         };
         Test();
     }
+
+    private void Update()
+    {        
+        if(!roomCleared && enemy.childCount == 0)
+        {
+            ClearRoom();
+        }
+    }
+
     public void Test()
     {
         ReplaceWallTile(0, 0);
@@ -42,6 +59,22 @@ public class Room : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void MovePlayerToRoom(Vector2 dir)
+    {
+        Vector2 destination = (Vector2)PlayerController.Instance.transform.position + dir * 2;
+        StartCoroutine(CameraController.Instance.MoveCamera(nextRoom.transform.position));
+        StartCoroutine(PlayerController.Instance.MovePlayer(destination));
+        PlayerController.Instance.transform.parent = nextRoom.transform;
+
+        GameManager.Instance.aStarPath.transform.position = nextRoom.transform.position;
+    }
+
+    public void ClearRoom()
+    {
+        roomCleared = true;
+        Debug.Log("Room Cleared");
     }
 
     private bool IsInRange(int min, int val, int max)

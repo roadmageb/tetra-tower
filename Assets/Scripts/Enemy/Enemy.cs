@@ -24,6 +24,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float attackDamage;
     [SerializeField] private AnimationClip idleAnim, traceAnim, damagedAnim, deathAnim;
     [SerializeField] public AttackPattern[] attackPattern;
+    [SerializeField] private EnemyDetectType detectType;
     public bool attackFollowPlayer;
     public bool playerAttackable = false;
     public bool attackedPlayer = false;
@@ -85,12 +86,25 @@ public abstract class Enemy : MonoBehaviour
         Destroy(animator.gameObject);
     }
 
-    void OnPathComplete(Path p)
+    private void OnPathComplete(Path p)
     {
         if (!p.error)
         {
             path = p;
             currentWaypoint = 0;
+        }
+    }
+
+    private bool DetectPlayer()
+    {
+        switch (detectType)
+        {
+            case EnemyDetectType.Line:
+                return Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
+            case EnemyDetectType.Circle:
+                return Physics2D.OverlapCircle(rb.position, playerDetectDistance, LayerMask.GetMask("Player"));
+            default:
+                return false;
         }
     }
 
@@ -100,8 +114,7 @@ public abstract class Enemy : MonoBehaviour
     /// <returns>returns if seek ends</returns>
     public virtual void TraceAction()
     {
-        seekTarget = Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player"));
-        if (seekTarget || Time.time - traceTime < traceTimeLimit)
+        if (DetectPlayer() || Time.time - traceTime < traceTimeLimit)
         {
             UpdatePath();
             if (seekTarget)
@@ -178,7 +191,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (Physics2D.Raycast(rb.position, Vector3.right * (transform.localScale.x > 0 ? 1 : -1), playerDetectDistance, LayerMask.GetMask("Player")))
+        if (DetectPlayer())
         {
             animator.SetBool("Trace", true);
         }

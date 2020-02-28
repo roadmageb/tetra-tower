@@ -188,6 +188,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoalSlime
       objectReference: {fileID: 0}
+    - target: {fileID: 6667287062831341533, guid: 7b5839b76df0a264a84359018d2e1561,
+        type: 3}
+      propertyPath: detectType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b5839b76df0a264a84359018d2e1561, type: 3}
 --- !u!1 &90333631
@@ -269,6 +274,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90333631}
   m_CullTransparentMesh: 0
+--- !u!1839735485 &180127875 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 8373308120051552932, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1200950240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &184412571 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 444720857925442693, guid: 982c7c2533b366f449d56289f12c08a9,
@@ -997,6 +1008,11 @@ PrefabInstance:
       propertyPath: nextRoom
       value: 
       objectReference: {fileID: 1926917346}
+    - target: {fileID: 444720857925442693, guid: 982c7c2533b366f449d56289f12c08a9,
+        type: 3}
+      propertyPath: wallTileMap
+      value: 
+      objectReference: {fileID: 180127875}
     - target: {fileID: 608028200897960366, guid: 982c7c2533b366f449d56289f12c08a9,
         type: 3}
       propertyPath: m_ColliderPaths.Array.size
@@ -1663,6 +1679,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b5839b76df0a264a84359018d2e1561, type: 3}
+--- !u!1001 &1511100410
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.4516141
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.48834175
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.1266887
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910059, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021568426000910069, guid: 4c24504bfb7588d47854ee41810ae5f1,
+        type: 3}
+      propertyPath: m_Name
+      value: TileCombiner
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4c24504bfb7588d47854ee41810ae5f1, type: 3}
 --- !u!1 &1557119658
 GameObject:
   m_ObjectHideFlags: 0
@@ -2073,6 +2158,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0f56cc306fc374bb4b0fc1a4fad110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1839735485 &1968695703 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 8373308120051552932, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2391877518188297986}
+  m_PrefabAsset: {fileID: 0}
 --- !u!61 &1978636351 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 2833726306808511526, guid: 982c7c2533b366f449d56289f12c08a9,
@@ -2261,6 +2352,11 @@ PrefabInstance:
       propertyPath: nextRoom
       value: 
       objectReference: {fileID: 184412571}
+    - target: {fileID: 444720857925442693, guid: 982c7c2533b366f449d56289f12c08a9,
+        type: 3}
+      propertyPath: wallTileMap
+      value: 
+      objectReference: {fileID: 1968695703}
     - target: {fileID: 608028200897960366, guid: 982c7c2533b366f449d56289f12c08a9,
         type: 3}
       propertyPath: m_ColliderPaths.Array.size

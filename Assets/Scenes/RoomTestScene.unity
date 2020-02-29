@@ -128,6 +128,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2391877518188297987}
     m_Modifications:
+    - target: {fileID: 5011240149383966169, guid: 307efec216ee63f47a7b128755127aa3,
+        type: 3}
+      propertyPath: playerDetectDistance
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5011240149383966169, guid: 307efec216ee63f47a7b128755127aa3,
+        type: 3}
+      propertyPath: flySpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5011240149383966169, guid: 307efec216ee63f47a7b128755127aa3,
+        type: 3}
+      propertyPath: speed
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6641737705354378818, guid: 307efec216ee63f47a7b128755127aa3,
         type: 3}
       propertyPath: m_LocalPosition.x

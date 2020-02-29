@@ -4,19 +4,11 @@ using UnityEngine;
 
 public class FloatFly : Enemy
 {
-    [SerializeField] float jumpPower = 100;
+    [SerializeField] private float flySpeed;
 
     public void AttackPattern1()
     {
 
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
-        {
-            AttackEnd();
-        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -31,7 +23,18 @@ public class FloatFly : Enemy
     public override void IdleAction()
     {
         base.IdleAction();
+        FlyRandomMovement();
+    }
 
+    public override void TraceAction()
+    {
+        base.TraceAction();
+        FlyRandomMovement();
+    }
+
+    private void FlyRandomMovement()
+    {
+        rb.AddForce(Random.insideUnitSphere * flySpeed);
     }
 
     protected override void Start()
@@ -39,4 +42,6 @@ public class FloatFly : Enemy
         base.Start();
         attackMethods.Add(AttackPattern1);
     }
+
+
 }

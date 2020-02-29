@@ -62,7 +62,7 @@ public class Tetromino : MonoBehaviour
         {
             mino.transform.position += shift;
 
-            if (mino.transform.position.y <= map.basePosition.y + map.scaleFactor * mino.slideDestination)
+            if (mino.transform.position.y < map.basePosition.y + map.scaleFactor * mino.slideDestination)
             {
                 var pos = mino.transform.position;
                 pos.y = map.basePosition.y + map.scaleFactor * mino.slideDestination;
@@ -75,6 +75,7 @@ public class Tetromino : MonoBehaviour
         {
             velocity = initialVelocity;
             map.tetrominoFalling = false;
+            isFalling = false;
             prepareNextTetromino();
         }
     }

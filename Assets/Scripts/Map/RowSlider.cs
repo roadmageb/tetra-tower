@@ -52,7 +52,7 @@ public class RowSlider : MonoBehaviour
             gravity += gravityAdd * Time.deltaTime;
             shift = velocity * Time.deltaTime;
 
-            bool finished = false;
+            int finished = 0;
 
             for (int i = 0; i < Map.gridWidth; ++i)
             {
@@ -73,12 +73,16 @@ public class RowSlider : MonoBehaviour
                         map.grid[i, row].position = pos;
 
                         map.rowPosition[row].y = pos.y;
-                        finished = true;
+                        finished++;
                     }
+                }
+                else
+                {
+                    finished++;
                 }
             }
 
-            if (finished)
+            if (finished == Map.gridWidth)
             {
                 coroutineCount--;
                 yield break;

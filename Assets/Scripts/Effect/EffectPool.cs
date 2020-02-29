@@ -20,7 +20,9 @@ public class EffectPool : Singleton<EffectPool>
         hitParticlePool = new List<GameObject>();
         while (hitParticlePool.Count < initHitParticleNum)
         {
-            hitParticlePool.Add(Instantiate(hitParticle));
+            GameObject obj = Instantiate(hitParticle);
+            obj.GetComponent<HitParticleController>().Init(this);
+            hitParticlePool.Add(obj);
         }
     }
 
@@ -51,6 +53,31 @@ public class EffectPool : Singleton<EffectPool>
             obj.SetActive(false);
             effectPool.Add(obj);
         }
+        else if(obj.GetComponent<HitParticleController>())
+        {
+            hitParticlePool.Add(obj);
+        }
     }
 
+
+    public GameObject PopHitParticle()
+    {
+        GameObject obj;
+        if (hitParticlePool.Count > 0)
+        {
+            obj = hitParticlePool[0];
+            hitParticlePool.RemoveAt(0);
+        }
+        else
+        {
+            obj = Instantiate(hitParticle);
+            obj.GetComponent<HitParticleController>().Init(this);
+        }
+        return obj;
+    }
+    public void StartHitParticle(Vector3 pos, float angle)
+    {
+        GameObject obj = PopHitParticle();
+        obj.GetComponent<HitParticleController>().StartParticle(pos, angle);
+    }
 }

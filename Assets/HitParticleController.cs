@@ -17,7 +17,7 @@ public class HitParticleController : MonoBehaviour
     {
         gameObject.SetActive(true);
         transform.position = pos;
-        transform.eulerAngles = new Vector3(-angle, 90, 90);
+        transform.eulerAngles = new Vector3(-angle, -90, 90);
         ps.Play();
     }
 

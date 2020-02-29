@@ -77,6 +77,7 @@ public abstract class Enemy : MonoBehaviour
             enemyCtrl.EndFreeze();
         }
         animator.SetTrigger(currentHP <= 0 ? "Death" : "Damaged");
+        EffectPool.Instance.StartHitParticle(transform.position, Mathf.Rad2Deg * Mathf.Atan2(PlayerController.Instance.transform.position.y - transform.position.y, PlayerController.Instance.transform.position.x - transform.position.x));
     }
 
     public virtual void DeathAction()

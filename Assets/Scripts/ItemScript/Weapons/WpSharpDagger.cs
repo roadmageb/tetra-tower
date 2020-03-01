@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WpSharpDagger : MonoBehaviour
+public class WpSharpDagger : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    public WpSharpDagger(ScriptableWeaponInfo info) : base(info)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

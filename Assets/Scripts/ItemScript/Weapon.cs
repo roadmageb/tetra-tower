@@ -6,16 +6,27 @@ public abstract class Weapon
 {
     public ScriptableWeaponInfo info;
     public List<Addon> addons;
+    public float gaugeSize;
+    public float gaugeCurrent;
 
-    public Weapon(ScriptableWeaponInfo info)
+    public Weapon(ScriptableWeaponInfo _info)
     {
         addons = new List<Addon>();
-        this.info = info;
+        info = _info;
+        for(int i = 0; i < info.commands.Length; i++)
+        {
+            info.commands[i].skill = new SkillInfo(this, i);
+        }
+        if(info.gaugeEnabled)
+        {
+            gaugeSize = info.gaugeSize;
+            gaugeCurrent = info.gaugeInit;
+        }
     }
 
     public AnimationClip GetAnim(int skillNum)
     {
-        return info.anims[skillNum];
+        return info.commands[skillNum].anim;
     }
     public virtual void PlaySkill(int skillNum, int option)
     {
@@ -40,13 +51,13 @@ public abstract class Weapon
         }
         return false;
     }
-    protected virtual int GetDamage(int skillNum)
+    protected virtual float GetDamage(int skillNum)
     {
-        return 0;
+        return info.commands[skillNum].damageList[0];
     }
     public AttackPtoE CalcAttack(int skillNum, Enemy enemy)
     {
-        if(info.skillCount > skillNum)
+        if(info.commands.Length > skillNum)
         {
             AttackPtoE attack = new AttackPtoE(GetDamage(skillNum));
             

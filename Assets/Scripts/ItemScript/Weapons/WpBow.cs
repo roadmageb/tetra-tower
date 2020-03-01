@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WpBow : MonoBehaviour
+public class WpBow : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    public WpBow(ScriptableWeaponInfo info) : base(info)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

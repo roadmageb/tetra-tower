@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "NewWeapon", menuName = "Custom/WeaponInfo")]
 public class ScriptableWeaponInfo : ScriptableObject
 {
     public ItemRank rank;
-    public int skillCount;
     public ComboInfo[] commands;
-    public float[] damageList;
-    public AnimationClip[] anims;
     public bool gaugeEnabled;
     public float gaugeSize;
-    public float gaugeCurrent;
+    public float gaugeInit;
     public int addonSize;
+    public Sprite sprite;
 }

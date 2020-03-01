@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WpMasterKey : MonoBehaviour
+public class WpMasterKey : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    public WpMasterKey(ScriptableWeaponInfo info) : base(info)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

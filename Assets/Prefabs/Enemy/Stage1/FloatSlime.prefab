@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1452202928852675928}
   - component: {fileID: 1452202928852675931}
   m_Layer: 10
-  m_Name: EnemyPlaceHolder
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,7 +166,6 @@ MonoBehaviour:
   playerDetectDistance: 4
   attackRange: 4
   groundDetectOffset: {x: 0, y: 0}
-  attackDamage: 0
   idleAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
   traceAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
   damagedAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
@@ -176,6 +175,7 @@ MonoBehaviour:
     attackDamage: 1
     attackCtrl: 0
   detectType: 0
+  ignoreGround: 0
   attackFollowPlayer: 0
   playerAttackable: 0
   attackedPlayer: 0
@@ -206,7 +206,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1452202930308258077
 BoxCollider2D:
   m_ObjectHideFlags: 0

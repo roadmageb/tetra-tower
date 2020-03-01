@@ -36,12 +36,4 @@ public class FloatFly : Enemy
     {
         rb.AddForce(Random.insideUnitSphere * flySpeed);
     }
-
-    protected override void Start()
-    {
-        base.Start();
-        attackMethods.Add(AttackPattern1);
-    }
-
-
 }

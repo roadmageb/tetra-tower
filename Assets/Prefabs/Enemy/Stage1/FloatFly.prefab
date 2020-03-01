@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 6641737704435517955}
   - component: {fileID: 6641737704435517952}
   m_Layer: 10
-  m_Name: EnemyPlaceHolder
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,7 +259,7 @@ MonoBehaviour:
   maxHP: 0
   currentHP: 0
   enemyCtrl: {fileID: 0}
-  jumpPower: 100
+  flySpeed: 0
 --- !u!50 &6641737705354378823
 Rigidbody2D:
   serializedVersion: 4

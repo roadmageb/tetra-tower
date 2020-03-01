@@ -42,9 +42,6 @@ public abstract class Enemy : MonoBehaviour
     public float currentHP;
     public EnemyCtrl enemyCtrl;
 
-    public List<AttackMethod> attackMethods;
-    public delegate void AttackMethod();
-
     public virtual void AttackStart()
     {
         currentAttackIndex = Random.Range(0, attackPattern.Length);
@@ -182,7 +179,6 @@ public abstract class Enemy : MonoBehaviour
         animOverCont["EnemyTraceAnim"] = traceAnim;
         animOverCont["EnemyDamagedAnim"] = damagedAnim;
         animOverCont["EnemyDeathAnim"] = deathAnim;
-        attackMethods = new List<AttackMethod>();
         //InvokeRepeating("UpdatePath", 0, 0.1f);
     }
 

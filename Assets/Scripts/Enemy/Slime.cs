@@ -26,13 +26,4 @@ public class Slime : Enemy
             AttackEnd();
         }
     }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (playerAttackable && !attackedPlayer && collision.gameObject.tag.Equals("Player"))
-        {
-            attackedPlayer = true;
-            PlayerController.Instance.GetDamage(attackPattern[currentAttackIndex].attackDamage);
-        }
-    }
 }

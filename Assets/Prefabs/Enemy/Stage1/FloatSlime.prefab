@@ -176,6 +176,8 @@ MonoBehaviour:
     attackCtrl: 0
   detectType: 0
   ignoreGround: 0
+  lastAttackedTime: 0
+  attackDelay: 1
   attackFollowPlayer: 0
   playerAttackable: 0
   attackedPlayer: 0

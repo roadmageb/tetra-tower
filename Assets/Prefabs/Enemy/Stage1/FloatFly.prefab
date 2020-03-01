@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  drawGizmos: 1
+  drawGizmos: 0
   detailedGizmos: 1
   startEndModifier:
     addPoints: 0
@@ -239,18 +239,20 @@ MonoBehaviour:
   speed: 10
   nextWayPointDistance: 0.1
   playerDetectDistance: 7
-  attackRange: 0.5
+  attackRange: 2
   groundDetectOffset: {x: 0, y: 0}
   idleAnim: {fileID: 0}
   traceAnim: {fileID: 0}
   damagedAnim: {fileID: 0}
   deathAnim: {fileID: 0}
   attackPattern:
-  - attackAnim: {fileID: 0}
-    attackDamage: 0
+  - attackAnim: {fileID: 7400000, guid: 0add0989504b95048aa839c26af6205b, type: 2}
+    attackDamage: 1
     attackCtrl: 0
   detectType: 1
   ignoreGround: 1
+  lastAttackedTime: 0
+  attackDelay: 1
   attackFollowPlayer: 0
   playerAttackable: 0
   attackedPlayer: 0
@@ -259,7 +261,7 @@ MonoBehaviour:
   maxHP: 0
   currentHP: 0
   enemyCtrl: {fileID: 0}
-  flySpeed: 0
+  flySpeed: 100
 --- !u!50 &6641737705354378823
 Rigidbody2D:
   serializedVersion: 4

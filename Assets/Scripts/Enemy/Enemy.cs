@@ -25,6 +25,9 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] public AttackPattern[] attackPattern;
     [SerializeField] private EnemyDetectType detectType;
     [SerializeField] private bool ignoreGround;
+    [SerializeField] private float lastAttackedTime;
+    [SerializeField] private float attackDelay;
+
     public bool attackFollowPlayer;
     public bool playerAttackable = false;
     public bool attackedPlayer = false;
@@ -41,22 +44,6 @@ public abstract class Enemy : MonoBehaviour
     public float maxHP;
     public float currentHP;
     public EnemyCtrl enemyCtrl;
-
-    public virtual void AttackStart()
-    {
-        currentAttackIndex = Random.Range(0, attackPattern.Length);
-        animOverCont["EnemyAttackAnim"] = attackPattern[currentAttackIndex].attackAnim;
-        attackedPlayer = false;
-        animator.SetBool("Attack", true);
-    }
-
-    public virtual void AttackEnd()
-    {
-        attackedPlayer = false;
-        animator.SetBool("Attack", false);
-    }
-
-    public virtual void IdleAction() { }
 
     public void GainAttack(AttackPtoE attack)
     {
@@ -89,6 +76,15 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (playerAttackable && !attackedPlayer && collision.gameObject.tag.Equals("Player"))
+        {
+            attackedPlayer = true;
+            PlayerController.Instance.GetDamage(attackPattern[currentAttackIndex].attackDamage);
+        }
+    }
+
     private bool DetectPlayer()
     {
         switch (detectType)
@@ -101,6 +97,8 @@ public abstract class Enemy : MonoBehaviour
                 return false;
         }
     }
+
+    public virtual void IdleAction() { }
 
     /// <summary>
     /// Seek and trace target
@@ -126,7 +124,7 @@ public abstract class Enemy : MonoBehaviour
                 animator.SetBool("Trace", true);
             }
 
-            if (Vector3.Distance(transform.position, target.position) <= attackRange)
+            if (Time.time - lastAttackedTime > attackDelay && Vector3.Distance(transform.position, target.position) <= attackRange)
             {
                 AttackStart();
             }
@@ -155,6 +153,21 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    public virtual void AttackStart()
+    {
+        currentAttackIndex = Random.Range(0, attackPattern.Length);
+        animOverCont["EnemyAttackAnim"] = attackPattern[currentAttackIndex].attackAnim;
+        attackedPlayer = false;
+        animator.SetBool("Attack", true);
+    }
+
+    public virtual void AttackEnd()
+    {
+        attackedPlayer = false;
+        animator.SetBool("Attack", false);
+        lastAttackedTime = Time.time;
+    }
+
     protected void UpdatePath()
     {
         if (seeker.IsDone())
@@ -179,7 +192,8 @@ public abstract class Enemy : MonoBehaviour
         animOverCont["EnemyTraceAnim"] = traceAnim;
         animOverCont["EnemyDamagedAnim"] = damagedAnim;
         animOverCont["EnemyDeathAnim"] = deathAnim;
-        //InvokeRepeating("UpdatePath", 0, 0.1f);
+
+        lastAttackedTime = -attackDelay;
     }
 
     private void Update()

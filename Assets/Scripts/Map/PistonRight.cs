@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class PistonRight : Piston
+public class PistonRight : Piston
 {
     protected override void compress()
     {

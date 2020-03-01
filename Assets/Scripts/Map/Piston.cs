@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract class Piston: MonoBehaviour
+public abstract class Piston: MonoBehaviour
 {
     public static int pistonCount {get; set;}
 

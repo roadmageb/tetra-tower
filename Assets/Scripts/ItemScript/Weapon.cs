@@ -2,26 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : ScriptableObject
+public abstract class Weapon
 {
-    public ItemRank rank;
-    public int skillCount;
-    public ComboInfo[] commands;
-    public AnimationClip[] anims;
-    public bool gaugeEnabled;
-    public float gaugeSize;
-    public float gaugeCurrent;
-    public int addonSize;
+    public ScriptableWeaponInfo info;
     public List<Addon> addons;
 
-    public Weapon()
+    public Weapon(ScriptableWeaponInfo info)
     {
         addons = new List<Addon>();
+        this.info = info;
     }
 
     public AnimationClip GetAnim(int skillNum)
     {
-        return anims[skillNum];
+        return info.anims[skillNum];
     }
     public virtual void PlaySkill(int skillNum, int option)
     {
@@ -29,7 +23,7 @@ public abstract class Weapon : ScriptableObject
     }
     public bool GainAddon(Addon newAddon)
     {
-        if(addons.Count < addonSize)
+        if(addons.Count < info.addonSize)
         {
             addons.Add(newAddon);
             return true;
@@ -52,7 +46,7 @@ public abstract class Weapon : ScriptableObject
     }
     public AttackPtoE CalcAttack(int skillNum, Enemy enemy)
     {
-        if(skillCount > skillNum)
+        if(info.skillCount > skillNum)
         {
             AttackPtoE attack = new AttackPtoE(GetDamage(skillNum));
             
@@ -82,7 +76,7 @@ public abstract class Weapon : ScriptableObject
                 }
             }
 
-            //Apply DmgAdd effect
+            //Apply DmgMult effect
             if (this is IAtkDmgMult)
             {
                 ((IAtkDmgMult)this).AtkDmgMult(attack, skillNum, enemy);

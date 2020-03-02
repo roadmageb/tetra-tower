@@ -6,14 +6,10 @@ public class RowDestroyer : MonoBehaviour
 {
     public Map map;
     public bool destroyFinished;
-    public bool requested;
-    public int requestCount;
 
     void Start()
     {
         destroyFinished = false;
-        requested = false;
-        requestCount = 0;
     }
 
     public void Initialize(Map map)
@@ -27,35 +23,65 @@ public class RowDestroyer : MonoBehaviour
     }
 
     // Update is called once per frame  
-    void Update()   
+    public void RequestDestroyRows(PistonSpawner spawner, PistonSet set)
     {
-        if (requested)
+        map.gridUtils.isFullUpdate();
+        map.gridUtils.UpdateIsRowEmpty();
+
+        map.gridUtils.shiftAmountUpdate();
+        DestroyRows(map.gridUtils.isFull, set);
+        MoveRowsDown(map.gridUtils.isFull, map.gridUtils.shiftDown, set);
+
+        destroyFinished = true;
+    }
+    public void MoveRowsDown(bool[] isFull, int[] shiftAmount, PistonSet set)
+    {
+        for (int i = set.LowestRow(); i < set.NextLowestRow(); ++i)
         {
-            if (Piston.pistonCount > 0)
-            {
-                return;
+            if (!isFull[i]) {
+                MoveRowDown(i, -shiftAmount[i]);
             }
+        }
+    }
+    void MoveRowDown(int y, int num)
+    {
+        if (num == 0)
+        {
+            return; // do nothing
+        }
 
-            else
+        for (int x = 0; x < Map.gridWidth; ++x)
+        {
+            if (map.grid[x, y] != null)
             {
-                map.inputLock = true;
-                map.pistonSpawner.Reset();
+                // for delayed transform shift
+                var mino = map.grid[x, y].gameObject.GetComponent<Mino>();
+                mino.slideDestination = y - num;
 
-                map.gridUtils.isFullUpdate();
-                map.gridUtils.shiftAmountUpdate();
-                map.DestroyRowsIfFull(map.gridUtils.isFull);
-                map.MoveAllRowsDown(map.gridUtils.isFull, map.gridUtils.shiftDown);
+                map.grid[x, y - num] = map.grid[x, y];
+                map.grid[x, y] = null;
 
-                destroyFinished = true;
-                requested = false;
-                return;
             }
         }
     }
 
-    public void RequestDestroyRows()
+    public void DestroyRows(bool[] isFull, PistonSet set)
     {
-        requested = true;
-        requestCount++;
+        for (int i = set.LowestRow(); i < set.NextLowestRow(); ++i)
+        {
+            if (isFull[i])
+            {
+                DestroyRow(i);
+            }
+        }
     }
+    void DestroyRow(int y)
+    {
+        for (int x = 0; x < Map.gridWidth; ++x)
+        {
+            Destroy(map.grid[x, y].gameObject);
+            map.grid[x, y] = null;
+        }
+    }
+
 }

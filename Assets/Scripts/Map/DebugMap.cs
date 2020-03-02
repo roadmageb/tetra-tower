@@ -39,8 +39,9 @@ public class DebugMap : MonoBehaviour
     {
         if (map.grid[x, y] != null && grid[x, y] == null)
         {
-            grid[x, y] = GameObject.Instantiate(minoPrefab, basePosition + new Vector3((float)x, (float)y, 0.0f), Quaternion.identity);
+            grid[x, y] = GameObject.Instantiate(minoPrefab, basePosition + map.scaleFactor * new Vector3((float)x, (float)y, 0.0f), Quaternion.identity);
             grid[x, y].transform.parent = transform;
+            grid[x, y].transform.localScale *= map.scaleFactor;
         }
         else if (map.grid[x, y] == null && grid[x, y] != null)
         {
@@ -51,7 +52,7 @@ public class DebugMap : MonoBehaviour
     public Vector3 basePosition
     { 
         get {
-            return transform.position + new Vector3(1, 1, 0);
+            return transform.position + map.scaleFactor * new Vector3(1, 1, 0);
         } 
     }
 

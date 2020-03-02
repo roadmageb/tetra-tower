@@ -50,14 +50,14 @@ public class Map : MonoBehaviour
 
     void Start()
     {
-        scaleFactor = 3;
+        scaleFactor = 16;
         scaleVector = Vector3Int.one * (scaleFactor - 1);
         transform.localScale += scaleVector;
 
         transform.position = new Vector3Int(1, -10 * scaleFactor, 0);
 
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        mainCamera.orthographicSize = 40;
+        mainCamera.orthographicSize = 12 * scaleFactor;
 
         basePosition = Vector3Utils.ToVector3Int(transform.position) + new Vector3Int(scaleFactor, scaleFactor, 0);
 

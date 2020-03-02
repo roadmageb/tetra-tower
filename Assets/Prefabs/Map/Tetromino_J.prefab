@@ -51,11 +51,15 @@ MonoBehaviour:
   isFalling: 0
   gravity: 9.8
   gravityAdd: 40
+  gravityMul: 1.001
   velocity: {x: 0, y: 0, z: 0}
+  initialVelocity: {x: 0, y: 0, z: 0}
   shift: {x: 0, y: 0, z: 0}
   gridPosition: {x: 0, y: 0, z: 0}
   fallDestination: {x: 0, y: 0, z: 0}
+  realFallDestination: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
+  PositionBeforeRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &5478222593281930727
 GameObject:
   m_ObjectHideFlags: 0

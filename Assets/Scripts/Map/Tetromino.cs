@@ -62,7 +62,8 @@ public class Tetromino : MonoBehaviour
     void Fall()
     {
         velocity.y -= gravity * Time.deltaTime;
-        gravity += gravityAdd * Time.deltaTime;
+        //gravity += gravityAdd * Time.deltaTime;
+        gravity = gravityMul * gravity;
         shift = velocity * Time.deltaTime;
 
         int finishCount = 0;
@@ -179,9 +180,18 @@ public class Tetromino : MonoBehaviour
     void prepareNextTetromino()
     {
         //map.DeleteRow();
-        map.RemoveRowsIfFull();
+        map.RemoveRowsIfFull(this);
+        //CreateRooms();
         enabled = false;
         map.SpawnNextTetromino();
+    }
+
+    void CreateRooms()
+    {
+        foreach (Mino mino in GetComponentsInChildren<Mino>())
+        {
+            mino.MakeRoom();
+        }
     }
 
     bool canShift(Vector3Int shift)

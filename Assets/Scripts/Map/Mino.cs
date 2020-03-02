@@ -7,10 +7,13 @@ public class Mino : MonoBehaviour
     public bool toBeDestroyed;
 
 
-    public float originalPosition;
-    public float slideDestination;
+    public int originalPosition;
+    public int slideDestination;
 
     public Vector3Int localPosition;
+
+    public GameObject RoomPrefab;
+    public Room room;
 
     // Start is called before the first frame update
     void Start()
@@ -20,12 +23,22 @@ public class Mino : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.localPosition = localPosition;
+        if (room)
+        {
+            room.transform.position = transform.position;
+        }
     }
 
     public Vector3Int GetGridPosition()
     {
         return GetComponentInParent<Tetromino>().gridPosition + localPosition;
+    }
+
+    public void MakeRoom()
+    {
+        var gameObj = Instantiate(RoomPrefab);
+        room = gameObj.GetComponent<Room>();
+        room.transform.position = transform.position;
     }
 
 }

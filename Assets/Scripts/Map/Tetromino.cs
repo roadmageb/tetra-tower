@@ -21,7 +21,9 @@ public class Tetromino : MonoBehaviour
     public Vector3Int realFallDestination;
     public Map map;
 
-    public void Move(Vector3Int offset)
+    public Vector3Int PositionBeforeRotation;
+
+    public void MoveBy(Vector3Int offset)
     {
         gridPosition += offset;
         transform.position = map.basePosition + map.scaleFactor * gridPosition;
@@ -123,7 +125,7 @@ public class Tetromino : MonoBehaviour
             var shift = new Vector3Int(1, 0, 0);
             if (canShift(shift))
             {
-                Move(shift);
+                MoveBy(shift);
                 //map.UpdateGrid(this);
 
             }
@@ -133,24 +135,14 @@ public class Tetromino : MonoBehaviour
             var shift = new Vector3Int(-1, 0, 0);
             if (canShift(shift))
             {
-                Move(shift);
+                MoveBy(shift);
                 //map.UpdateGrid(this);
             }
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (!allowRotation)
-            {
-                return;
-            }
-
-            rotateCounterclockwise();
-
-            if (!IsValidPosition())
-            {
-                rotateClockwise();
-            }
-            //map.UpdateGrid(this);
+            PositionBeforeRotation = gridPosition;
+            Rotate();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -163,7 +155,7 @@ public class Tetromino : MonoBehaviour
             var shift = new Vector3Int(0, -1, 0);
             if (canShift(shift))
             {
-                Move(shift);
+                MoveBy(shift);
                 //map.UpdateGrid(this);
             } else
             {
@@ -217,6 +209,36 @@ public class Tetromino : MonoBehaviour
         rotateCounterclockwise();
         rotateCounterclockwise();
         rotateCounterclockwise();
+    }
+
+    void Rotate()
+    {
+        if (!allowRotation)
+        {
+            return;
+        }
+
+        rotateCounterclockwise();
+
+        if (!IsValidPosition())
+        {
+            rotateClockwise();
+            var x = gridPosition.x;
+            if (x == 0 || x == 1)
+            {
+                MoveBy(Vector3Int.right);
+                Rotate();
+            }
+            else if (x == Map.gridWidth - 1 || x == Map.gridWidth - 2)
+            {
+                MoveBy(Vector3Int.left);
+                Rotate();
+            }
+            else
+            {
+                MoveTo(PositionBeforeRotation);
+            }
+        }
     }
 
     void rotateCounterclockwise()

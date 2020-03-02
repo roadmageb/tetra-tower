@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class LifeStoneInfo
+{
+    public string lifeStonePos;
+    public Vector2Int size;
+    public LifeStoneInfo(string _lifeStonePos, Vector2Int _size)
+    {
+        lifeStonePos = _lifeStonePos;
+        size = _size;
+    }
+}
+
 public class LifeStoneManager : MonoBehaviour
 {
-    public class LifeStoneInfo
-    {
-        public string lifeStonePos;
-        public Vector2Int size;
-        public LifeStoneInfo(string _lifeStonePos, Vector2Int _size)
-        {
-            lifeStonePos = _lifeStonePos;
-            size = _size;
-        }
-    }
-
     public GameObject lifeStoneTop, lifeStoneMiddle, lifeStoneBottom;
     public GameObject lifeStoneNormal;
     private Transform lifeStoneUI;
@@ -181,7 +181,7 @@ public class LifeStoneManager : MonoBehaviour
     /// <param name="amount">Total amount of life stone</param>
     /// <param name="goldAmount">Amount of gold life stone</param>
     /// <returns>Encoded string of shape of created life stone</returns>
-    private LifeStoneInfo CreateLifeStoneShape(int amount, int goldAmount = 0)
+    public LifeStoneInfo CreateLifeStoneShape(int amount, int goldAmount = 0)
     {
         int xSize = Mathf.Min(columnSize, amount), ySize = amount;
         bool[,] lifeStonePos = new bool[ySize, xSize];

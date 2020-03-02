@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class ItemManager : Singleton<ItemManager>
 {
+    [SerializeField] private DroppedItem droppedItem = null;
     public List<Weapon> currentWeapons;
     public ScriptableWeaponInfo[] weaponDB;
     public List<ScriptableWeaponInfo>[] weaponRankList;
@@ -107,4 +108,28 @@ public class ItemManager : Singleton<ItemManager>
         }
         return false;
     }
+
+    public DroppedItem CreateItem(Vector2 pos, int lifeStoneAmount, int goldRate)
+    {
+        //LifeStoneInfo lifeStoneInfo = LifeStoneManager.CreateLifeStoneShape(lifeStoneAmount, goldRate);
+        return null;
+    }
+
+    public DroppedItem CreateItem(Vector2 pos, Weapon wp)
+    {
+        DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
+        temp.weapon = wp;
+        temp.GetComponent<SpriteRenderer>().sprite = wp.info.sprite;
+        return temp;
+    }
+
+    public DroppedItem CreateItem(Vector2 pos, ItemRank rank)
+    {
+        return CreateItem(pos, InstantiateWeapon(rank));
+    }
+    public DroppedItem CreateItem(Vector2 pos, string name)
+    {
+        return CreateItem(pos, InstantiateWeapon(name));
+    }
+
 }

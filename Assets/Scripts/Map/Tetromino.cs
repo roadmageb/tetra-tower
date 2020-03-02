@@ -9,8 +9,9 @@ public class Tetromino : MonoBehaviour
     public bool allowRotation = true;
 
     public bool isFalling = false;
-    public float gravity = 9.8F;
-    public float gravityAdd = 40;
+    public float gravity = 1F;
+    public float gravityAdd = 4000;
+    public float gravityMul =1.001f;
     public Vector3 velocity;
     public Vector3 initialVelocity;
 
@@ -29,12 +30,18 @@ public class Tetromino : MonoBehaviour
         transform.position = map.basePosition + map.scaleFactor * gridPosition;
     }
 
+    public void MoveTo(Vector3Int location)
+    {
+        gridPosition = location;
+        transform.position = map.basePosition + map.scaleFactor * gridPosition;
+    }
+
     public void Initialize(Map map, Vector3Int gridPosition)
     {
         this.map = map;
         this.gridPosition = gridPosition;
         this.transform.position = map.basePosition + map.scaleFactor * gridPosition;
-        initialVelocity = new Vector3(0, -10, 0);
+        initialVelocity = new Vector3(0, 0, 0);
         this.velocity = initialVelocity;
     }
    

@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class ItemManager : Singleton<ItemManager>
 {
     [SerializeField] private DroppedItem droppedItem = null;
+    public GameObject droppedLifeStone;
     public List<Weapon> currentWeapons;
     public ScriptableWeaponInfo[] weaponDB;
     public List<ScriptableWeaponInfo>[] weaponRankList;
@@ -111,8 +112,26 @@ public class ItemManager : Singleton<ItemManager>
 
     public DroppedItem CreateItem(Vector2 pos, int lifeStoneAmount, int goldRate)
     {
+        float droppedLifeStoneOffset = 0.33f;
         DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
-        temp.lifeStoneInfo = LifeStoneManager.Instance.CreateLifeStoneShape(lifeStoneAmount, goldRate);
+        LifeStoneInfo lifeStoneInfo = LifeStoneManager.Instance.CreateLifeStoneShape(lifeStoneAmount, goldRate);
+        temp.lifeStoneInfo = lifeStoneInfo;
+
+        for (int y = 0; y < lifeStoneInfo.size.y; y++)
+        {
+            for (int x = 0; x < lifeStoneInfo.size.x; x++)
+            {
+                if((LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()) != LifeStoneType.NULL)
+                {
+                    Instantiate(droppedLifeStone, new Vector2(x, y) * droppedLifeStoneOffset, Quaternion.identity, temp.transform);
+                }
+            }
+        }
+        temp.GetComponent<BoxCollider2D>().size = (Vector2)lifeStoneInfo.size * droppedLifeStoneOffset;
+        temp.GetComponent<BoxCollider2D>().offset = (lifeStoneInfo.size - new Vector2(1, 1)) / 2 * droppedLifeStoneOffset;
+        temp.transform.Find("GroundCollider").GetComponent<BoxCollider2D>().size = (Vector2)lifeStoneInfo.size * droppedLifeStoneOffset;
+        temp.transform.Find("GroundCollider").GetComponent<BoxCollider2D>().offset = (lifeStoneInfo.size - new Vector2(1, 1)) / 2 * droppedLifeStoneOffset;
+
         return temp;
     }
 

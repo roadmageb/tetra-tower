@@ -139,18 +139,6 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
                 }
             }
         }
-
-        //For test
-        //Debug current life stone grid
-        /*for (int y = rowSize - 1; y >= 0; y--)
-        {
-            string temp = "";
-            for (int x = 0; x < columnSize; x++)
-            {
-                temp += lifeStoneGrid[y, x] != null ? lifeStoneGrid[y, x].type : LifeStoneType.NULL;
-            }
-            Debug.Log(temp);
-        }*/
     }
 
     private void CreateLifeStone(float initialPos, Vector2Int pos, LifeStoneType type)

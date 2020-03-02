@@ -7,6 +7,22 @@ public class PistonSpawner : MonoBehaviour
     public GameObject PistonLeftPrefab;
     public GameObject PistonRightPrefab;
 
+    [SerializeField]
+    private int _pistonSetCount;
+
+    public int pistonSetCount
+    {
+        get
+        {
+            return _pistonSetCount;
+        }
+
+        set
+        {
+            _pistonSetCount = value;
+        }
+    }
+
     PistonLeft pistonLeft;
     PistonRight pistonRight;
 
@@ -18,68 +34,65 @@ public class PistonSpawner : MonoBehaviour
 
     public void Initialize(Map map)
     {
+        pistonSetCount = 0;
         this.map = map;
         nthPistonExists = new bool[Map.gridHeight];
     }
 
-    // Update is called once per frame
-    void Update()
+    public PistonSet spawnIfFull(bool[] isFull)
     {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            spawnNth(0);
-            spawnNth(2);
-            spawnNth(4);
-            spawnNth(6);
-            spawnNth(8);
-            spawnNth(9);
-            spawnNth(11);
-        }
-    }
+        var pistonSet = new GameObject().AddComponent<PistonSet>();
+        pistonSet.Init(this);
 
-    public void spawnIfFull(bool[] isFull)
-    {
         for (int i = 0; i < isFull.Length; ++i)
         {
-            if (isFull[i])
+            if (isFull[i] && !nthPistonExists[i])
             {
-                spawnNth(i);
+                var pair = SpawnNthPair(i);
+                pistonSet.Add(pair);
             }
         }
-
+        return pistonSet;
     }
 
-    public void spawnNth(int n)
+    public PistonPair SpawnNthPair(int n)
     {
-        if (!nthPistonExists[n])
-        {
-            spawnLeftNth(n);
-            spawnRightNth(n);
-            nthPistonExists[n] = true;
-        }
+        var left = SpawnLeftNth(n);
+        var right = SpawnRightNth(n);
+
+        var pistonPair = new GameObject().AddComponent<PistonPair>().MakePair(left, right, n);
+        pistonPair.Init(this);
+
+        nthPistonExists[n] = true;
+
+        pistonSetCount++;
+        return pistonPair;
     }
 
-    public void spawnLeftNth(int n)
+    public PistonLeft SpawnLeftNth(int n)
     {
         GameObject pistonLeftObj = Instantiate(PistonLeftPrefab);
         pistonLeftObj.transform.localScale += map.scaleVector;
         pistonLeftObj.transform.position = map.basePosition + map.scaleFactor * new Vector3(-0.5f, (float) n, 0);
         pistonLeft = pistonLeftObj.GetComponent<PistonLeft>();
-        pistonLeft.Initialize(map, n);
+        pistonLeft.Initialize(n, map);
+
+        return pistonLeft;
     }
 
-    public void spawnRightNth(int n)
+    public PistonRight SpawnRightNth(int n)
     {
         GameObject pistonRightObj= Instantiate(PistonRightPrefab);
         pistonRightObj.transform.position = map.basePosition + map.scaleFactor * new Vector3(9.5f, (float) n, pistonZ);
         pistonRightObj.transform.localScale += map.scaleVector;
         pistonRight = pistonRightObj.GetComponent<PistonRight>();
-        pistonRight.Initialize(map, n);
+        pistonRight.Initialize(n, map);
+
+        return pistonRight;
     }
 
-    public void Reset()
+    public void sReset()
     {
         nthPistonExists = new bool[Map.gridHeight];
     }
-
 } 

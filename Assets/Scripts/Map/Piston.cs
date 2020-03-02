@@ -4,25 +4,27 @@ using UnityEngine;
 
 public abstract class Piston: MonoBehaviour
 {
-    public static int pistonCount {get; set;}
-
     public int currentRow;
 
-    protected bool isMoving;
-    protected bool isMovingCenter;
-    protected float compressVelocity;
-    protected float releaseVelocity;
+    public bool isMoving;
+    public bool isMovingCenter;
+    public float compressVelocity;
+    public float releaseVelocity;
     public Map map;
 
-    public void Initialize(Map map, int row)
+    public PistonPair pair;
+
+
+    public void Initialize(int row, Map map)
     {
         this.map = map;
-        this.currentRow = row;
-        pistonCount++;
+        currentRow = row;
         isMoving = true;
         isMovingCenter = true;
-        compressVelocity = 5f * map.scaleFactor;
-        releaseVelocity = 30f * map.scaleFactor;
+        //compressVelocity = 0.5f * map.scaleFactor;
+        //releaseVelocity = 3.0f * map.scaleFactor;
+        compressVelocity = 2.0f * map.scaleFactor;
+        releaseVelocity = 12.0f * map.scaleFactor;
     }
 
     // Update is called once per frame

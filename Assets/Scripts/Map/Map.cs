@@ -72,6 +72,8 @@ public class Map : MonoBehaviour
         pistonMask.transform.localScale += scaleVector;
 
         debugMap = GameObject.Find("DebugMap").GetComponent<DebugMap>();
+        debugMap.transform.position = scaleFactor * debugMap.transform.position;
+        debugMap.transform.localScale += scaleVector;
 
         grid = new Transform[gridWidth, gridHeight];
 
@@ -103,108 +105,47 @@ public class Map : MonoBehaviour
     }
 
 
-    void DestroyRow(int y)
-    {
-        for (int x = 0; x < gridWidth; ++x)
-        {
-            Destroy(grid[x, y].gameObject);
-            grid[x, y] = null;
-        }
-    }
 
-    public void DestroyRowsIfFull(bool[] isFull)
-    {
-        for (int i = 0; i < isFull.Length; ++i)
-        {
-            if (isFull[i])
-            {
-                DestroyRow(i);
-            }
-        }
-    }
-
-
-    void MoveRowDown(int y, int num)
-    {
-        if (num == 0)
-        {
-            return; // do nothing
-        }
-
-        for (int x = 0; x < gridWidth; ++x)
-        {
-            if (grid[x, y] != null)
-            {
-                // for delayed transform shift
-                var mino = grid[x, y].gameObject.GetComponent<Mino>();
-                mino.slideDestination = y - num;
-
-                grid[x, y - num] = grid[x, y];
-                grid[x, y] = null;
-
-            }
-        }
-    }
-
-    public void MoveAllRowsDown(bool[] isFull, int[] shiftAmount)
-    {
-        for (int i = 1; i < gridHeight; ++i)
-        {
-            if (!isFull[i]) {
-                MoveRowDown(i, -shiftAmount[i]);
-            }
-        }
-    }
 
     IEnumerator DebugDelete(bool[] isFull)
     {
-        RowSlider localRowSlider = new GameObject().AddComponent<RowSlider>();
-        localRowSlider.Initialize(this);
-        int id = coroutineCount++;
+        RowSlider rowSlider = new GameObject().AddComponent<RowSlider>();
+
 
         while (tetrominoFalling)
         {
             yield return null;
         }
 
-        pistonSpawner.spawnIfFull(isFull);
-        yield return null;
-        while (Piston.pistonCount != 0)
+        var pistonSet = pistonSpawner.spawnIfFull(isFull);
+        while (!pistonSet.FinishSet())
         {
             yield return null; 
         }
+
         inputLock = true;
+        var gridCopy = gridUtils.GridShallowCopy();
+        var gridCopyUtils = new GridUtils();
+        gridCopyUtils.Initialize(gridCopy);
+        rowSlider.Initialize(this, gridCopyUtils);
 
-        rowDestroyer.RequestDestroyRows();
-        //yield return new WaitForSeconds(5);
-
+        rowDestroyer.RequestDestroyRows(pistonSpawner, pistonSet);
 
         while (!rowDestroyer.destroyFinished)
         {
             yield return null;
         }
-        rowDestroyer.requestCount--;
-        if (rowDestroyer.requestCount != 0)
-        {
-            yield break;
-        }
-        else
-        {
-            rowDestroyer.destroyFinished = false;
-        }
-
-        gridUtils.IsRowEmptyUpdate();
-        localRowSlider.UpdateGridBitmap();
 
         inputLock = false;
         isFalling = true;
 
-        localRowSlider.slideDown();
+        rowSlider.SlideDown(pistonSet);
         Debug.Log("move row down Finished!");
+
         yield return null;
-        while (localRowSlider.coroutineCount != 0)
+        while (rowSlider.coroutineCount != 0)
         {
-            Debug.Log("coroutineCount = " + localRowSlider.coroutineCount);
+            Debug.Log("coroutineCount = " + rowSlider.coroutineCount);
             yield return null;
         }
 

@@ -111,16 +111,24 @@ public class ItemManager : Singleton<ItemManager>
 
     public DroppedItem CreateItem(Vector2 pos, int lifeStoneAmount, int goldRate)
     {
-        //LifeStoneInfo lifeStoneInfo = LifeStoneManager.CreateLifeStoneShape(lifeStoneAmount, goldRate);
-        return null;
+        DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
+        temp.lifeStoneInfo = LifeStoneManager.Instance.CreateLifeStoneShape(lifeStoneAmount, goldRate);
+        return temp;
     }
 
     public DroppedItem CreateItem(Vector2 pos, Weapon wp)
     {
-        DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
-        temp.weapon = wp;
-        temp.GetComponent<SpriteRenderer>().sprite = wp.info.sprite;
-        return temp;
+        if(wp != null)
+        {
+            DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
+            temp.weapon = wp;
+            temp.GetComponent<SpriteRenderer>().sprite = wp.info.sprite;
+            return temp;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public DroppedItem CreateItem(Vector2 pos, ItemRank rank)

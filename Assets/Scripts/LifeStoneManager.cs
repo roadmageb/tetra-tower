@@ -13,7 +13,7 @@ public class LifeStoneInfo
     }
 }
 
-public class LifeStoneManager : MonoBehaviour
+public class LifeStoneManager : Singleton<LifeStoneManager>
 {
     public GameObject lifeStoneTop, lifeStoneMiddle, lifeStoneBottom;
     public GameObject lifeStoneNormal;
@@ -25,7 +25,7 @@ public class LifeStoneManager : MonoBehaviour
     [SerializeField] private float lifeStoneEdgeOffset = 44.64285f;
     [SerializeField] private Vector2 lifeStoneInitialPos = new Vector2(250, 150);
 
-    private void GetLifeStone(LifeStoneInfo lifeStoneInfo)
+    public void GetLifeStone(LifeStoneInfo lifeStoneInfo)
     {
         //Check possible && lowest position of new life stone
         int minY = rowSize;

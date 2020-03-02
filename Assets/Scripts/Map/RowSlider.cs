@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,13 +9,15 @@ public class RowSlider : MonoBehaviour
 
     public bool isSliding;
     Map map;
+    Transform[,] gridBeforeDestroy;
+
 
     GridUtils gridUtils;
 
     // coroutines do not run in parallel. No need for semaphores.
     public int coroutineCount { get; set; }
 
-    public bool[,] gridBitmap;
+    //public bool[,] gridBitmap;
 
 
 
@@ -25,10 +28,10 @@ public class RowSlider : MonoBehaviour
 
     }
 
-    public void Initialize(Map map)
+    public void Initialize(Map map, GridUtils gridUtils)
     {
         this.map = map;
-        gridUtils = map.gridUtils;
+        this.gridUtils = gridUtils;
     }
 
     IEnumerator SlideDownRow(int row)
@@ -40,7 +43,7 @@ public class RowSlider : MonoBehaviour
         Vector3 velocity = Vector3.zero;
         Vector3 shift;
 
-        if (map.gridUtils.isRowEmpty[row])
+        if (gridUtils.IsRowEmpty(row))
         {
             coroutineCount--;
             yield break;
@@ -56,21 +59,21 @@ public class RowSlider : MonoBehaviour
 
             for (int i = 0; i < Map.gridWidth; ++i)
             {
-                Debug.Log(i + ' ' + row);
-                if (gridBitmap[i, row])
+                if (gridUtils.grid[i, row])
                 {
+                    var mino = gridUtils.grid[i, row].gameObject.GetComponent<Mino>();
 
-                    if (map.grid[i, row].position.y > ConvertGridYtoRealY(row))
+                    if (gridUtils.grid[i, row].position.y > ConvertGridYtoRealY(mino.slideDestination))
                     {
-                        map.grid[i, row].position += shift;
+                        gridUtils.grid[i, row].position += shift;
 
-                        map.rowPosition[row] = map.grid[i, row].position;
+                        map.rowPosition[row] = gridUtils.grid[i, row].position;
                     } 
                     else
                     {
-                        Vector3 pos = map.grid[i, row].position;
-                        pos.y = ConvertGridYtoRealY(row);
-                        map.grid[i, row].position = pos;
+                        Vector3 pos = gridUtils.grid[i, row].position;
+                        pos.y = ConvertGridYtoRealY(mino.slideDestination);
+                        gridUtils.grid[i, row].position = pos;
 
                         map.rowPosition[row].y = pos.y;
                         finished++;
@@ -90,12 +93,10 @@ public class RowSlider : MonoBehaviour
             yield return null; // required for continuous flow
         }
 
+
     }
+
     
-    public void Initialize(GridUtils gridUtils)
-    {
-        this.gridUtils = gridUtils;
-    }
 
     void MoveRowBy(int row, Vector3 shift)
     {
@@ -114,27 +115,12 @@ public class RowSlider : MonoBehaviour
         return map.basePosition.y + map.scaleFactor * y;
     }
 
-    public void slideDown()
+    public void SlideDown(PistonSet set)
     {
-        for (int row = 0; row < Map.gridHeight; ++row) // must be starting from 0
+
+        for (int row = set.LowestRow(); row < set.NextLowestRow(); ++row) // must be starting from 0
         {
             StartCoroutine(SlideDownRow(row));
-        }
-    }
-
-    public void UpdateGridBitmap()
-    {
-        gridBitmap = new bool[Map.gridWidth, Map.gridHeight];
-
-        for(int row = 0; row < Map.gridHeight; ++row)
-        {
-            for (int col = 0; col < Map.gridWidth; ++col)
-            {
-                if (map.grid[col, row])
-                {
-                    gridBitmap[col, row] = true;
-                }
-            }
         }
     }
 } 

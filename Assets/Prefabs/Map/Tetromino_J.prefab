@@ -259,6 +259,9 @@ MonoBehaviour:
   originalPosition: 0
   slideDestination: 0
   localPosition: {x: 1, y: 0, z: 0}
+  RoomPrefab: {fileID: 7114517637930871115, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}
+  room: {fileID: 0}
 --- !u!1 &8838520707739994143
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,6 +360,9 @@ MonoBehaviour:
   originalPosition: 0
   slideDestination: 0
   localPosition: {x: 0, y: 0, z: 0}
+  RoomPrefab: {fileID: 7114517637930871115, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}
+  room: {fileID: 0}
 --- !u!1 &9209625657683249694
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,3 +461,6 @@ MonoBehaviour:
   originalPosition: 0
   slideDestination: 0
   localPosition: {x: -1, y: 0, z: 0}
+  RoomPrefab: {fileID: 7114517637930871115, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}
+  room: {fileID: 0}

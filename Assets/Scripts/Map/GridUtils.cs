@@ -27,7 +27,7 @@ public class GridUtils
         fullRowCount = 0;
     }
 
-    bool IsRowEmpty(int row)
+    public bool IsRowEmpty(int row)
     {
         for( int i = 0; i < Map.gridWidth; ++i)
         {
@@ -37,12 +37,14 @@ public class GridUtils
             }
         }
         return true;
+
     }
-    public void IsRowEmptyUpdate()
+
+    public void UpdateIsRowEmpty()
     {
-        for(int row = 0; row < Map.gridHeight; ++row)
+        for( int i = 0; i < Map.gridWidth; ++i)
         {
-            isRowEmpty[row] = IsRowEmpty(row);
+            isRowEmpty[i] = IsRowEmpty(i);
         }
     }
 
@@ -138,6 +140,21 @@ public class GridUtils
         }
 
         Debug.Log(gridStr);
+    }
+
+    public Transform[,] GridShallowCopy()
+    {
+        var copy = new Transform[Map.gridWidth, Map.gridHeight];
+
+        for (int i = 0; i < Map.gridWidth; ++i)
+        {
+            for (int j = 0; j < Map.gridHeight; ++j)
+            {
+                copy[i, j] = grid[i, j];
+            }
+        }
+
+        return copy;
     }
 
 }

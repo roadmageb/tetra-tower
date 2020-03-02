@@ -84,7 +84,7 @@ public class GridUtils
 
         for (int i = 0; i < height; ++i)
         {
-            if (isFull[i])
+            if (isFull[i] || isRowEmpty[i])
             {
                 shift -= 1;
             } 

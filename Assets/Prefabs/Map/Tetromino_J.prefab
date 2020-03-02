@@ -158,6 +158,9 @@ MonoBehaviour:
   originalPosition: 0
   slideDestination: 0
   localPosition: {x: 1, y: -1, z: 0}
+  RoomPrefab: {fileID: 7114517637930871115, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}
+  room: {fileID: 0}
 --- !u!1 &7489616303657336625
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 public class Map : MonoBehaviour
 {
@@ -155,8 +156,15 @@ public class Map : MonoBehaviour
         Debug.Log("lock release");
     }
 
-    public void RemoveRowsIfFull()
+    public void RemoveRowsIfFull(Tetromino tetromino)
     {
+        bool[] rows = new bool[Map.gridHeight];
+
+        foreach (Mino mino in tetromino.GetComponentsInChildren<Mino>())
+        {
+            var pos = mino.GetGridPosition();
+            rows[pos.y] = true;
+        }
 
         gridUtils.isFullUpdate();
         gridUtils.shiftAmountUpdate();
@@ -165,10 +173,14 @@ public class Map : MonoBehaviour
         shiftAmount = gridUtils.shiftDown;
         //isRowEmpty = gridUtils.isRowEmpty;
 
-        if (gridUtils.fullRowCount > 0)
+
+        for (int i = 0; i < rows.Length; ++i)
         {
-            //StartCoroutine(WaitAndDelete(gridUtils.isFull));
-            StartCoroutine(DebugDelete(gridUtils.isFull));
+            if (rows[i] && isFull[i])
+            {
+                StartCoroutine(DebugDelete(gridUtils.isFull));
+                return;
+            }
         }
     }
 

@@ -14,6 +14,7 @@ public class DroppedItem : MonoBehaviour
         if (collision.tag.Equals("Player"))
         {
             playerTouched = true;
+            GetComponent<SpriteRenderer>().material.SetFloat("_OutlineThickness", 0.03f);
         }
     }
 
@@ -22,6 +23,7 @@ public class DroppedItem : MonoBehaviour
         if (collision.tag.Equals("Player"))
         {
             playerTouched = false;
+            GetComponent<SpriteRenderer>().material.SetFloat("_OutlineThickness", 0);
         }
     }
 

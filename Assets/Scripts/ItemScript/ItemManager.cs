@@ -132,6 +132,8 @@ public class ItemManager : Singleton<ItemManager>
         temp.transform.Find("GroundCollider").GetComponent<BoxCollider2D>().size = (Vector2)lifeStoneInfo.size * droppedLifeStoneOffset;
         temp.transform.Find("GroundCollider").GetComponent<BoxCollider2D>().offset = (lifeStoneInfo.size - new Vector2(1, 1)) / 2 * droppedLifeStoneOffset;
 
+        temp.isWeapon = false;
+
         return temp;
     }
 
@@ -142,6 +144,7 @@ public class ItemManager : Singleton<ItemManager>
             DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
             temp.weapon = wp;
             temp.GetComponent<SpriteRenderer>().sprite = wp.info.sprite;
+            temp.isWeapon = true;
             return temp;
         }
         else

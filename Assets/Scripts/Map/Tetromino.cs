@@ -30,6 +30,23 @@ public class Tetromino : MonoBehaviour
         transform.position = map.basePosition + map.scaleFactor * gridPosition;
     }
 
+    public void SlideBy(int amount)
+    {
+
+        Vector3Int shift = amount * Vector3Int.down;
+        fallDestination = gridPosition + shift;
+        gridPosition = fallDestination;
+
+        foreach (Transform child in transform)
+        {
+            var mino = child.gameObject.GetComponent<Mino>();
+            var pos = mino.GetGridPosition();
+            mino.slideDestination = pos.y;
+        }
+
+        isSliding = true;
+    }
+
     public void MoveTo(Vector3Int location)
     {
         gridPosition = location;
@@ -53,11 +70,35 @@ public class Tetromino : MonoBehaviour
             return;
         }
 
+        if (isSliding)
+        {
+            Slide();
+            return;
+        }
+
         if (!map.inputLock)
         {
             PlayerInput();
         }
     }
+
+    public void Slide()
+    {
+
+        transform.position += gravity.Shift(Time.deltaTime);
+
+        var actualPosition = map.basePosition + map.scaleFactor * fallDestination;
+
+        if (transform.position.y < actualPosition.y)
+        {
+            var pos = transform.position;
+            pos.y = actualPosition.y;
+            transform.position = pos;
+            isSliding = false;
+            gravity.Reset();
+        }
+    }
+
     void Fall()
     {
 
@@ -128,7 +169,6 @@ public class Tetromino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             isFalling = true;
-            map.tetrominoFalling = true;
             ComputeDestinationPosition();
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))

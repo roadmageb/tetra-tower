@@ -29,6 +29,7 @@ public class RowDestroyer : MonoBehaviour
         map.gridUtils.UpdateIsRowEmpty();
 
         map.gridUtils.shiftAmountUpdate();
+        MoveTetrominoDown();
         DestroyRows(map.gridUtils.isFull, set);
         MoveRowsDown(map.gridUtils.isFull, map.gridUtils.shiftDown, set);
 
@@ -43,6 +44,30 @@ public class RowDestroyer : MonoBehaviour
             }
         }
     }
+
+    public void MoveTetrominoDown()
+    {
+        var shiftAmount = new int[Map.gridHeight];
+        int shift = 0;
+
+        for (int i = 0; i < Map.gridHeight; ++i)
+        {
+            if (map.isFull[i])
+            {
+                shift += 1;
+            }
+            else
+            {
+                shiftAmount[i] = shift;
+            }
+        }
+
+        var tet = map.currentTetromino;
+        var y = tet.gridPosition.y;
+        //tet.MoveBy(shiftAmount[y] * Vector3Int.down);
+        tet.SlideBy(shiftAmount[y]);
+    }
+
     void MoveRowDown(int y, int num)
     {
         if (num == 0)

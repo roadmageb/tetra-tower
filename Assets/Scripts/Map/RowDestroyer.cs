@@ -47,6 +47,11 @@ public class RowDestroyer : MonoBehaviour
 
     public void MoveTetrominoDown()
     {
+        var tet = map.currentTetromino;
+        if (tet.isFalling)
+        {
+            return;
+        }
         var shiftAmount = new int[Map.gridHeight];
         int shift = 0;
 
@@ -62,7 +67,6 @@ public class RowDestroyer : MonoBehaviour
             }
         }
 
-        var tet = map.currentTetromino;
         var y = tet.gridPosition.y;
         //tet.MoveBy(shiftAmount[y] * Vector3Int.down);
         tet.SlideBy(shiftAmount[y]);

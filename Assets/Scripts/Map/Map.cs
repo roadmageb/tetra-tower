@@ -110,6 +110,12 @@ public class Map : MonoBehaviour
 
     IEnumerator DebugDelete(bool[] isFull)
     {
+
+        while (gridIsFalling)
+        {
+            yield return null;
+        }
+
         RowSlider rowSlider = new GameObject().AddComponent<RowSlider>();
 
 
@@ -138,7 +144,8 @@ public class Map : MonoBehaviour
         }
 
         inputLock = false;
-        isFalling = true;
+
+        gridIsFalling = true;
 
         rowSlider.SlideDown(pistonSet);
         Debug.Log("move row down Finished!");
@@ -150,7 +157,7 @@ public class Map : MonoBehaviour
             yield return null;
         }
 
-        isFalling = false;
+        gridIsFalling = false;
 
         Debug.Log("rowslider Finished!");
         Debug.Log("lock release");

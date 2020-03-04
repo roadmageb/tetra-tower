@@ -47,7 +47,7 @@ public class Map : MonoBehaviour
 
     public Vector3[] rowPosition;
 
-    public bool isFalling;
+    public bool gridIsFalling;
 
     void Start()
     {
@@ -89,7 +89,6 @@ public class Map : MonoBehaviour
         rowDestroyer = new GameObject().AddComponent<RowDestroyer>();
         rowDestroyer.Initialize(this);
 
-        tetrominoFalling = false;
 
         coroutineCount = 0;
 

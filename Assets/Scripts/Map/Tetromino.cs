@@ -21,7 +21,7 @@ public class Tetromino : MonoBehaviour
     void Start()
     {
         isSliding = false;
-        gravity = new GameObject().AddComponent<Gravity>();
+        gravity = map.tetrominoGravity;
     }
 
     public void MoveBy(Vector3Int offset)

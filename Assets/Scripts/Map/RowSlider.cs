@@ -21,6 +21,7 @@ public class RowSlider : MonoBehaviour
 
 
 
+
     void Start()
     {
         isSliding = false;
@@ -38,9 +39,6 @@ public class RowSlider : MonoBehaviour
     {
         coroutineCount++;
 
-        float gravity = 9.8f;
-        float gravityAdd = 40;
-        Vector3 velocity = Vector3.zero;
         Vector3 shift;
 
         if (gridUtils.IsRowEmpty(row))
@@ -51,9 +49,8 @@ public class RowSlider : MonoBehaviour
 
         while (true)
         {
-            velocity.y -= gravity * Time.deltaTime;
-            gravity += gravityAdd * Time.deltaTime;
-            shift = velocity * Time.deltaTime;
+
+            shift = map.gridGravity.Shift(Time.deltaTime);
 
             int finished = 0;
 

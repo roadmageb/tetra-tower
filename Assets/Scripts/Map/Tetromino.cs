@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class Tetromino : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     public bool allowRotation = true;
 
     public bool isFalling = false;
-    public float gravity = 1F;
-    public float gravityAdd = 4000;
-    public float gravityMul =1.001f;
-    public Vector3 velocity;
-    public Vector3 initialVelocity;
+    public bool isSliding = false;
 
-    public Vector3 shift;
+    public Gravity gravity;
+
     public Vector3Int gridPosition;
-
     public Vector3Int fallDestination;
-    public Vector3Int realFallDestination;
     public Map map;
 
     public Vector3Int PositionBeforeRotation;
+
+    void Start()
+    {
+        isSliding = false;
+        gravity = new GameObject().AddComponent<Gravity>();
+    }
 
     public void MoveBy(Vector3Int offset)
     {
@@ -41,9 +41,8 @@ public class Tetromino : MonoBehaviour
         this.map = map;
         this.gridPosition = gridPosition;
         this.transform.position = map.basePosition + map.scaleFactor * gridPosition;
-        initialVelocity = new Vector3(0, 0, 0);
-        this.velocity = initialVelocity;
     }
+
    
     void Update()
     {
@@ -61,12 +60,10 @@ public class Tetromino : MonoBehaviour
     }
     void Fall()
     {
-        velocity.y -= gravity * Time.deltaTime;
-        //gravity += gravityAdd * Time.deltaTime;
-        gravity = gravityMul * gravity;
-        shift = velocity * Time.deltaTime;
 
         int finishCount = 0;
+
+        var shift = gravity.Shift(Time.deltaTime);
 
         foreach (Mino mino in GetComponentsInChildren<Mino>())
         {
@@ -83,32 +80,8 @@ public class Tetromino : MonoBehaviour
 
         if (finishCount == 4)
         {
-            velocity = initialVelocity;
-            map.tetrominoFalling = false;
+            gravity.Reset();
             isFalling = false;
-            prepareNextTetromino();
-        }
-    }
-
-    void FallOld()
-    {
-        velocity.y -= gravity * Time.deltaTime;
-        gravity += gravityAdd * Time.deltaTime;
-        shift = velocity * Time.deltaTime;
-        transform.position += shift;
-        //Debug.Log(transform.position + " " + fallDestination);
-        
-        if (transform.position.y <= realFallDestination.y)
-        {
-            gridPosition = fallDestination;
-            transform.position = realFallDestination;
-            isFalling = false;
-
-            // initialize
-            velocity = initialVelocity;
-
-            map.tetrominoFalling = false;
-
             prepareNextTetromino();
         }
     }
@@ -282,10 +255,10 @@ public class Tetromino : MonoBehaviour
 
         shift = shift + Vector3Int.up;
         fallDestination = gridPosition + shift;
-        realFallDestination = map.basePosition + map.scaleFactor * fallDestination;
         gridPosition = fallDestination;
         map.UpdateGrid(this);
 
     }
+
 }
  

@@ -6,6 +6,9 @@ using System.Linq;
 
 public class Map : MonoBehaviour
 {
+    public Gravity tetrominoGravity;
+    public Gravity gridGravity;
+
     public GameObject tetrominoSpawnerPrefab;
     public GameObject pistonSpawnerPrefab;
     public GameObject debugMapPrefab;
@@ -51,6 +54,14 @@ public class Map : MonoBehaviour
 
     void Start()
     {
+
+        tetrominoGravity = new GameObject().AddComponent<Gravity>();
+        tetrominoGravity.name = "TetrominoGravity";
+
+        gridGravity = new GameObject().AddComponent<Gravity>();
+        gridGravity.name = "GridGravity";
+
+
         scaleFactor = 16;
         scaleVector = Vector3Int.one * (scaleFactor - 1);
         transform.localScale += scaleVector;
@@ -87,6 +98,7 @@ public class Map : MonoBehaviour
         SpawnNextTetromino();
 
         rowDestroyer = new GameObject().AddComponent<RowDestroyer>();
+        rowDestroyer.name = "Row Destroyer";
         rowDestroyer.Initialize(this);
 
 

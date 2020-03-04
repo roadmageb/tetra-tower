@@ -83,7 +83,7 @@ public class PistonSpawner : MonoBehaviour
     public PistonRight SpawnRightNth(int n)
     {
         GameObject pistonRightObj= Instantiate(PistonRightPrefab);
-        pistonRightObj.transform.position = map.basePosition + map.scaleFactor * new Vector3(9.5f, (float) n, pistonZ);
+        pistonRightObj.transform.position = map.basePosition + map.scaleFactor * new Vector3(9.5f, (float) n, 0);
         pistonRightObj.transform.localScale += map.scaleVector;
         pistonRight = pistonRightObj.GetComponent<PistonRight>();
         pistonRight.Initialize(n, map);

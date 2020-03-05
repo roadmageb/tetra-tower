@@ -127,7 +127,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2802649962587759298, guid: 30edc9fb3ce8f3c4aa69f07859149614,
+  m_Sprite: {fileID: -4448218427899954654, guid: b9bfde597a3098945a976e6340ff7d52,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -241,10 +241,10 @@ MonoBehaviour:
   playerDetectDistance: 7
   attackRange: 2
   groundDetectOffset: {x: 0, y: 0}
-  idleAnim: {fileID: 0}
-  traceAnim: {fileID: 0}
-  damagedAnim: {fileID: 0}
-  deathAnim: {fileID: 0}
+  idleAnim: {fileID: 7400000, guid: 13ed63fb0e023b9439aa82f645a8cef3, type: 2}
+  traceAnim: {fileID: 7400000, guid: 13ed63fb0e023b9439aa82f645a8cef3, type: 2}
+  damagedAnim: {fileID: 7400000, guid: 13ed63fb0e023b9439aa82f645a8cef3, type: 2}
+  deathAnim: {fileID: 7400000, guid: 13ed63fb0e023b9439aa82f645a8cef3, type: 2}
   attackPattern:
   - attackAnim: {fileID: 7400000, guid: 0add0989504b95048aa839c26af6205b, type: 2}
     attackDamage: 1
@@ -258,8 +258,8 @@ MonoBehaviour:
   attackedPlayer: 0
   currentAttackIndex: 0
   traceTime: 0
-  maxHP: 0
-  currentHP: 0
+  maxHP: 1
+  currentHP: 1
   enemyCtrl: {fileID: 0}
   flySpeed: 100
 --- !u!50 &6641737705354378823
@@ -299,10 +299,10 @@ BoxCollider2D:
   m_Offset: {x: 0.10603163, y: -0.09543899}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8125, y: 0.71875}
+    newSize: {x: 0.8125, y: 0.71875}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0

@@ -44,18 +44,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.10603163, y: -0.09543899}
+  m_Offset: {x: 0.1206398, y: -0.035024345}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.375, y: 1.15625}
+    newSize: {x: 1.375, y: 1.15625}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.66378874, y: 0.6847778}
+  m_Size: {x: 1.1337204, y: 1.0862013}
   m_EdgeRadius: 0
 --- !u!1 &6641737704435517954
 GameObject:
@@ -133,7 +133,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.5, y: 0.7569444}
+  m_Size: {x: 1.375, y: 1.15625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -243,8 +243,8 @@ MonoBehaviour:
   groundDetectOffset: {x: 0, y: 0}
   idleAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
   traceAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-  damagedAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-  deathAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
+  damagedAnim: {fileID: 7400000, guid: 73be2978483af654ab9a890a7eb0c45b, type: 2}
+  deathAnim: {fileID: 7400000, guid: 73be2978483af654ab9a890a7eb0c45b, type: 2}
   attackPattern:
   - attackAnim: {fileID: 7400000, guid: 3268d0c8d0ac54946848245da927d4dc, type: 2}
     attackDamage: 1
@@ -297,18 +297,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.10603163, y: -0.09543899}
+  m_Offset: {x: 0.1206398, y: -0.035024345}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.375, y: 1.15625}
+    newSize: {x: 1.375, y: 1.15625}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.66378874, y: 0.6847778}
+  m_Size: {x: 1.1337204, y: 1.0862013}
   m_EdgeRadius: 0
 --- !u!95 &-8731243594631918369
 Animator:

@@ -21,7 +21,7 @@ public class Slime : Enemy
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        if (collision.tag.Equals("Floor"))
         {
             AttackEnd();
         }

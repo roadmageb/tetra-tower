@@ -114,15 +114,15 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void Patrol()
+    public void Patrol()
     {
         if (landed)
         {
             RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (transform.localScale.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
-            //RaycastHit2D checkWall = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (transform.localScale.x > 0 ? 1 : -1),
-            //    Vector2.down, GetComponent<Collider2D>().bounds.size.y / 2, LayerMask.GetMask("Floor"));
-            if (checkGround && !checkWall)
+            RaycastHit2D checkWall = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (transform.localScale.x > 0 ? 1 : -1), 
+                Vector2.down, GetComponent<Collider2D>().bounds.size.y / 2);
+            if (!checkGround || checkWall)
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
             }

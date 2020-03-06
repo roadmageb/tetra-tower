@@ -1780,6 +1780,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4433000655303450310, guid: 4091ebd098fd29a488e94d8020f84f7d,
+        type: 3}
+      propertyPath: speed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433000655303450310, guid: 4091ebd098fd29a488e94d8020f84f7d,
+        type: 3}
+      propertyPath: detectType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433000655303450310, guid: 4091ebd098fd29a488e94d8020f84f7d,
+        type: 3}
+      propertyPath: attackPattern.Array.data[0].attackAnim
+      value: 
+      objectReference: {fileID: 7400000, guid: 2102179f27ec582478c2bd698f4a8055, type: 2}
+    - target: {fileID: 4433000655303450310, guid: 4091ebd098fd29a488e94d8020f84f7d,
+        type: 3}
+      propertyPath: attackRange
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6641737705354378818, guid: 4091ebd098fd29a488e94d8020f84f7d,
         type: 3}
       propertyPath: m_LocalPosition.x

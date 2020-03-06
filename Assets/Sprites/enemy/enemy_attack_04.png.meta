@@ -1,16 +1,25 @@
 fileFormatVersion: 2
-guid: df046ad0b8704af45a7c970989ddffaf
+guid: ef86a99bbe93c9945aa6ce292d0ae83e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5419078691733693075
-    second: enemy_idle_04_0
+      213: -5440856134698672904
+    second: enemy_attack_04_0
   - first:
-      213: 3129585853763891965
-    second: enemy_idle_04_1
+      213: -2964195468502233802
+    second: enemy_attack_04_1
   - first:
-      213: 1147222047348003072
-    second: enemy_idle_04_2
+      213: -6529301097907505950
+    second: enemy_attack_04_2
+  - first:
+      213: -238431552624278494
+    second: enemy_attack_04_3
+  - first:
+      213: -2042669647100396259
+    second: enemy_attack_04_4
+  - first:
+      213: 89085940348116348
+    second: enemy_attack_04_5
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -107,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: enemy_idle_04_0
+      name: enemy_attack_04_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 33
-        height: 64
+        width: 71
+        height: 83
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff5b78b46d13e244f986edf6e6a2f92f
-      internalID: 5419078691733693075
+      spriteID: a9df47d68b5cf9b418109db6da2704a1
+      internalID: -5440856134698672904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: enemy_idle_04_1
+      name: enemy_attack_04_1
       rect:
         serializedVersion: 2
-        x: 33
+        x: 71
         y: 0
-        width: 33
-        height: 64
+        width: 71
+        height: 83
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,20 +151,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e134ac12de8d7d4b986d6d0f352c715
-      internalID: 3129585853763891965
+      spriteID: ede81d04f795d7a45b23ff6a5939e364
+      internalID: -2964195468502233802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: enemy_idle_04_2
+      name: enemy_attack_04_2
       rect:
         serializedVersion: 2
-        x: 66
+        x: 142
         y: 0
-        width: 33
-        height: 64
+        width: 71
+        height: 83
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,8 +172,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70f878629841e4d4583ed638a1d007cb
-      internalID: 1147222047348003072
+      spriteID: 9810eddf9e953f446ab47832bd0cad85
+      internalID: -6529301097907505950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_attack_04_3
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 0
+        width: 71
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 532ce839c26bcd24ba0036c0d699eac5
+      internalID: -238431552624278494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_attack_04_4
+      rect:
+        serializedVersion: 2
+        x: 284
+        y: 0
+        width: 71
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3d8d5ba317fa8f4cb6a544d478fa834
+      internalID: -2042669647100396259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_attack_04_5
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 0
+        width: 71
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7f313d6fb94821439f7d99c8daff9b7
+      internalID: 89085940348116348
       vertices: []
       indices: 
       edges: []

@@ -126,7 +126,7 @@ public abstract class Enemy : MonoBehaviour
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
             }
-            rb.AddForce(Vector2.right * (transform.localScale.x > 0 ? 1 : -1) * speed);
+            transform.Translate(Vector2.right * (transform.localScale.x > 0 ? 1 : -1) * speed * Time.deltaTime);
         }
     }
 
@@ -214,7 +214,7 @@ public abstract class Enemy : MonoBehaviour
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        target = GameObject.Find("Player").transform;
+        target = GameObject.Find("Player").transform.Find("PlayerCenter");
         traceTime = -traceTimeLimit;
         currentHP = maxHP;
 

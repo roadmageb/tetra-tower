@@ -169,7 +169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6641737705354378825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6158928, y: -0.21, z: -1.0431725}
+  m_LocalPosition: {x: 0.6158928, y: -0.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6641737704435517955}
@@ -236,20 +236,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   animator: {fileID: 0}
-  speed: 50
+  speed: 5
   nextWayPointDistance: 3
-  playerDetectDistance: 1
-  attackRange: 0.5
+  playerDetectDistance: 7
+  attackRange: 7
   groundDetectOffset: {x: 0.75, y: 0}
   idleAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
   traceAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
   damagedAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
   deathAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
   attackPattern:
-  - attackAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
+  - attackAnim: {fileID: 7400000, guid: 2102179f27ec582478c2bd698f4a8055, type: 2}
     attackDamage: 1
     attackCtrl: 0
-  detectType: 0
+  detectType: 1
   ignoreGround: 0
   lastAttackedTime: 0
   attackDelay: 0
@@ -274,8 +274,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 1.2269892
+  m_UseAutoMass: 0
+  m_Mass: 2
   m_LinearDrag: 10
   m_AngularDrag: 0.05
   m_GravityScale: 10

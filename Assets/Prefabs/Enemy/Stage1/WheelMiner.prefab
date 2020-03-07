@@ -238,8 +238,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   speed: 5
   nextWayPointDistance: 3
-  playerDetectDistance: 7
-  attackRange: 7
+  playerDetectDistance: 5
+  attackRange: 0
   groundDetectOffset: {x: 0.75, y: 0}
   idleAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
   traceAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
@@ -252,8 +252,8 @@ MonoBehaviour:
   detectType: 1
   ignoreGround: 0
   lastAttackedTime: 0
-  attackDelay: 0
-  attackFollowPlayer: 0
+  attackDelay: 1
+  attackFollowPlayer: 1
   playerAttackable: 0
   attackedPlayer: 0
   currentAttackIndex: 0

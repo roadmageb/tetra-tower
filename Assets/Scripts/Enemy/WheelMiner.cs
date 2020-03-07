@@ -13,6 +13,7 @@ public class WheelMiner : Enemy
         pickAxe.transform.localScale = transform.localScale;
         pickAxe.transform.eulerAngles = pickAxe.transform.eulerAngles * (pickAxe.transform.localScale.x > 0 ? 1 : -1);
         pickAxe.AddComponent<WheelMinerPickAxe>();
+        pickAxe.GetComponent<WheelMinerPickAxe>().damage = attackPattern[0].attackDamage;
         StartCoroutine(PickAxeMovement(pickAxe));
     }
 
@@ -20,10 +21,10 @@ public class WheelMiner : Enemy
     {
         Vector2 from = pickAxe.transform.position;
         Vector2 to = target.transform.position;
-        for(float timer = 0; timer < 1; timer += Time.deltaTime)
+        for (float timer = 0; timer < 1; timer += Time.deltaTime)
         {
             yield return null;
-            if(pickAxe == null)
+            if (pickAxe == null)
             {
                 break;
             }
@@ -34,17 +35,19 @@ public class WheelMiner : Enemy
     public override void IdleAction()
     {
         base.IdleAction();
-        Patrol();
+        //Patrol();
     }
-
 }
-
+    
 public class WheelMinerPickAxe : MonoBehaviour
 {
+    public int damage;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("Player"))
         {
+            PlayerController.Instance.GetDamage(damage);
             Destroy(gameObject);
         }
     }

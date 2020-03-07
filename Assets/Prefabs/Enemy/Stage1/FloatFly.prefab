@@ -236,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   animator: {fileID: 0}
-  speed: 10
+  speed: 5
   nextWayPointDistance: 0.1
   playerDetectDistance: 7
   attackRange: 2

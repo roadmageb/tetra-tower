@@ -1854,20 +1854,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4433000655303450310, guid: 4091ebd098fd29a488e94d8020f84f7d,
-        type: 3}
-      propertyPath: attackFollowPlayer
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6641737705354378818, guid: 4091ebd098fd29a488e94d8020f84f7d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -5.9
       objectReference: {fileID: 0}
     - target: {fileID: 6641737705354378818, guid: 4091ebd098fd29a488e94d8020f84f7d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6641737705354378818, guid: 4091ebd098fd29a488e94d8020f84f7d,
         type: 3}

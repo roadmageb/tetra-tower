@@ -130,7 +130,10 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void IdleAction() { }
+    public virtual void IdleAction()
+    {
+        lastAttackedTime = -attackDelay;
+    }
 
     /// <summary>
     /// Seek and trace target
@@ -156,22 +159,22 @@ public abstract class Enemy : MonoBehaviour
                 animator.SetBool("Trace", true);
             }
 
-            if (Time.time - lastAttackedTime > attackDelay && Vector3.Distance(transform.position, target.position) <= attackRange)
+            if (Time.time - lastAttackedTime > attackDelay && Vector3.Distance(rb.position, target.position) <= attackRange)
             {
                 AttackStart();
             }
 
-            Vector2 force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed;
+            Vector2 force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed * Time.deltaTime;
             RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
-            if (!ignoreGround && !checkGround.collider)
+            if (ignoreGround || checkGround.collider)
             {
-                rb.velocity = new Vector2(0, rb.velocity.y);
-            }
-            else
-            {
-                rb.AddForce(force);
-                transform.localScale = new Vector3(1 * (target.position.x - transform.position.x > 0 ? 1 : -1), 1, 1);
+                if (!ignoreGround)
+                {
+                    force = new Vector2(force.x, 0);
+                }
+                transform.Translate(force);
+                transform.localScale = new Vector3(target.position.x - transform.position.x > 0 ? 1 : -1, 1, 1);
             }
 
             if (Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]) < nextWayPointDistance)
@@ -225,7 +228,6 @@ public abstract class Enemy : MonoBehaviour
         animOverCont["EnemyDamagedAnim"] = damagedAnim;
         animOverCont["EnemyDeathAnim"] = deathAnim;
 
-        lastAttackedTime = -attackDelay;
     }
 
     private void Update()

@@ -164,15 +164,19 @@ public abstract class Enemy : MonoBehaviour
                 AttackStart();
             }
 
-            Vector2 force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed * Time.deltaTime;
-            RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (target.position.x - transform.position.x > 0 ? 1 : -1),
+            Vector2 force;
+            if (!ignoreGround)
+            {
+                force = new Vector2(((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).x > 0 ? 1 : -1, 0) * speed * Time.deltaTime;
+            }
+            else
+            {
+                force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed * Time.deltaTime;
+            }
+            RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (force.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
             if (ignoreGround || checkGround.collider)
             {
-                if (!ignoreGround)
-                {
-                    force = new Vector2(force.x, 0);
-                }
                 transform.Translate(force);
                 transform.localScale = new Vector3(target.position.x - transform.position.x > 0 ? 1 : -1, 1, 1);
             }

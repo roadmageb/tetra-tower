@@ -35,7 +35,7 @@ public class WheelMiner : Enemy
     public override void IdleAction()
     {
         base.IdleAction();
-        //Patrol();
+        Patrol();
     }
 }
     

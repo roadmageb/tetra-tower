@@ -216,12 +216,13 @@ public class CharacterController2D : MonoBehaviour
             case DashDir.Right: dir = Vector2.right; break;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Floor"));
-        float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - GetComponent<BoxCollider2D>().size.x / 2;
+        RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, LayerMask.GetMask("Floor"));
+        float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - GetComponent<Collider2D>().bounds.size.x / 2;
         m_Rigidbody2D.velocity = Vector3.zero;
 
         int dashCount = 10;
-        Vector3 destination = (Vector3)dashZonePos + (Vector3)dir * distance - transform.position;
+        Vector3 destination = (Vector3)dir * distance;
+
         for (int i = 0; i < dashCount; i++)
         {
             yield return null;

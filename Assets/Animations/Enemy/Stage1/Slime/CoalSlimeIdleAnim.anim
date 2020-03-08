@@ -32,7 +32,7 @@ AnimationClip:
       value: {fileID: 2626196483132120700, guid: 30edc9fb3ce8f3c4aa69f07859149614,
         type: 3}
     attribute: m_Sprite
-    path: EnemyPlaceHolder
+    path: Image
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -43,7 +43,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 4039276833
+      path: 83635035
       attribute: 0
       script: {fileID: 0}
       typeID: 212

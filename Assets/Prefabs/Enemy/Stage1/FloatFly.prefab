@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 6641737704435517955}
   - component: {fileID: 6641737704435517952}
   m_Layer: 10
-  m_Name: EnemyPlaceHolder
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2802649962587759298, guid: 30edc9fb3ce8f3c4aa69f07859149614,
+  m_Sprite: {fileID: -4448218427899954654, guid: b9bfde597a3098945a976e6340ff7d52,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -150,12 +150,12 @@ GameObject:
   - component: {fileID: 6641737705354378818}
   - component: {fileID: 6641737705354378821}
   - component: {fileID: 7642462218124696346}
-  - component: {fileID: 6667287062831341533}
+  - component: {fileID: 5011240149383966169}
   - component: {fileID: 6641737705354378823}
   - component: {fileID: 6641737705354378822}
   - component: {fileID: -8731243594631918369}
   m_Layer: 10
-  m_Name: CoalSlime
+  m_Name: FloatFly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6641737705354378825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6158928, y: -0.21, z: -1.0431725}
+  m_LocalPosition: {x: 0.6158928, y: -0.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6641737704435517955}
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  drawGizmos: 1
+  drawGizmos: 0
   detailedGizmos: 1
   startEndModifier:
     addPoints: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   isStun: 0
   isBurn: 0
   isFreeze: 0
---- !u!114 &6667287062831341533
+--- !u!114 &5011240149383966169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,35 +231,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 6641737705354378825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00de8c60f43990a4c82f79945edbc800, type: 3}
+  m_Script: {fileID: 11500000, guid: c93064558fa9c404a88febf633ef5f3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   animator: {fileID: 0}
-  speed: 0
-  nextWayPointDistance: 3
-  playerDetectDistance: 4
-  attackRange: 4
+  speed: 5
+  nextWayPointDistance: 0.1
+  playerDetectDistance: 7
+  attackRange: 2
   groundDetectOffset: {x: 0, y: 0}
-  attackDamage: 0
-  idleAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-  traceAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-  damagedAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
-  deathAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
+  idleAnim: {fileID: 7400000, guid: 13ed63fb0e023b9439aa82f645a8cef3, type: 2}
+  traceAnim: {fileID: 7400000, guid: 13ed63fb0e023b9439aa82f645a8cef3, type: 2}
+  damagedAnim: {fileID: 7400000, guid: 13ed63fb0e023b9439aa82f645a8cef3, type: 2}
+  deathAnim: {fileID: 7400000, guid: 13ed63fb0e023b9439aa82f645a8cef3, type: 2}
   attackPattern:
-  - attackAnim: {fileID: 7400000, guid: 3268d0c8d0ac54946848245da927d4dc, type: 2}
+  - attackAnim: {fileID: 7400000, guid: 0add0989504b95048aa839c26af6205b, type: 2}
     attackDamage: 1
     attackCtrl: 0
-  attackFollowPlayer: 1
+  detectType: 1
+  ignoreGround: 1
+  lastAttackedTime: 0
+  attackDelay: 1
+  attackFollowPlayer: 0
   playerAttackable: 0
   attackedPlayer: 0
   currentAttackIndex: 0
   traceTime: 0
-  maxHP: 5
-  currentHP: 0
+  maxHP: 1
+  currentHP: 1
   enemyCtrl: {fileID: 0}
-  jumpPower: 1500
-  isFloat: 0
+  flySpeed: 100
 --- !u!50 &6641737705354378823
 Rigidbody2D:
   serializedVersion: 4
@@ -275,7 +277,7 @@ Rigidbody2D:
   m_Mass: 2
   m_LinearDrag: 10
   m_AngularDrag: 0.05
-  m_GravityScale: 10
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -297,10 +299,10 @@ BoxCollider2D:
   m_Offset: {x: 0.10603163, y: -0.09543899}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8125, y: 0.71875}
+    newSize: {x: 0.8125, y: 0.71875}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0

@@ -16,6 +16,7 @@ public class ItemManager : Singleton<ItemManager>
     {
         GainWeapon(InstantiateWeapon(ItemRank.Monomino));
         GainWeapon(InstantiateWeapon(ItemRank.Domino));
+        GainWeapon(InstantiateWeapon(ItemRank.Domino));
     }
     private void Start()
     {

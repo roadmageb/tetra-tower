@@ -1114,6 +1114,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2134224862794429272, guid: 746461cf5ae526c4d99386a6cde77f2c,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2134224862794429272, guid: 746461cf5ae526c4d99386a6cde77f2c,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.71875
+      objectReference: {fileID: 0}
+    - target: {fileID: 2134224862794429272, guid: 746461cf5ae526c4d99386a6cde77f2c,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7922422854691280649, guid: 746461cf5ae526c4d99386a6cde77f2c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1451,11 +1466,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2373749901181041287, guid: b359baaa37bdd724e90c5a3bd3db51e5,
-        type: 3}
-      propertyPath: isTest
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8633367542293268749, guid: b359baaa37bdd724e90c5a3bd3db51e5,
         type: 3}

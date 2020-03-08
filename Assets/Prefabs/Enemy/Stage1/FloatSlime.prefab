@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   animator: {fileID: 0}
-  speed: 0
+  speed: 3
   nextWayPointDistance: 3
   playerDetectDistance: 4
   attackRange: 4
@@ -177,6 +177,7 @@ MonoBehaviour:
     attackCtrl: 0
   detectType: 0
   ignoreGround: 0
+  isPatrol: 1
   lastAttackedTime: 0
   attackDelay: 1
   attackFollowPlayer: 0

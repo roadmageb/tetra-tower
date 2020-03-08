@@ -251,6 +251,7 @@ MonoBehaviour:
     attackCtrl: 0
   detectType: 1
   ignoreGround: 0
+  isPatrol: 1
   lastAttackedTime: 0
   attackDelay: 1
   attackFollowPlayer: 1

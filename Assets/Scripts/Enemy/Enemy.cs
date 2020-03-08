@@ -25,8 +25,8 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] public AttackPattern[] attackPattern;
     [SerializeField] private EnemyDetectType detectType;
     [SerializeField] private bool ignoreGround;
-    [SerializeField] private float lastAttackedTime;
-    [SerializeField] private float attackDelay;
+    [SerializeField] protected float lastAttackedTime;
+    [SerializeField] protected float attackDelay;
 
     public bool attackFollowPlayer;
     public bool playerAttackable = false;
@@ -192,6 +192,8 @@ public abstract class Enemy : MonoBehaviour
             animator.SetBool("Trace", false);
         }
     }
+
+    public virtual void AttackAction() { }
 
     public virtual void AttackStart()
     {

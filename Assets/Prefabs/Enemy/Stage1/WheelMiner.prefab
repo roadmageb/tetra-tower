@@ -243,8 +243,8 @@ MonoBehaviour:
   groundDetectOffset: {x: 0.75, y: 0}
   idleAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
   traceAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
-  damagedAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
-  deathAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
+  damagedAnim: {fileID: 7400000, guid: c34913d8c9d028f4492c791c6d83d762, type: 2}
+  deathAnim: {fileID: 7400000, guid: c34913d8c9d028f4492c791c6d83d762, type: 2}
   attackPattern:
   - attackAnim: {fileID: 7400000, guid: 2102179f27ec582478c2bd698f4a8055, type: 2}
     attackDamage: 1

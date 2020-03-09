@@ -16,7 +16,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
     [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
-    [SerializeField] private Transform m_WallCheck;                             // A position marking where to check for walls
+    [SerializeField] private Transform[] m_WallCheck;                             // A position marking where to check for walls
 
     public bool m_Attacking;
     const float k_GroundedRadius = .05f; // Radius of the overlap circle to determine if grounded
@@ -75,21 +75,32 @@ public class CharacterController2D : MonoBehaviour
         m_WallClimbed = false;
         if (!m_Grounded)
         {
-
-            Collider2D[] wallColliders;
-            wallColliders = Physics2D.OverlapCircleAll(m_WallCheck.position, k_WallRadius, m_WhatIsGround);
-
-            for (int i = 0; i < wallColliders.Length; i++)
+            bool wallClimbChecker = true;
+            foreach(Transform child in m_WallCheck)
             {
-                if (wallColliders[i].gameObject != gameObject && (Input.GetAxisRaw("Horizontal") != 0) && !m_Attacking)
+                bool tempWallChecker = false;
+                Collider2D[] wallColliders;
+                wallColliders = Physics2D.OverlapCircleAll(child.position, k_WallRadius, m_WhatIsGround);
+
+                for (int i = 0; i < wallColliders.Length; i++)
                 {
-                    animator.SetTrigger("WallClimb");
-                    m_WallClimbed = true;
-                    m_Rigidbody2D.gravityScale = 0;
-                    m_Rigidbody2D.velocity = Vector2.zero;
-                    break;
+                    if (wallColliders[i].gameObject != gameObject && (Input.GetAxisRaw("Horizontal") != 0) && !m_Attacking)
+                    {
+                        tempWallChecker = true;
+                        break;
+                    }
                 }
+                wallClimbChecker &= tempWallChecker;
             }
+
+            if (wallClimbChecker)
+            {
+                animator.SetTrigger("WallClimb");
+                m_WallClimbed = true;
+                m_Rigidbody2D.gravityScale = 0;
+                m_Rigidbody2D.velocity = Vector2.zero;
+            }
+
             if (!m_WallClimbed)
             {
                 m_Rigidbody2D.gravityScale = 10;

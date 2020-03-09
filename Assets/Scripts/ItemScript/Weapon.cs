@@ -2,26 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : ScriptableObject
+public abstract class Weapon
 {
-    public ItemRank rank;
-    public int skillCount;
-    public ComboInfo[] commands;
-    public AnimationClip[] anims;
-    public bool gaugeEnabled;
+    public ScriptableWeaponInfo info;
+    public List<Addon> addons;
     public float gaugeSize;
     public float gaugeCurrent;
-    public int addonSize;
-    public List<Addon> addons;
 
-    public Weapon()
+    public Weapon(ScriptableWeaponInfo _info)
     {
         addons = new List<Addon>();
+        info = _info;
+        for(int i = 0; i < info.commands.Length; i++)
+        {
+            info.commands[i].skill = new SkillInfo(this, i);
+        }
+        if(info.gaugeEnabled)
+        {
+            gaugeSize = info.gaugeSize;
+            gaugeCurrent = info.gaugeInit;
+        }
     }
 
     public AnimationClip GetAnim(int skillNum)
     {
-        return anims[skillNum];
+        return info.commands[skillNum].anim;
     }
     public virtual void PlaySkill(int skillNum, int option)
     {
@@ -29,7 +34,7 @@ public abstract class Weapon : ScriptableObject
     }
     public bool GainAddon(Addon newAddon)
     {
-        if(addons.Count < addonSize)
+        if(addons.Count < info.addonSize)
         {
             addons.Add(newAddon);
             return true;
@@ -46,13 +51,13 @@ public abstract class Weapon : ScriptableObject
         }
         return false;
     }
-    protected virtual int GetDamage(int skillNum)
+    protected virtual float GetDamage(int skillNum)
     {
-        return 0;
+        return info.commands[skillNum].damageList[0];
     }
     public AttackPtoE CalcAttack(int skillNum, Enemy enemy)
     {
-        if(skillCount > skillNum)
+        if(info.commands.Length > skillNum)
         {
             AttackPtoE attack = new AttackPtoE(GetDamage(skillNum));
             
@@ -82,7 +87,7 @@ public abstract class Weapon : ScriptableObject
                 }
             }
 
-            //Apply DmgAdd effect
+            //Apply DmgMult effect
             if (this is IAtkDmgMult)
             {
                 ((IAtkDmgMult)this).AtkDmgMult(attack, skillNum, enemy);

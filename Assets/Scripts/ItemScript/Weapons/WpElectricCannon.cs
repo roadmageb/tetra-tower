@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class WpElectricCannon : Weapon
 {
-
+    public WpElectricCannon(ScriptableWeaponInfo info) : base(info)
+    {
+    }
 }

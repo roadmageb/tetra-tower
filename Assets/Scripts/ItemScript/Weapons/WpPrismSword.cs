@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WpPrismSword : MonoBehaviour
+public class WpPrismSword : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    public WpPrismSword(ScriptableWeaponInfo info) : base(info)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

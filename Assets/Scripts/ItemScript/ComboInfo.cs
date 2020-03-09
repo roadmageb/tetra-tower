@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class ComboInfo
 {
     public SkillInfo skill;
-    private int[] comboAction;
-    private InputArrow comboArrow;
-    private PosCond positionCond;
+    [SerializeField] private string comboName;
+    [SerializeField] private int[] comboAction;
+    [SerializeField] private InputArrow comboArrow;
+    [SerializeField] private PosCond positionCond;
+    [SerializeField] private float keyGain;
+    public AnimationClip anim;
+    public float[] damageList;
     private int comboSuccessCounter;
-    private string comboName;
-    private float keyGain;
-    private int delayFrame;
 
     public bool CheckCombo(InputArrow inputArrow, int inputAction, int globalSuccessCounter, out bool isComboEnd, out bool isPerfectCombo)
     {
@@ -47,17 +49,6 @@ public class ComboInfo
     public void DoCombo()
     {
         Debug.Log(comboName);
-    }
-
-    public ComboInfo(SkillInfo skillInfo, InputArrow _comboArrow, int[] _comboAction, float _keyGain, int _delayFrame, string _comboName)
-    {
-        skill = skillInfo;
-        comboArrow = _comboArrow;
-        comboAction = _comboAction;
-        comboName = _comboName;
-        keyGain = _keyGain;
-        delayFrame = _delayFrame;
-        comboSuccessCounter = 0;
     }
 
     /// <summary>

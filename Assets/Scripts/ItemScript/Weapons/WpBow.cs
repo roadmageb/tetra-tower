@@ -2,17 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WpBow : MonoBehaviour
+public class WpBow : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    public WpBow(ScriptableWeaponInfo info) : base(info)
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    }
+    public override void PlaySkill(int skillNum, int option)
     {
-        
+        Transform trns = PlayerController.Instance.transform;
+        switch (skillNum)
+        {
+            case 0:
+                Object.Instantiate(info.projectiles[0]).GetComponent<ProjBow>().SetProjectile(
+                    new SkillInfo(this, 0),
+                    trns.position + new Vector3(1, 1, 0),
+                    false,
+                    (int)trns.localScale.x);
+                break;
+            case 1:
+                Object.Instantiate(info.projectiles[0]).GetComponent<ProjBow>().SetProjectile(
+                    new SkillInfo(this, 1),
+                    trns.position + new Vector3(0, 2, 0),
+                    true,
+                    0);
+                break;
+        }
     }
 }

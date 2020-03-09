@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8848556532906859519}
   m_Layer: 8
   m_Name: Floor
-  m_TagString: NotPassable
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

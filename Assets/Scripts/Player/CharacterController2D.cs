@@ -14,9 +14,10 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] private float m_WallJumpPower = 10f;                       // Amount of speed added when the player wall jumps.
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
-    [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
-    [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
-    [SerializeField] private Transform[] m_WallCheck;                             // A position marking where to check for walls
+    [SerializeField] public Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
+    [SerializeField] public Transform m_CeilingCheck;                          // A position marking where to check for ceilings
+    [SerializeField] public Transform[] m_WallCheck;                             // A position marking where to check for walls
+    [SerializeField] public Transform m_PlayerCenter;                            
 
     public bool m_Attacking;
     const float k_GroundedRadius = .05f; // Radius of the overlap circle to determine if grounded
@@ -73,7 +74,7 @@ public class CharacterController2D : MonoBehaviour
         }
 
         m_WallClimbed = false;
-        if (!m_Grounded)
+        if (!m_Grounded && !m_Attacking)
         {
             bool wallClimbChecker = true;
             foreach(Transform child in m_WallCheck)
@@ -227,13 +228,12 @@ public class CharacterController2D : MonoBehaviour
             case DashDir.Right: dir = Vector2.right; break;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, LayerMask.GetMask("Floor"));
-        float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - GetComponent<Collider2D>().bounds.size.x / 2;
+        RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Floor"));
+        float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - GetComponent<BoxCollider2D>().size.x / 2;
         m_Rigidbody2D.velocity = Vector3.zero;
 
         int dashCount = 10;
-        Vector3 destination = (Vector3)dir * distance;
-
+        Vector3 destination = (Vector3)dashZonePos + (Vector3)dir * distance - transform.position;
         for (int i = 0; i < dashCount; i++)
         {
             yield return null;

@@ -31,6 +31,7 @@ public class RowSlider : MonoBehaviour
 
     public void Initialize(Map map, GridUtils gridUtils)
     {
+        name = "Row Slider";
         this.map = map;
         this.gridUtils = gridUtils;
     }

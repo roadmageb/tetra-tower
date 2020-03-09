@@ -14,6 +14,7 @@ public class RowDestroyer : MonoBehaviour
 
     public void Initialize(Map map)
     {
+        this.name = "Row Destroyer";
         this.map = map;
     }
 
@@ -35,6 +36,7 @@ public class RowDestroyer : MonoBehaviour
 
         destroyFinished = true;
     }
+
     public void MoveRowsDown(bool[] isFull, int[] shiftAmount, PistonSet set)
     {
         for (int i = set.LowestRow(); i < set.NextLowestRow(); ++i)

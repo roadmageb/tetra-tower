@@ -32,8 +32,10 @@ public class PistonSpawner : MonoBehaviour
 
     public bool[] nthPistonExists;
 
+
     public void Initialize(Map map)
     {
+        this.name = "Piston Spawner";
         pistonSetCount = 0;
         this.map = map;
         nthPistonExists = new bool[Map.gridHeight];

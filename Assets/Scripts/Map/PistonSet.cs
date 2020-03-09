@@ -12,6 +12,7 @@ public class PistonSet: MonoBehaviour
 
     public void Init(PistonSpawner pistonSpawner)
     {
+        this.name = "Piston Set";
         pairs = new List<PistonPair>(4);
         this.pistonSpawner = pistonSpawner;
     }

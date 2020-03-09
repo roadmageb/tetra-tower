@@ -68,7 +68,6 @@ public class RowDestroyer : MonoBehaviour
         }
 
         var y = tet.gridPosition.y;
-        //tet.MoveBy(shiftAmount[y] * Vector3Int.down);
         tet.SlideBy(shiftAmount[y]);
     }
 

@@ -26,6 +26,7 @@ public class Room : MonoBehaviour
         doors.Add(Vector2.up, transform.Find("DoorUp").GetComponent<Door>());
         doors.Add(Vector2.down, transform.Find("DoorDown").GetComponent<Door>());
 
+
         adjIndex = new int[,]
         {
             {1, 1},
@@ -38,14 +39,14 @@ public class Room : MonoBehaviour
             {0, -1},
             {-1, -1}
         };
-        Test();
+        //Test();
     }
 
     private void Update()
     {        
         if(!roomCleared && enemy.childCount == 0)
         {
-            ClearRoom();
+            //ClearRoom();
         }
     }
 

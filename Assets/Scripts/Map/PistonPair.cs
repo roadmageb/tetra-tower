@@ -18,6 +18,7 @@ public class PistonPair : MonoBehaviour
 
     public void Init(PistonSpawner pistonSpawner)
     {
+        this.name = "Piston Pair";
         this.pistonSpawner = pistonSpawner;
         leftFinish = false;
         rightFinish = false;

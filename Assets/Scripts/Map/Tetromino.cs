@@ -18,11 +18,9 @@ public class Tetromino : MonoBehaviour
 
     public Vector3Int PositionBeforeRotation;
 
-    void Start()
-    {
-        isSliding = false;
-        gravity = map.tetrominoGravity;
-    }
+    public GameObject roomPrefab;
+
+    public Vector3 shift;
 
     public void MoveBy(Vector3Int offset)
     {
@@ -127,15 +125,16 @@ public class Tetromino : MonoBehaviour
         }
     }
 
-    void ImmediateFallForDebug()
+    public void ImmediateFall(GameObject playerPrefab)
     {
-        gridPosition = fallDestination;
-
-        transform.position = map.basePosition + map.scaleFactor * gridPosition;
-
-        isFalling = false;
+        var shift = new Vector3Int(0, -1, 0);
+        while (canShift(shift))
+        {
+            MoveBy(shift);
+        }
 
         map.UpdateGrid(this);
+        SpawnPlayer(playerPrefab);
         prepareNextTetromino();
     }
 
@@ -194,7 +193,7 @@ public class Tetromino : MonoBehaviour
     {
         //map.DeleteRow();
         map.RemoveRowsIfFull(this);
-        //CreateRooms();
+        CreateRooms();
         enabled = false;
         map.SpawnNextTetromino();
     }
@@ -203,7 +202,7 @@ public class Tetromino : MonoBehaviour
     {
         foreach (Mino mino in GetComponentsInChildren<Mino>())
         {
-            mino.MakeRoom();
+            mino.MakeRoom(roomPrefab);
         }
     }
 
@@ -298,6 +297,12 @@ public class Tetromino : MonoBehaviour
         gridPosition = fallDestination;
         map.UpdateGrid(this);
 
+    }
+
+    public void SpawnPlayer(GameObject playerPrefab)
+    {
+        var mino = GetComponentInChildren<Mino>();
+        mino.SpawnPlayer(playerPrefab);
     }
 
 }

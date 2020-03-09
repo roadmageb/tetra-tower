@@ -12,6 +12,7 @@ public class Map : MonoBehaviour
     public GameObject tetrominoSpawnerPrefab;
     public GameObject pistonSpawnerPrefab;
     public GameObject debugMapPrefab;
+    public GameObject playerPrefab;
 
     public TetrominoSpawner tetrominoSpawner;
     public PistonSpawner pistonSpawner;
@@ -106,6 +107,9 @@ public class Map : MonoBehaviour
 
         rowPosition = new Vector3[Map.gridHeight];
         ResetRowPosition();
+
+        currentTetromino.ImmediateFall(playerPrefab);
+
     }
 
     void ResetRowPosition()

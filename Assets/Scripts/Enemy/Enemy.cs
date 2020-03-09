@@ -26,6 +26,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private EnemyDetectType detectType;
     [SerializeField] private bool ignoreGround;
     [SerializeField] private bool isPatrol;
+    [SerializeField] private float patrolDistance = 0; //keep it 0 for unlimited patrol
     [SerializeField] protected float lastAttackedTime;
     [SerializeField] protected float attackDelay;
 
@@ -101,6 +102,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    private float currentPatrolDistance = 0;
     public void Patrol()
     {
         if (GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("Floor")))
@@ -109,11 +111,13 @@ public abstract class Enemy : MonoBehaviour
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
             RaycastHit2D checkWall = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (transform.localScale.x > 0 ? 1 : -1), 
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y / 2, LayerMask.GetMask("Floor"));
-            if (!checkGround || checkWall)
+            if (!checkGround || checkWall || (patrolDistance > 0 && currentPatrolDistance >= patrolDistance))
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                currentPatrolDistance = 0;
             }
             transform.Translate(Vector2.right * (transform.localScale.x > 0 ? 1 : -1) * speed * Time.deltaTime);
+            currentPatrolDistance += speed * Time.deltaTime;
         }
     }
 

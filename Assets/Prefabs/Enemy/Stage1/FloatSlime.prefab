@@ -178,6 +178,7 @@ MonoBehaviour:
   detectType: 0
   ignoreGround: 0
   isPatrol: 1
+  patrolDistance: 5
   lastAttackedTime: 0
   attackDelay: 1
   attackFollowPlayer: 0

@@ -174,7 +174,8 @@ MonoBehaviour:
   attackPattern: []
   detectType: 0
   ignoreGround: 0
-  isPatrol: 0
+  isPatrol: 1
+  patrolDistance: 0
   lastAttackedTime: 0
   attackDelay: 0
   attackFollowPlayer: 0

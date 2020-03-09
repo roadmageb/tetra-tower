@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716427b9172332d47877e2879f147380, type: 3}
+  m_Name: WpBWSpear
+  m_EditorClassIdentifier: 
+  rank: 1
+  commands:
+  - comboName: "1\uD0C0"
+    comboAction: 02000000
+    comboArrow: 2
+    positionCond: 0
+    keyGain: 3
+    anim: {fileID: 7400000, guid: cf5df84ca85810f40bc0146db6d0af81, type: 2}
+    damageList:
+    - 3
+  - comboName: "2\uD0C0"
+    comboAction: 0200000004000000
+    comboArrow: 2
+    positionCond: 0
+    keyGain: 10
+    anim: {fileID: 7400000, guid: ee7bc70d1c4ed8f4985ff19584c57a2f, type: 2}
+    damageList:
+    - 4
+  gaugeEnabled: 0
+  gaugeSize: 0
+  gaugeCurrent: 0
+  addonSize: 2
+  sprite: {fileID: 21300000, guid: c02e0802cb2ffaf4a92d7ab88517f2fd, type: 3}

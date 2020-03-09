@@ -4,23 +4,10 @@ using UnityEngine;
 
 public class WpBWSpear : Weapon
 {
-    public WpBWSpear()
+    public WpBWSpear(ScriptableWeaponInfo info) : base(info)
     {
-        rank = ItemRank.Domino;
-        skillCount = 2;
-        commands = new ComboInfo[]
-        {
-            new ComboInfo(new SkillInfo(this, 0), InputArrow.Front, new int[]{2}, 3, 18, "1타"),
-            new ComboInfo(new SkillInfo(this, 1), InputArrow.Front, new int[]{2, 4}, 10, 30, "2타")
-        };
-        gaugeEnabled = false;
-        addonSize = 2;
-        anims = new AnimationClip[]
-        {
-            GameManager.Instance.skillAnim["BWSpear00"],
-            GameManager.Instance.skillAnim["BWSpear01"]
-        };
     }
+
     public override void PlaySkill(int skillNum, int option)
     {
         Transform trns = PlayerController.Instance.transform;
@@ -52,16 +39,5 @@ public class WpBWSpear : Weapon
                 }
                 break;
         }
-    }
-    protected override int GetDamage(int skillNum)
-    {
-        switch (skillNum)
-        {
-            case 0:
-                return 3;
-            case 1:
-                return 4;
-        }
-        return 0;
     }
 }

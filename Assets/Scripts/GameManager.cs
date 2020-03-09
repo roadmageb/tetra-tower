@@ -24,6 +24,6 @@ public class GameManager : Singleton<GameManager>
         {
             effectAnim.Add(s.name, s.anim);
         }
-        aStarPath = GameObject.Find("A*").GetComponent<AstarPath>();
+        //aStarPath = GameObject.Find("A*").GetComponent<AstarPath>();
     }
 }

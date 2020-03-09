@@ -21,9 +21,39 @@ public class EnemyCtrl : MonoBehaviour
     bool isFreezeImm;
     float totalFreeze, currentFreeze, totalFreezeImm, currentFreezeImm;
 
+    Dictionary<string, float> customCtrl;
+
     private void Start()
     {
         enemy = GetComponent<Enemy>();
+        customCtrl = new Dictionary<string, float>();
+    }
+
+    public float GetCustomCtrl(string key)
+    {
+        if (!customCtrl.ContainsKey(key))
+        {
+            customCtrl.Add(key, 0);
+        }
+        return customCtrl[key];
+    }
+
+    public void SetCustomCtrl(string key, float value)
+    {
+        if (!customCtrl.ContainsKey(key))
+        {
+            customCtrl.Add(key, 0);
+        }
+        customCtrl[key] = value;
+    }
+
+    public void AddCustomCtrl(string key, float value)
+    {
+        if (!customCtrl.ContainsKey(key))
+        {
+            customCtrl.Add(key, 0);
+        }
+        customCtrl[key] += value;
     }
 
     private void Update()

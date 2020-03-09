@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class WpMagmaCube : Weapon
 {
-
+    public WpMagmaCube(ScriptableWeaponInfo info) : base(info)
+    {
+    }
 }

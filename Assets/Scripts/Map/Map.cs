@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.CompilerServices;
+using System.Linq;
 
 public class Map : MonoBehaviour
 {
+    public Gravity tetrominoGravity;
+    public Gravity gridGravity;
+
     public GameObject tetrominoSpawnerPrefab;
     public GameObject pistonSpawnerPrefab;
     public GameObject debugMapPrefab;
+    public GameObject playerPrefab;
 
     public TetrominoSpawner tetrominoSpawner;
     public PistonSpawner pistonSpawner;
@@ -23,10 +28,6 @@ public class Map : MonoBehaviour
 
     public Vector3Int basePosition;
 
-    public bool[] isFull;
-    public bool[] isRowEmpty;
-    public int[] shiftAmount;
-
     public Tetromino currentTetromino;
 
     public bool inputLock;
@@ -38,26 +39,32 @@ public class Map : MonoBehaviour
 
     public Camera mainCamera;
 
-    public RowDestroyer rowDestroyer;
+    //public RowDestroyer rowDestroyer;
 
     public bool tetrominoFalling;
 
-    public int coroutineCount;
-
     public Vector3[] rowPosition;
 
-    public bool isFalling;
+    public bool gridIsFalling;
 
-    void Start()
+    void Awake()
     {
-        scaleFactor = 3;
+
+        tetrominoGravity = new GameObject().AddComponent<Gravity>();
+        tetrominoGravity.name = "TetrominoGravity";
+
+        gridGravity = new GameObject().AddComponent<Gravity>();
+        gridGravity.name = "GridGravity";
+
+
+        scaleFactor = 16;
         scaleVector = Vector3Int.one * (scaleFactor - 1);
         transform.localScale += scaleVector;
 
         transform.position = new Vector3Int(1, -10 * scaleFactor, 0);
 
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        mainCamera.orthographicSize = 40;
+        mainCamera.orthographicSize = 12 * scaleFactor;
 
         basePosition = Vector3Utils.ToVector3Int(transform.position) + new Vector3Int(scaleFactor, scaleFactor, 0);
 
@@ -72,6 +79,8 @@ public class Map : MonoBehaviour
         pistonMask.transform.localScale += scaleVector;
 
         debugMap = GameObject.Find("DebugMap").GetComponent<DebugMap>();
+        debugMap.transform.position = scaleFactor * debugMap.transform.position;
+        debugMap.transform.localScale += scaleVector;
 
         grid = new Transform[gridWidth, gridHeight];
 
@@ -83,15 +92,11 @@ public class Map : MonoBehaviour
 
         SpawnNextTetromino();
 
-        rowDestroyer = new GameObject().AddComponent<RowDestroyer>();
-        rowDestroyer.Initialize(this);
-
-        tetrominoFalling = false;
-
-        coroutineCount = 0;
-
         rowPosition = new Vector3[Map.gridHeight];
         ResetRowPosition();
+
+        currentTetromino.ImmediateFall(playerPrefab);
+
     }
 
     void ResetRowPosition()
@@ -103,131 +108,116 @@ public class Map : MonoBehaviour
     }
 
 
-    void DestroyRow(int y)
+
+
+    IEnumerator DebugDelete(bool[] isFull, int[] shiftAmount)
     {
-        for (int x = 0; x < gridWidth; ++x)
+
+        while (gridIsFalling)
         {
-            Destroy(grid[x, y].gameObject);
-            grid[x, y] = null;
+            yield return null;
         }
-    }
-
-    public void DestroyRowsIfFull(bool[] isFull)
-    {
-        for (int i = 0; i < isFull.Length; ++i)
-        {
-            if (isFull[i])
-            {
-                DestroyRow(i);
-            }
-        }
-    }
-
-
-    void MoveRowDown(int y, int num)
-    {
-        if (num == 0)
-        {
-            return; // do nothing
-        }
-
-        for (int x = 0; x < gridWidth; ++x)
-        {
-            if (grid[x, y] != null)
-            {
-                // for delayed transform shift
-                var mino = grid[x, y].gameObject.GetComponent<Mino>();
-                mino.slideDestination = y - num;
-
-                grid[x, y - num] = grid[x, y];
-                grid[x, y] = null;
-
-            }
-        }
-    }
-
-    public void MoveAllRowsDown(bool[] isFull, int[] shiftAmount)
-    {
-        for (int i = 1; i < gridHeight; ++i)
-        {
-            if (!isFull[i]) {
-                MoveRowDown(i, -shiftAmount[i]);
-            }
-        }
-    }
-
-    IEnumerator DebugDelete(bool[] isFull)
-    {
-        RowSlider localRowSlider = new GameObject().AddComponent<RowSlider>();
-        localRowSlider.Initialize(this);
-        int id = coroutineCount++;
 
         while (tetrominoFalling)
         {
             yield return null;
         }
 
-        pistonSpawner.spawnIfFull(isFull);
-        yield return null;
-        while (Piston.pistonCount != 0)
+        var pistonSet = pistonSpawner.spawnIfFull(isFull);
+        while (!pistonSet.FinishSet())
         {
             yield return null; 
         }
+
         inputLock = true;
 
-        rowDestroyer.RequestDestroyRows();
-        //yield return new WaitForSeconds(5);
-
-
-        while (!rowDestroyer.destroyFinished)
+        while (tetrominoFalling)
         {
             yield return null;
         }
-        rowDestroyer.requestCount--;
-        if (rowDestroyer.requestCount != 0)
-        {
-            yield break;
-        }
-        else
-        {
-            rowDestroyer.destroyFinished = false;
-        }
 
-        gridUtils.IsRowEmptyUpdate();
-        localRowSlider.UpdateGridBitmap();
+        var gridCopy = gridUtils.GridShallowCopy(); // must be below pistonSpawner. Otherwise new minos not updated
+        var gridCopyUtils = new GridUtils();
+        gridCopyUtils.Initialize(gridCopy);
 
+        var isFullCopy = gridCopyUtils.MakeIsFull();
+        var isEmptyCopy = gridCopyUtils.MakeIsEmpty();
+        var shiftAmountCopy = gridCopyUtils.MakeShiftAmount(isFullCopy, isEmptyCopy);
+
+        RowDestroyer rowDestroyer = new GameObject().AddComponent<RowDestroyer>();
+        rowDestroyer.Initialize(this, gridCopyUtils);
+        rowDestroyer.RequestDestroyRows(isFull, shiftAmountCopy, pistonSet); // must be shiftAmountCopy. Otherwise new tetromino not move down.
+
+        gridIsFalling = true;
+        RowSlider rowSlider = new GameObject().AddComponent<RowSlider>();
+        rowSlider.Initialize(this, gridCopyUtils);
+        rowSlider.SlideDown(isEmptyCopy, pistonSet);
+
+
+        while (rowSlider.coroutineCount != 0)
+        {
+            Debug.Log("coroutineCount = " + rowSlider.coroutineCount);
+            yield return null;
+        }
         inputLock = false;
-        isFalling = true;
 
-        localRowSlider.slideDown();
-        Debug.Log("move row down Finished!");
-        yield return null;
-        while (localRowSlider.coroutineCount != 0)
-        {
-            Debug.Log("coroutineCount = " + localRowSlider.coroutineCount);
-            yield return null;
-        }
-
-        isFalling = false;
+        gridIsFalling = false;
 
         Debug.Log("rowslider Finished!");
         Debug.Log("lock release");
     }
 
-    public void RemoveRowsIfFull()
+    void Update()
     {
-
-        gridUtils.isFullUpdate();
-        gridUtils.shiftAmountUpdate();
-
-        isFull = gridUtils.isFull;
-        shiftAmount = gridUtils.shiftDown;
-        //isRowEmpty = gridUtils.isRowEmpty;
-
-        if (gridUtils.fullRowCount > 0)
+        if (Input.GetKeyDown("f"))
         {
-            //StartCoroutine(WaitAndDelete(gridUtils.isFull));
-            StartCoroutine(DebugDelete(gridUtils.isFull));
+            for (int i = 0; i < Map.gridWidth; ++i)
+            {
+                for (int j = 0; j < Map.gridHeight; ++j)
+                {
+                    if (grid[i, j])
+                    {
+                        grid[i, j].gameObject.GetComponent<Renderer>().enabled = true;
+                    }
+                }
+            }
+        }
+        if (Input.GetKeyDown("w"))
+        {
+            for (int i = 0; i < Map.gridWidth; ++i)
+            {
+                for (int j = 0; j < Map.gridHeight; ++j)
+                {
+                    if (grid[i, j])
+                    {
+                        grid[i, j].gameObject.GetComponent<Renderer>().enabled = false;
+                    }
+                }
+            }
+        }
+    }
+
+    public void RemoveRowsIfFull(Tetromino tetromino)
+    {
+        bool[] rows = new bool[Map.gridHeight];
+
+        foreach (Mino mino in tetromino.GetComponentsInChildren<Mino>())
+        {
+            var pos = mino.GetGridPosition();
+            rows[pos.y] = true;
+        }
+
+        var isFull = gridUtils.MakeIsFull();
+        var isEmpty = gridUtils.MakeIsEmpty();
+        var shiftAmount = gridUtils.MakeShiftAmount(isFull, isEmpty);
+
+        for (int i = 0; i < rows.Length; ++i)
+        {
+            if (rows[i] && isFull[i])
+            {
+                StartCoroutine(DebugDelete(isFull, shiftAmount));
+                return;
+            }
         }
     }
 

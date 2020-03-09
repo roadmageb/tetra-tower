@@ -9,7 +9,6 @@ public class EnemyAttackState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         enemy = animator.gameObject.GetComponent<Enemy>();
-        enemy.attackMethods[enemy.currentAttackIndex]();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -20,6 +19,7 @@ public class EnemyAttackState : StateMachineBehaviour
             animator.transform.localScale = new Vector3(1 * (enemy.target.position.x - animator.transform.position.x > 0 ? 1 : -1), 1, 1);
         }
         enemy.traceTime = Time.time;
+        enemy.AttackAction();
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

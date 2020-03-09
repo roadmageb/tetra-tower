@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initEffectNum: 10
+  initHitParticleNum: 10
   effectPrefab: {fileID: 2778020574470956196, guid: 727cf6c3b702a81438b633edeb16188e,
     type: 3}
-  pool: []
+  hitParticle: {fileID: 6650148028098479069, guid: e74aa1f4b651c484c8ccea9d755a1ec0,
+    type: 3}

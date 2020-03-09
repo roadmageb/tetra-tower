@@ -35,7 +35,7 @@ public class TetrominoSpawner : MonoBehaviour
 
     public void spawnNth(int i)
     {
-        var initialGridPosition = new Vector3Int(5, 18, 2);
+        var initialGridPosition = new Vector3Int(5, 18, 0);
         GameObject nextTetrominoObj = Instantiate(prefab_tetrominos[i]) as GameObject;
 
         Tetromino nextTetromino = nextTetrominoObj.GetComponent<Tetromino>();

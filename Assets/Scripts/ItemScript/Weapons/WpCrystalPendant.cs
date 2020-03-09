@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class WpCrystalPendant : Weapon
 {
-
+    public WpCrystalPendant(ScriptableWeaponInfo info) : base(info)
+    {
+    }
 }

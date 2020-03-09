@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeStoneManager : MonoBehaviour
+public class LifeStoneInfo
 {
-    public class LifeStoneInfo
+    public string lifeStonePos;
+    public Vector2Int size;
+    public LifeStoneInfo(string _lifeStonePos, Vector2Int _size)
     {
-        public string lifeStonePos;
-        public Vector2Int size;
-        public LifeStoneInfo(string _lifeStonePos, Vector2Int _size)
-        {
-            lifeStonePos = _lifeStonePos;
-            size = _size;
-        }
+        lifeStonePos = _lifeStonePos;
+        size = _size;
     }
+}
 
+public class LifeStoneManager : Singleton<LifeStoneManager>
+{
     public GameObject lifeStoneTop, lifeStoneMiddle, lifeStoneBottom;
     public GameObject lifeStoneNormal;
     private Transform lifeStoneUI;
@@ -25,7 +25,7 @@ public class LifeStoneManager : MonoBehaviour
     [SerializeField] private float lifeStoneEdgeOffset = 44.64285f;
     [SerializeField] private Vector2 lifeStoneInitialPos = new Vector2(250, 150);
 
-    private void GetLifeStone(LifeStoneInfo lifeStoneInfo)
+    public void GetLifeStone(LifeStoneInfo lifeStoneInfo)
     {
         //Check possible && lowest position of new life stone
         int minY = rowSize;
@@ -139,18 +139,6 @@ public class LifeStoneManager : MonoBehaviour
                 }
             }
         }
-
-        //For test
-        //Debug current life stone grid
-        /*for (int y = rowSize - 1; y >= 0; y--)
-        {
-            string temp = "";
-            for (int x = 0; x < columnSize; x++)
-            {
-                temp += lifeStoneGrid[y, x] != null ? lifeStoneGrid[y, x].type : LifeStoneType.NULL;
-            }
-            Debug.Log(temp);
-        }*/
     }
 
     private void CreateLifeStone(float initialPos, Vector2Int pos, LifeStoneType type)
@@ -181,7 +169,7 @@ public class LifeStoneManager : MonoBehaviour
     /// <param name="amount">Total amount of life stone</param>
     /// <param name="goldAmount">Amount of gold life stone</param>
     /// <returns>Encoded string of shape of created life stone</returns>
-    private LifeStoneInfo CreateLifeStoneShape(int amount, int goldAmount = 0)
+    public LifeStoneInfo CreateLifeStoneShape(int amount, int goldAmount = 0)
     {
         int xSize = Mathf.Min(columnSize, amount), ySize = amount;
         bool[,] lifeStonePos = new bool[ySize, xSize];

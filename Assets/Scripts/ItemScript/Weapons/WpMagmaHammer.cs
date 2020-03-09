@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WpMagmaHammer : MonoBehaviour
+public class WpMagmaHammer : Weapon
 {
-    // Start is called before the first frame update
-    void Start()
+    public WpMagmaHammer(ScriptableWeaponInfo info) : base(info)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

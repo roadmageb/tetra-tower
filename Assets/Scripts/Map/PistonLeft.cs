@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class PistonLeft : Piston
+public class PistonLeft : Piston
 {
     protected override void compress()
     {
@@ -19,7 +19,7 @@ class PistonLeft : Piston
         if (transform.position.x <= map.basePosition.x )
         {
             isMoving = false;
-            pistonCount--;
+            pair.leftFinish = true;
             Destroy(gameObject);
         }
         transform.position -= new Vector3(releaseVelocity * Time.deltaTime, 0, 0);

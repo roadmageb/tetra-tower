@@ -162,9 +162,9 @@ public class PlayerController : Singleton<PlayerController>
     public void ResetPossibleComboes()
     {
         possibleComboes.Clear();
-        foreach (Weapon wp in ItemManager.Instance.weapons)
+        foreach (Weapon wp in ItemManager.Instance.currentWeapons)
         {
-            foreach (ComboInfo combo in wp.commands)
+            foreach (ComboInfo combo in wp.info.commands)
             {
                 possibleComboes.Add(combo);
             }

@@ -37,3 +37,8 @@ public enum CtrlEtoP
 {
     None, Slow, KeyLeft, KeyRight, KeyDown, KeySpc, Paralysis
 }
+
+public enum EnemyDetectType
+{
+    Line, Circle
+}

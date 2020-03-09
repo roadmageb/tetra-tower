@@ -7,7 +7,7 @@ public class DebugMap : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject minoPrefab;
-    Map map;
+    public Map map;
 
     GameObject[,] grid;
 

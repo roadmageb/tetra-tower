@@ -5,8 +5,9 @@ using UnityEngine;
 public class Gravity : MonoBehaviour
 {
     public float gravity = 1000F;
-    public float gravityAdd = 4000;
-    public float gravityMul = 1.1f;
+    // public float gravityAdd = 4000;
+    // public float gravityMul = 1.1f;
+    public float velocityMultiplier;
     public Vector3 initialVelocity = Vector3.zero;
     public Vector3 acceleration;
     public Vector3 velocity;
@@ -16,11 +17,17 @@ public class Gravity : MonoBehaviour
 
     void Start()
     {
-        gravity = 9.8F * 16;
-        gravityAdd = 4000;
-        gravityMul = 1.1F;
-        initialVelocity = Vector3.zero;
+
+        gravity = 9.8F;
+        // gravityAdd = 4000;
+        // gravityMul = 1.1F;
+
+
+
+        initialVelocity = 2 * gravity * Vector3.down;
         velocity = initialVelocity;
+        velocityMultiplier = 1.03f;
+
         shift = Vector3.zero;
         acceleration = Vector3.zero;
         timestep = 0;
@@ -35,8 +42,9 @@ public class Gravity : MonoBehaviour
         shift = velocity * deltaTime;
         return shift;
         */
-        velocity.y -= gravity * deltaTime;
-        velocity.y *= 1.01f;
+        //velocity.y -= gravity * deltaTime;
+
+        velocity.y *= velocityMultiplier;
         return shift = velocity * deltaTime;
 
     }

@@ -56,6 +56,8 @@ public class Tetromino : MonoBehaviour
         this.map = map;
         this.gridPosition = gridPosition;
         this.transform.position = map.basePosition + map.scaleFactor * gridPosition;
+        isSliding = false;
+        gravity = map.tetrominoGravity;
     }
 
    
@@ -102,7 +104,7 @@ public class Tetromino : MonoBehaviour
 
         int finishCount = 0;
 
-        var shift = gravity.Shift(Time.deltaTime);
+        shift = gravity.Shift(Time.deltaTime);
 
         foreach (Mino mino in GetComponentsInChildren<Mino>())
         {

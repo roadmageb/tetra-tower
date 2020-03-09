@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - NotPassable
   - Enemy
   - MapTag
   - Item
+  - Floor
   layers:
   - Default
   - TransparentFX

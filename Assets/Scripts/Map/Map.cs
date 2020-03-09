@@ -178,6 +178,36 @@ public class Map : MonoBehaviour
         Debug.Log("lock release");
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown("f"))
+        {
+            for (int i = 0; i < Map.gridWidth; ++i)
+            {
+                for (int j = 0; j < Map.gridHeight; ++j)
+                {
+                    if (grid[i, j])
+                    {
+                        grid[i, j].gameObject.GetComponent<Renderer>().enabled = true;
+                    }
+                }
+            }
+        }
+        if (Input.GetKeyDown("w"))
+        {
+            for (int i = 0; i < Map.gridWidth; ++i)
+            {
+                for (int j = 0; j < Map.gridHeight; ++j)
+                {
+                    if (grid[i, j])
+                    {
+                        grid[i, j].gameObject.GetComponent<Renderer>().enabled = false;
+                    }
+                }
+            }
+        }
+    }
+
     public void RemoveRowsIfFull(Tetromino tetromino)
     {
         bool[] rows = new bool[Map.gridHeight];

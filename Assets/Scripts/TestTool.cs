@@ -19,7 +19,8 @@ public class TestTool : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ItemManager.Instance.CreateItem(new Vector2(1, 0), ItemRank.Monomino);
+        ItemManager.Instance.CreateItem(Vector2.zero, 4, 0);
     }
 
     // Update is called once per frame

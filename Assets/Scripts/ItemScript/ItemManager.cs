@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class ItemManager : Singleton<ItemManager>
 {
+    [SerializeField] private DroppedItem droppedItem = null;
+    public GameObject droppedLifeStone;
     public List<Weapon> currentWeapons;
     public ScriptableWeaponInfo[] weaponDB;
     public List<ScriptableWeaponInfo>[] weaponRankList;
@@ -108,4 +110,57 @@ public class ItemManager : Singleton<ItemManager>
         }
         return false;
     }
+
+    public DroppedItem CreateItem(Vector2 pos, int lifeStoneAmount, int goldRate)
+    {
+        float droppedLifeStoneOffset = 0.33f;
+        DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
+        LifeStoneInfo lifeStoneInfo = LifeStoneManager.Instance.CreateLifeStoneShape(lifeStoneAmount, goldRate);
+        temp.lifeStoneInfo = lifeStoneInfo;
+
+        for (int y = 0; y < lifeStoneInfo.size.y; y++)
+        {
+            for (int x = 0; x < lifeStoneInfo.size.x; x++)
+            {
+                if((LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()) != LifeStoneType.NULL)
+                {
+                    Instantiate(droppedLifeStone, new Vector2(x, y) * droppedLifeStoneOffset, Quaternion.identity, temp.transform);
+                }
+            }
+        }
+        temp.GetComponent<BoxCollider2D>().size = (Vector2)lifeStoneInfo.size * droppedLifeStoneOffset;
+        temp.GetComponent<BoxCollider2D>().offset = (lifeStoneInfo.size - new Vector2(1, 1)) / 2 * droppedLifeStoneOffset;
+        temp.transform.Find("GroundCollider").GetComponent<BoxCollider2D>().size = (Vector2)lifeStoneInfo.size * droppedLifeStoneOffset;
+        temp.transform.Find("GroundCollider").GetComponent<BoxCollider2D>().offset = (lifeStoneInfo.size - new Vector2(1, 1)) / 2 * droppedLifeStoneOffset;
+
+        temp.isWeapon = false;
+
+        return temp;
+    }
+
+    public DroppedItem CreateItem(Vector2 pos, Weapon wp)
+    {
+        if(wp != null)
+        {
+            DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
+            temp.weapon = wp;
+            temp.GetComponent<SpriteRenderer>().sprite = wp.info.sprite;
+            temp.isWeapon = true;
+            return temp;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public DroppedItem CreateItem(Vector2 pos, ItemRank rank)
+    {
+        return CreateItem(pos, InstantiateWeapon(rank));
+    }
+    public DroppedItem CreateItem(Vector2 pos, string name)
+    {
+        return CreateItem(pos, InstantiateWeapon(name));
+    }
+
 }

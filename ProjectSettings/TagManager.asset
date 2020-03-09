@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - NotPassable
   - Enemy
   - MapTag
-  - Floor
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - HitBox
   - Enemy
   - Player
-  - 
-  - 
+  - Item
+  - IgnorePlayer
   - 
   - 
   - 

@@ -94,3 +94,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a64db0e592bc9cb48b2ab03686fdbcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toBeDestroyed: 0
+  originalPosition: 0
+  slideDestination: 0
+  localPosition: {x: 0, y: 0, z: 0}
+  RoomPrefab: {fileID: 7114517637930871115, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}
+  room: {fileID: 0}

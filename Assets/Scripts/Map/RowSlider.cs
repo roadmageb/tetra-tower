@@ -1,97 +1,86 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RowSlider : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public bool isSliding;
-    Map map;
+    public Map map;
+    public GridUtils gridUtils;
+    public int coroutineCount;
 
-    GridUtils gridUtils;
+    public bool[] isFullDebug;
+    public bool[] isEmptyDebug;
+    public int[] shiftDownDebug;
+    public PistonSet setDebug;
 
-    // coroutines do not run in parallel. No need for semaphores.
-    public int coroutineCount { get; set; }
-
-    public bool[,] gridBitmap;
-
-
-
-    void Start()
+    public void Initialize(Map map, GridUtils gridUtils)
     {
-        isSliding = false;
-        coroutineCount = 0;
-
-    }
-
-    public void Initialize(Map map)
-    {
+        name = "Row Slider";
         this.map = map;
-        gridUtils = map.gridUtils;
+        this.gridUtils = gridUtils;
+
+        isSliding = false;
+
+        coroutineCount = 0;
     }
 
     IEnumerator SlideDownRow(int row)
     {
         coroutineCount++;
+        //Debug.Log("coroutineCount increased to " + coroutineCount);
 
-        float gravity = 9.8f;
-        float gravityAdd = 40;
-        Vector3 velocity = Vector3.zero;
         Vector3 shift;
-
-        if (map.gridUtils.isRowEmpty[row])
-        {
-            coroutineCount--;
-            yield break;
-        }
 
         while (true)
         {
-            velocity.y -= gravity * Time.deltaTime;
-            gravity += gravityAdd * Time.deltaTime;
-            shift = velocity * Time.deltaTime;
 
-            bool finished = false;
+            shift = map.gridGravity.Shift(Time.deltaTime);
+
+            int finished = 0;
 
             for (int i = 0; i < Map.gridWidth; ++i)
             {
-                Debug.Log(i + ' ' + row);
-                if (gridBitmap[i, row])
+                if (gridUtils.grid[i, row])
                 {
+                    var mino = gridUtils.grid[i, row].gameObject.GetComponent<Mino>();
 
-                    if (map.grid[i, row].position.y > ConvertGridYtoRealY(row))
+                    if (gridUtils.grid[i, row].position.y > ConvertGridYtoRealY(mino.slideDestination))
                     {
-                        map.grid[i, row].position += shift;
+                        gridUtils.grid[i, row].position += shift;
 
-                        map.rowPosition[row] = map.grid[i, row].position;
+                        map.rowPosition[row] = gridUtils.grid[i, row].position;
                     } 
                     else
                     {
-                        Vector3 pos = map.grid[i, row].position;
-                        pos.y = ConvertGridYtoRealY(row);
-                        map.grid[i, row].position = pos;
+                        Vector3 pos = gridUtils.grid[i, row].position;
+                        pos.y = ConvertGridYtoRealY(mino.slideDestination);
+                        gridUtils.grid[i, row].position = pos;
 
                         map.rowPosition[row].y = pos.y;
-                        finished = true;
+                        finished++;
                     }
+                }
+                else
+                {
+                    finished++;
                 }
             }
 
-            if (finished)
+            if (finished == Map.gridWidth)
             {
                 coroutineCount--;
+                //Debug.Log("coroutineCount decreased to " + coroutineCount);
                 yield break;
             }
             yield return null; // required for continuous flow
         }
 
+
     }
+
     
-    public void Initialize(GridUtils gridUtils)
-    {
-        this.gridUtils = gridUtils;
-    }
 
     void MoveRowBy(int row, Vector3 shift)
     {
@@ -110,26 +99,17 @@ public class RowSlider : MonoBehaviour
         return map.basePosition.y + map.scaleFactor * y;
     }
 
-    public void slideDown()
+    public void SlideDown(bool[] isEmpty, PistonSet set)
     {
-        for (int row = 0; row < Map.gridHeight; ++row) // must be starting from 0
-        {
-            StartCoroutine(SlideDownRow(row));
-        }
-    }
 
-    public void UpdateGridBitmap()
-    {
-        gridBitmap = new bool[Map.gridWidth, Map.gridHeight];
+        isEmptyDebug = isEmpty;
+        setDebug = set;
 
-        for(int row = 0; row < Map.gridHeight; ++row)
+        for (int row = set.LowestRow(); row < set.NextLowestRow(); ++row) // must be starting from 0
         {
-            for (int col = 0; col < Map.gridWidth; ++col)
+            if (!isEmpty[row])
             {
-                if (map.grid[col, row])
-                {
-                    gridBitmap[col, row] = true;
-                }
+                StartCoroutine(SlideDownRow(row));
             }
         }
     }

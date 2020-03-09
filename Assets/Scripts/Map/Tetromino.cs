@@ -4,26 +4,50 @@ using UnityEngine;
 
 public class Tetromino : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     public bool allowRotation = true;
 
     public bool isFalling = false;
-    public float gravity = 9.8F;
-    public float gravityAdd = 40;
-    public Vector3 velocity;
-    public Vector3 initialVelocity;
+    public bool isSliding = false;
 
-    public Vector3 shift;
+    public Gravity gravity;
+
     public Vector3Int gridPosition;
-
     public Vector3Int fallDestination;
-    public Vector3Int realFallDestination;
     public Map map;
 
-    public void Move(Vector3Int offset)
+    public Vector3Int PositionBeforeRotation;
+
+    public GameObject roomPrefab;
+
+    public Vector3 shift;
+
+    public void MoveBy(Vector3Int offset)
     {
         gridPosition += offset;
+        transform.position = map.basePosition + map.scaleFactor * gridPosition;
+    }
+
+    public void SlideBy(int amount)
+    {
+
+        Vector3Int shift = amount * Vector3Int.down;
+        fallDestination = gridPosition + shift;
+        gridPosition = fallDestination;
+
+        foreach (Transform child in transform)
+        {
+            var mino = child.gameObject.GetComponent<Mino>();
+            var pos = mino.GetGridPosition();
+            mino.slideDestination = pos.y;
+        }
+
+        isSliding = true;
+    }
+
+    public void MoveTo(Vector3Int location)
+    {
+        gridPosition = location;
         transform.position = map.basePosition + map.scaleFactor * gridPosition;
     }
 
@@ -32,9 +56,10 @@ public class Tetromino : MonoBehaviour
         this.map = map;
         this.gridPosition = gridPosition;
         this.transform.position = map.basePosition + map.scaleFactor * gridPosition;
-        initialVelocity = new Vector3(0, -10, 0);
-        this.velocity = initialVelocity;
+        isSliding = false;
+        gravity = map.tetrominoGravity;
     }
+
    
     void Update()
     {
@@ -45,24 +70,47 @@ public class Tetromino : MonoBehaviour
             return;
         }
 
+        if (isSliding)
+        {
+            Slide();
+            return;
+        }
+
         if (!map.inputLock)
         {
             PlayerInput();
         }
     }
+
+    public void Slide()
+    {
+
+        transform.position += gravity.Shift(Time.deltaTime);
+
+        var actualPosition = map.basePosition + map.scaleFactor * fallDestination;
+
+        if (transform.position.y < actualPosition.y)
+        {
+            var pos = transform.position;
+            pos.y = actualPosition.y;
+            transform.position = pos;
+            isSliding = false;
+            gravity.Reset();
+        }
+    }
+
     void Fall()
     {
-        velocity.y -= gravity * Time.deltaTime;
-        gravity += gravityAdd * Time.deltaTime;
-        shift = velocity * Time.deltaTime;
 
         int finishCount = 0;
+
+        shift = gravity.Shift(Time.deltaTime);
 
         foreach (Mino mino in GetComponentsInChildren<Mino>())
         {
             mino.transform.position += shift;
 
-            if (mino.transform.position.y <= map.basePosition.y + map.scaleFactor * mino.slideDestination)
+            if (mino.transform.position.y < map.basePosition.y + map.scaleFactor * mino.slideDestination)
             {
                 var pos = mino.transform.position;
                 pos.y = map.basePosition.y + map.scaleFactor * mino.slideDestination;
@@ -71,46 +119,24 @@ public class Tetromino : MonoBehaviour
             }
         }
 
-        if (finishCount == 4)
+        if (finishCount == 4) // bug. Sometimes finishCount is not 4 since minos are deleted. Must fix.
         {
-            velocity = initialVelocity;
-            map.tetrominoFalling = false;
-            prepareNextTetromino();
-        }
-    }
-
-    void FallOld()
-    {
-        velocity.y -= gravity * Time.deltaTime;
-        gravity += gravityAdd * Time.deltaTime;
-        shift = velocity * Time.deltaTime;
-        transform.position += shift;
-        //Debug.Log(transform.position + " " + fallDestination);
-        
-        if (transform.position.y <= realFallDestination.y)
-        {
-            gridPosition = fallDestination;
-            transform.position = realFallDestination;
+            gravity.Reset();
             isFalling = false;
-
-            // initialize
-            velocity = initialVelocity;
-
-            map.tetrominoFalling = false;
-
             prepareNextTetromino();
         }
     }
 
-    void ImmediateFallForDebug()
+    public void ImmediateFall(GameObject playerPrefab)
     {
-        gridPosition = fallDestination;
-
-        transform.position = map.basePosition + map.scaleFactor * gridPosition;
-
-        isFalling = false;
+        var shift = new Vector3Int(0, -1, 0);
+        while (canShift(shift))
+        {
+            MoveBy(shift);
+        }
 
         map.UpdateGrid(this);
+        SpawnPlayer(playerPrefab);
         prepareNextTetromino();
     }
 
@@ -122,7 +148,7 @@ public class Tetromino : MonoBehaviour
             var shift = new Vector3Int(1, 0, 0);
             if (canShift(shift))
             {
-                Move(shift);
+                MoveBy(shift);
                 //map.UpdateGrid(this);
 
             }
@@ -132,37 +158,25 @@ public class Tetromino : MonoBehaviour
             var shift = new Vector3Int(-1, 0, 0);
             if (canShift(shift))
             {
-                Move(shift);
+                MoveBy(shift);
                 //map.UpdateGrid(this);
             }
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (!allowRotation)
-            {
-                return;
-            }
-
-            rotateCounterclockwise();
-
-            if (!IsValidPosition())
-            {
-                rotateClockwise();
-            }
-            //map.UpdateGrid(this);
+            PositionBeforeRotation = gridPosition;
+            Rotate();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            isFalling = true;
-            map.tetrominoFalling = true;
-            ComputeDestinationPosition();
+            StartFalling();
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             var shift = new Vector3Int(0, -1, 0);
             if (canShift(shift))
             {
-                Move(shift);
+                MoveBy(shift);
                 //map.UpdateGrid(this);
             } else
             {
@@ -176,12 +190,27 @@ public class Tetromino : MonoBehaviour
         }
     }
 
+    public void StartFalling() 
+    {
+        isFalling = true;
+        ComputeDestinationPosition();
+    }
+
     void prepareNextTetromino()
     {
         //map.DeleteRow();
-        map.RemoveRowsIfFull();
+        map.RemoveRowsIfFull(this);
+        CreateRooms();
         enabled = false;
         map.SpawnNextTetromino();
+    }
+
+    void CreateRooms()
+    {
+        foreach (Mino mino in GetComponentsInChildren<Mino>())
+        {
+            mino.MakeRoom(roomPrefab);
+        }
     }
 
     bool canShift(Vector3Int shift)
@@ -218,6 +247,36 @@ public class Tetromino : MonoBehaviour
         rotateCounterclockwise();
     }
 
+    void Rotate()
+    {
+        if (!allowRotation)
+        {
+            return;
+        }
+
+        rotateCounterclockwise();
+
+        if (!IsValidPosition())
+        {
+            rotateClockwise();
+            var x = gridPosition.x;
+            if (x == 0 || x == 1)
+            {
+                MoveBy(Vector3Int.right);
+                Rotate();
+            }
+            else if (x == Map.gridWidth - 1 || x == Map.gridWidth - 2)
+            {
+                MoveBy(Vector3Int.left);
+                Rotate();
+            }
+            else
+            {
+                MoveTo(PositionBeforeRotation);
+            }
+        }
+    }
+
     void rotateCounterclockwise()
     {
         foreach (Mino mino in GetComponentsInChildren<Mino>())
@@ -242,10 +301,16 @@ public class Tetromino : MonoBehaviour
 
         shift = shift + Vector3Int.up;
         fallDestination = gridPosition + shift;
-        realFallDestination = map.basePosition + map.scaleFactor * fallDestination;
         gridPosition = fallDestination;
         map.UpdateGrid(this);
 
     }
+
+    public void SpawnPlayer(GameObject playerPrefab)
+    {
+        var mino = GetComponentInChildren<Mino>();
+        mino.SpawnPlayer(playerPrefab);
+    }
+
 }
  

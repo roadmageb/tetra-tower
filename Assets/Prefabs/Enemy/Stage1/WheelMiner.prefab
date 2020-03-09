@@ -253,7 +253,7 @@ MonoBehaviour:
   ignoreGround: 0
   isPatrol: 1
   lastAttackedTime: 0
-  attackDelay: 1
+  attackDelay: 2
   attackFollowPlayer: 1
   playerAttackable: 0
   attackedPlayer: 0

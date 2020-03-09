@@ -239,7 +239,7 @@ MonoBehaviour:
   speed: 3
   nextWayPointDistance: 3
   playerDetectDistance: 4
-  attackRange: 4
+  attackRange: 2
   groundDetectOffset: {x: 0.8, y: 0}
   idleAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}
   traceAnim: {fileID: 7400000, guid: 32d43c9cf8dae18408dbbfb7408bcfad, type: 2}

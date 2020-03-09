@@ -33,7 +33,7 @@ public class WheelMiner : Enemy
             float t = timer / flyTime;
             pickAxe.transform.position = Mathf.Pow(1 - t, 2) * from + 2 * t * (1 - t) * center + Mathf.Pow(t, 2) * to;
         }
-        Destroy(gameObject);
+        Destroy(pickAxe.gameObject);
     }
 
     public override void TraceAction()

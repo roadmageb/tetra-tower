@@ -41,7 +41,6 @@ public abstract class Enemy : MonoBehaviour
     float traceTimeLimit = 3;
     protected bool seekTarget = false;
     protected Rigidbody2D rb;
-    protected bool landed = false;
 
     public float maxHP;
     public float currentHP;
@@ -79,14 +78,6 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (playerAttackable && !attackedPlayer && collision.gameObject.tag.Equals("Player"))
-        {
-            attackedPlayer = true;
-            PlayerController.Instance.GetDamage(attackPattern[currentAttackIndex].attackDamage);
-        }
-    }
 
     private bool DetectPlayer()
     {
@@ -101,24 +92,18 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Floor"))
+        if (playerAttackable && !attackedPlayer && collision.gameObject.tag.Equals("Player"))
         {
-            landed = true;
-        }
-    }
-    protected virtual void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag.Equals("Floor"))
-        {
-            landed = false;
+            attackedPlayer = true;
+            PlayerController.Instance.GetDamage(attackPattern[currentAttackIndex].attackDamage);
         }
     }
 
     public void Patrol()
     {
-        if (landed)
+        if (GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("Floor")))
         {
             RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (transform.localScale.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
@@ -169,27 +154,29 @@ public abstract class Enemy : MonoBehaviour
             {
                 AttackStart();
             }
+            if (!GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("Player")))
+            {
+                Vector2 force;
+                if (!ignoreGround)
+                {
+                    force = new Vector2(((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).x > 0 ? 1 : -1, 0) * speed * Time.deltaTime;
+                }
+                else
+                {
+                    force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed * Time.deltaTime;
+                }
+                RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (force.x > 0 ? 1 : -1),
+                    Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
+                if (ignoreGround || checkGround.collider)
+                {
+                    transform.Translate(force);
+                    transform.localScale = new Vector3(target.position.x - transform.position.x > 0 ? 1 : -1, 1, 1);
+                }
 
-            Vector2 force;
-            if (!ignoreGround)
-            {
-                force = new Vector2(((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).x > 0 ? 1 : -1, 0) * speed * Time.deltaTime;
-            }
-            else
-            {
-                force = ((Vector2)path.vectorPath[currentWaypoint + 1] - rb.position).normalized * speed * Time.deltaTime;
-            }
-            RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (force.x > 0 ? 1 : -1),
-                Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
-            if (ignoreGround || checkGround.collider)
-            {
-                transform.Translate(force);
-                transform.localScale = new Vector3(target.position.x - transform.position.x > 0 ? 1 : -1, 1, 1);
-            }
-
-            if (Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]) < nextWayPointDistance)
-            {
-                currentWaypoint++;
+                if (Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]) < nextWayPointDistance)
+                {
+                    currentWaypoint++;
+                }
             }
         }
         else

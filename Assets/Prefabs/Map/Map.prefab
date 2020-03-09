@@ -2768,11 +2768,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff748009d58798498ef72ac6ce817d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tetrominoGravity: {fileID: 0}
+  gridGravity: {fileID: 0}
   tetrominoSpawnerPrefab: {fileID: 6032314800246976682, guid: 220cc9e3fe04b9a408bd9172a3b0c4cc,
     type: 3}
   pistonSpawnerPrefab: {fileID: 851601927201158725, guid: d660d2ad310c4164aa0e02fccf5c8be6,
     type: 3}
   debugMapPrefab: {fileID: 0}
+  playerPrefab: {fileID: 807021995659469724, guid: 746461cf5ae526c4d99386a6cde77f2c,
+    type: 3}
+  tetrominoSpawner: {fileID: 0}
+  pistonSpawner: {fileID: 0}
+  debugMap: {fileID: 0}
+  basePosition: {x: 0, y: 0, z: 0}
+  currentTetromino: {fileID: 0}
+  inputLock: 0
+  scaleFactor: 0
+  scaleVector: {x: 0, y: 0, z: 0}
+  pistonMask: {fileID: 0}
+  mainCamera: {fileID: 0}
+  tetrominoFalling: 0
+  rowPosition: []
+  gridIsFalling: 0
 --- !u!1 &815359979348849053
 GameObject:
   m_ObjectHideFlags: 0

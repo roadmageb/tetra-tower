@@ -98,7 +98,6 @@ MonoBehaviour:
   originalPosition: 0
   slideDestination: 0
   localPosition: {x: -1, y: -1, z: 0}
-  RoomPrefab: {fileID: 0}
   room: {fileID: 0}
 --- !u!1 &3073989581572451485
 GameObject:
@@ -198,7 +197,6 @@ MonoBehaviour:
   originalPosition: 0
   slideDestination: 0
   localPosition: {x: -1, y: 0, z: 0}
-  RoomPrefab: {fileID: 0}
   room: {fileID: 0}
 --- !u!1 &7027370650894760469
 GameObject:
@@ -298,7 +296,6 @@ MonoBehaviour:
   originalPosition: 0
   slideDestination: 0
   localPosition: {x: 1, y: 0, z: 0}
-  RoomPrefab: {fileID: 0}
   room: {fileID: 0}
 --- !u!1 &8670524787981405666
 GameObject:
@@ -398,7 +395,6 @@ MonoBehaviour:
   originalPosition: 0
   slideDestination: 0
   localPosition: {x: 0, y: 0, z: 0}
-  RoomPrefab: {fileID: 0}
   room: {fileID: 0}
 --- !u!1 &8707993381091702165
 GameObject:
@@ -450,15 +446,10 @@ MonoBehaviour:
   allowRotation: 1
   isFalling: 0
   isSliding: 0
-  gravity: 9.8
-  gravityAdd: 40
-  gravityMul: 1.01
-  velocity: {x: 0, y: 0, z: 0}
-  initialVelocity: {x: 0, y: 0, z: 0}
-  shift: {x: 0, y: 0, z: 0}
+  gravity: {fileID: 0}
   gridPosition: {x: 0, y: 0, z: 0}
   fallDestination: {x: 0, y: 0, z: 0}
   map: {fileID: 0}
   PositionBeforeRotation: {x: 0, y: 0, z: 0}
-  gridPositionBeforeFall: {x: 0, y: 0, z: 0}
-  gridPositionAfterFall: {x: 0, y: 0, z: 0}
+  roomPrefab: {fileID: 7114517637930871115, guid: 982c7c2533b366f449d56289f12c08a9,
+    type: 3}

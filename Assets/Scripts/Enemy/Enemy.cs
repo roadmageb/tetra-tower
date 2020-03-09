@@ -25,8 +25,9 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] public AttackPattern[] attackPattern;
     [SerializeField] private EnemyDetectType detectType;
     [SerializeField] private bool ignoreGround;
-    [SerializeField] private float lastAttackedTime;
-    [SerializeField] private float attackDelay;
+    [SerializeField] private bool isPatrol;
+    [SerializeField] protected float lastAttackedTime;
+    [SerializeField] protected float attackDelay;
 
     public bool attackFollowPlayer;
     public bool playerAttackable = false;
@@ -100,14 +101,14 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("Floor"))
         {
             landed = true;
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    protected virtual void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag.Equals("Floor"))
         {
@@ -122,7 +123,7 @@ public abstract class Enemy : MonoBehaviour
             RaycastHit2D checkGround = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (transform.localScale.x > 0 ? 1 : -1),
                 Vector2.down, GetComponent<Collider2D>().bounds.size.y, LayerMask.GetMask("Floor"));
             RaycastHit2D checkWall = Physics2D.Raycast((Vector2)transform.position + Vector2.right * groundDetectOffset * (transform.localScale.x > 0 ? 1 : -1), 
-                Vector2.down, GetComponent<Collider2D>().bounds.size.y / 2);
+                Vector2.down, GetComponent<Collider2D>().bounds.size.y / 2, LayerMask.GetMask("Floor"));
             if (!checkGround || checkWall)
             {
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -134,6 +135,10 @@ public abstract class Enemy : MonoBehaviour
     public virtual void IdleAction()
     {
         lastAttackedTime = -attackDelay;
+        if (isPatrol)
+        {
+            Patrol();
+        }
     }
 
     /// <summary>
@@ -192,6 +197,8 @@ public abstract class Enemy : MonoBehaviour
             animator.SetBool("Trace", false);
         }
     }
+
+    public virtual void AttackAction() { }
 
     public virtual void AttackStart()
     {

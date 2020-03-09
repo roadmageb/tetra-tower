@@ -19,22 +19,34 @@ public class WheelMiner : Enemy
 
     private IEnumerator PickAxeMovement(GameObject pickAxe)
     {
+        float flyTime = 1;
         Vector2 from = pickAxe.transform.position;
         Vector2 to = target.transform.position;
-        for (float timer = 0; timer < 1; timer += Time.deltaTime)
+        Vector2 center = new Vector2((from.x + to.x) / 2, Mathf.Max(from.y, to.y) + 5);
+        for (float timer = 0; timer < flyTime + 1; timer += Time.deltaTime)
         {
             yield return null;
             if (pickAxe == null)
             {
                 break;
             }
-            pickAxe.transform.position = Vector3.Lerp(from, to, timer);
+            float t = timer / flyTime;
+            pickAxe.transform.position = Mathf.Pow(1 - t, 2) * from + 2 * t * (1 - t) * center + Mathf.Pow(t, 2) * to;
         }
+        Destroy(gameObject);
     }
 
-    public override void IdleAction()
+    public override void TraceAction()
     {
-        base.IdleAction();
+        Patrol();
+        if (Time.time - lastAttackedTime > attackDelay && Vector3.Distance(rb.position, target.position) <= attackRange)
+        {
+            AttackStart();
+        }
+    }
+    public override void AttackAction()
+    {
+        base.AttackAction();
         Patrol();
     }
 }

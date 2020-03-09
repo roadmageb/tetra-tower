@@ -19,6 +19,7 @@ public class EnemyAttackState : StateMachineBehaviour
             animator.transform.localScale = new Vector3(1 * (enemy.target.position.x - animator.transform.position.x > 0 ? 1 : -1), 1, 1);
         }
         enemy.traceTime = Time.time;
+        enemy.AttackAction();
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

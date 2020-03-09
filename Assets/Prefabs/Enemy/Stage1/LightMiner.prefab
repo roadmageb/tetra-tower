@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3909686479317153934}
   - component: {fileID: 3909686479317153929}
+  - component: {fileID: -6173313896891344615}
   - component: {fileID: 27783038633319894}
   - component: {fileID: 3909686479317153931}
   - component: {fileID: 3909686479317153930}
@@ -147,6 +148,43 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &-6173313896891344615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3909686479317153925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5409a8392757c94b8f4d772bce56457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  animator: {fileID: 0}
+  speed: 0.5
+  nextWayPointDistance: 3
+  playerDetectDistance: 1
+  attackRange: 0.5
+  groundDetectOffset: {x: 0, y: 0}
+  idleAnim: {fileID: 0}
+  traceAnim: {fileID: 0}
+  damagedAnim: {fileID: 0}
+  deathAnim: {fileID: 0}
+  attackPattern: []
+  detectType: 0
+  ignoreGround: 0
+  isPatrol: 0
+  lastAttackedTime: 0
+  attackDelay: 0
+  attackFollowPlayer: 0
+  playerAttackable: 0
+  attackedPlayer: 0
+  currentAttackIndex: 0
+  traceTime: 0
+  maxHP: 0
+  currentHP: 0
+  enemyCtrl: {fileID: 27783038633319894}
 --- !u!114 &27783038633319894
 MonoBehaviour:
   m_ObjectHideFlags: 0

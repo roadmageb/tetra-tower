@@ -93,8 +93,16 @@ public class PistonSpawner : MonoBehaviour
         return pistonRight;
     }
 
-    public void sReset()
+    public bool pistonExists()
     {
-        nthPistonExists = new bool[Map.gridHeight];
+        foreach (var exist in nthPistonExists)
+        {
+            if (exist)
+            {
+                return true;
+            }
+        }
+        return false;
     }
+
 } 

@@ -28,10 +28,6 @@ public class Map : MonoBehaviour
 
     public Vector3Int basePosition;
 
-    public bool[] isFull;
-    public bool[] isRowEmpty;
-    public int[] shiftAmount;
-
     public Tetromino currentTetromino;
 
     public bool inputLock;
@@ -43,17 +39,15 @@ public class Map : MonoBehaviour
 
     public Camera mainCamera;
 
-    public RowDestroyer rowDestroyer;
+    //public RowDestroyer rowDestroyer;
 
     public bool tetrominoFalling;
-
-    public int coroutineCount;
 
     public Vector3[] rowPosition;
 
     public bool gridIsFalling;
 
-    void Start()
+    void Awake()
     {
 
         tetrominoGravity = new GameObject().AddComponent<Gravity>();
@@ -98,13 +92,6 @@ public class Map : MonoBehaviour
 
         SpawnNextTetromino();
 
-        rowDestroyer = new GameObject().AddComponent<RowDestroyer>();
-        rowDestroyer.name = "Row Destroyer";
-        rowDestroyer.Initialize(this);
-
-
-        coroutineCount = 0;
-
         rowPosition = new Vector3[Map.gridHeight];
         ResetRowPosition();
 
@@ -123,16 +110,13 @@ public class Map : MonoBehaviour
 
 
 
-    IEnumerator DebugDelete(bool[] isFull)
+    IEnumerator DebugDelete(bool[] isFull, int[] shiftAmount)
     {
 
         while (gridIsFalling)
         {
             yield return null;
         }
-
-        RowSlider rowSlider = new GameObject().AddComponent<RowSlider>();
-
 
         while (tetrominoFalling)
         {
@@ -146,31 +130,36 @@ public class Map : MonoBehaviour
         }
 
         inputLock = true;
-        var gridCopy = gridUtils.GridShallowCopy();
-        var gridCopyUtils = new GridUtils();
-        gridCopyUtils.Initialize(gridCopy);
-        rowSlider.Initialize(this, gridCopyUtils);
 
-        rowDestroyer.RequestDestroyRows(pistonSpawner, pistonSet);
-
-        while (!rowDestroyer.destroyFinished)
+        while (tetrominoFalling)
         {
             yield return null;
         }
 
-        inputLock = false;
+        var gridCopy = gridUtils.GridShallowCopy(); // must be below pistonSpawner. Otherwise new minos not updated
+        var gridCopyUtils = new GridUtils();
+        gridCopyUtils.Initialize(gridCopy);
+
+        var isFullCopy = gridCopyUtils.MakeIsFull();
+        var isEmptyCopy = gridCopyUtils.MakeIsEmpty();
+        var shiftAmountCopy = gridCopyUtils.MakeShiftAmount(isFullCopy, isEmptyCopy);
+
+        RowDestroyer rowDestroyer = new GameObject().AddComponent<RowDestroyer>();
+        rowDestroyer.Initialize(this, gridCopyUtils);
+        rowDestroyer.RequestDestroyRows(isFull, shiftAmountCopy, pistonSet); // must be shiftAmountCopy. Otherwise new tetromino not move down.
 
         gridIsFalling = true;
+        RowSlider rowSlider = new GameObject().AddComponent<RowSlider>();
+        rowSlider.Initialize(this, gridCopyUtils);
+        rowSlider.SlideDown(isEmptyCopy, pistonSet);
 
-        rowSlider.SlideDown(pistonSet);
-        Debug.Log("move row down Finished!");
 
-        yield return null;
         while (rowSlider.coroutineCount != 0)
         {
             Debug.Log("coroutineCount = " + rowSlider.coroutineCount);
             yield return null;
         }
+        inputLock = false;
 
         gridIsFalling = false;
 
@@ -218,19 +207,15 @@ public class Map : MonoBehaviour
             rows[pos.y] = true;
         }
 
-        gridUtils.isFullUpdate();
-        gridUtils.shiftAmountUpdate();
-
-        isFull = gridUtils.isFull;
-        shiftAmount = gridUtils.shiftDown;
-        //isRowEmpty = gridUtils.isRowEmpty;
-
+        var isFull = gridUtils.MakeIsFull();
+        var isEmpty = gridUtils.MakeIsEmpty();
+        var shiftAmount = gridUtils.MakeShiftAmount(isFull, isEmpty);
 
         for (int i = 0; i < rows.Length; ++i)
         {
             if (rows[i] && isFull[i])
             {
-                StartCoroutine(DebugDelete(gridUtils.isFull));
+                StartCoroutine(DebugDelete(isFull, shiftAmount));
                 return;
             }
         }

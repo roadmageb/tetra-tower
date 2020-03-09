@@ -7,10 +7,7 @@ public class GridUtils
 {
     // Start is called before the first frame update
 
-    public bool[] isFull;
-    public int[] shiftDown;
     public int fullRowCount;
-    public bool[] isRowEmpty;
 
     public Transform[,] grid;
     int width;
@@ -21,9 +18,6 @@ public class GridUtils
         grid = _grid;
         width = grid.GetLength(0);
         height = grid.GetLength(1);
-        isFull = new bool[height];
-        isRowEmpty = new bool[height];
-        shiftDown = new int[height];
         fullRowCount = 0;
     }
 
@@ -40,29 +34,33 @@ public class GridUtils
 
     }
 
-    public void UpdateIsRowEmpty()
+    public bool[] MakeIsEmpty()
     {
-        for( int i = 0; i < Map.gridWidth; ++i)
+        var isEmpty = new bool[Map.gridHeight];
+        for ( int i = 0; i < Map.gridWidth; ++i)
         {
-            isRowEmpty[i] = IsRowEmpty(i);
+            isEmpty[i] = IsRowEmpty(i);
         }
+        return isEmpty;
     }
 
-    public bool[] isFullUpdate()
+    bool isFullRowAt(int rowNum){
+        for (int x = 0; x < width; ++x)
+        {
+            if (grid[x, rowNum] == null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public bool[] MakeIsFull()
     {
+        var isFull = new bool[Map.gridHeight];
+
         fullRowCount = 0;
         isFull = new bool[height]; // clear
-
-        bool isFullRowAt(int rowNum){
-            for (int x = 0; x < width; ++x)
-            {
-                if (grid[x, rowNum] == null)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
 
         for(int i = 0; i < height; ++i)
         {
@@ -76,48 +74,40 @@ public class GridUtils
         return isFull;
     }
 
-    public int[] shiftAmountUpdate()
+    public int[] MakeShiftAmount(bool[] isFull, bool[] isEmpty)
     {
-        shiftDown = new int[height];
-
+        var shiftAmount = new int[Map.gridHeight];
         int shift = 0;
 
-        for (int i = 0; i < height; ++i)
+        for ( int i = 0; i < height; ++i)
         {
-            if (isFull[i] || isRowEmpty[i])
+            if (isFull[i] || isEmpty[i])
             {
                 shift -= 1;
-            } 
+            }
             else
             {
-                shiftDown[i] = shift;
+                shiftAmount[i] = shift;
             }
         }
-
-        return shiftDown;
-
+        return shiftAmount;
     }
 
     public void Test()
     {
-        isFull = new bool[]{ false, true, false, false, false, true, false, true, false };
-        shiftAmountUpdate();
+        var isFull = new bool[]{ false, true, false, false, false, true, false, true, false };
+        var shiftAmount = MakeShiftAmount(isFull, isFull);
 
         int[] expected = new[] { 0, 0, -1, -1, -1, 0, -2, 0, -3 };
 
         for(int i = 0; i < expected.Length; ++i)
         {
-            Debug.Assert(shiftDown[i] == expected[i]);
+            Debug.Assert(shiftAmount[i] == expected[i]);
         }
 
 
     }
 
-    public void DebugArrays()
-    {
-        Debug.Log(isFull);
-        Debug.Log(shiftDown);
-    }
     public void printGrid(Transform[,] grid)
     {
         int width = grid.GetLength(0);

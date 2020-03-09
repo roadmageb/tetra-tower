@@ -119,7 +119,7 @@ public class Tetromino : MonoBehaviour
             }
         }
 
-        if (finishCount == 4)
+        if (finishCount == 4) // bug. Sometimes finishCount is not 4 since minos are deleted. Must fix.
         {
             gravity.Reset();
             isFalling = false;
@@ -169,8 +169,7 @@ public class Tetromino : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            isFalling = true;
-            ComputeDestinationPosition();
+            StartFalling();
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -189,6 +188,12 @@ public class Tetromino : MonoBehaviour
         {
             //
         }
+    }
+
+    public void StartFalling() 
+    {
+        isFalling = true;
+        ComputeDestinationPosition();
     }
 
     void prepareNextTetromino()

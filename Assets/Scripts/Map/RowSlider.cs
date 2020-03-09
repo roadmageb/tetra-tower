@@ -5,48 +5,33 @@ using UnityEngine;
 
 public class RowSlider : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public bool isSliding;
-    Map map;
-    Transform[,] gridBeforeDestroy;
+    public Map map;
+    public GridUtils gridUtils;
+    public int coroutineCount;
 
-
-    GridUtils gridUtils;
-
-    // coroutines do not run in parallel. No need for semaphores.
-    public int coroutineCount { get; set; }
-
-    //public bool[,] gridBitmap;
-
-
-
-
-    void Start()
-    {
-        isSliding = false;
-        coroutineCount = 0;
-
-    }
+    public bool[] isFullDebug;
+    public bool[] isEmptyDebug;
+    public int[] shiftDownDebug;
+    public PistonSet setDebug;
 
     public void Initialize(Map map, GridUtils gridUtils)
     {
         name = "Row Slider";
         this.map = map;
         this.gridUtils = gridUtils;
+
+        isSliding = false;
+
+        coroutineCount = 0;
     }
 
     IEnumerator SlideDownRow(int row)
     {
         coroutineCount++;
+        //Debug.Log("coroutineCount increased to " + coroutineCount);
 
         Vector3 shift;
-
-        if (gridUtils.IsRowEmpty(row))
-        {
-            coroutineCount--;
-            yield break;
-        }
 
         while (true)
         {
@@ -86,6 +71,7 @@ public class RowSlider : MonoBehaviour
             if (finished == Map.gridWidth)
             {
                 coroutineCount--;
+                //Debug.Log("coroutineCount decreased to " + coroutineCount);
                 yield break;
             }
             yield return null; // required for continuous flow
@@ -113,12 +99,18 @@ public class RowSlider : MonoBehaviour
         return map.basePosition.y + map.scaleFactor * y;
     }
 
-    public void SlideDown(PistonSet set)
+    public void SlideDown(bool[] isEmpty, PistonSet set)
     {
+
+        isEmptyDebug = isEmpty;
+        setDebug = set;
 
         for (int row = set.LowestRow(); row < set.NextLowestRow(); ++row) // must be starting from 0
         {
-            StartCoroutine(SlideDownRow(row));
+            if (!isEmpty[row])
+            {
+                StartCoroutine(SlideDownRow(row));
+            }
         }
     }
 } 

@@ -5,36 +5,32 @@ using UnityEngine;
 public class RowDestroyer : MonoBehaviour
 {
     public Map map;
-    public bool destroyFinished;
+    public GridUtils gridUtils;
 
-    void Start()
-    {
-        destroyFinished = false;
-    }
+    public int[] shiftAmountForDebug;
+    public bool[] isFullForDebug;
+    public bool[] isEmptyForDebug;
+    public PistonSet setForDebug;
 
-    public void Initialize(Map map)
+    public void Initialize(Map map, GridUtils gridCopyUtils)
     {
         this.name = "Row Destroyer";
         this.map = map;
-    }
-
-    public void Reset()
-    {
-        destroyFinished = false;
+        gridUtils = gridCopyUtils;
     }
 
     // Update is called once per frame  
-    public void RequestDestroyRows(PistonSpawner spawner, PistonSet set)
+    public void RequestDestroyRows(bool[] isFull, int[] shiftAmount, PistonSet set)
     {
-        map.gridUtils.isFullUpdate();
-        map.gridUtils.UpdateIsRowEmpty();
+        /* Debugging purpose */
+        isFullForDebug = isFull;
+        shiftAmountForDebug = shiftAmount;
+        setForDebug = set;
 
-        map.gridUtils.shiftAmountUpdate();
-        MoveTetrominoDown();
-        DestroyRows(map.gridUtils.isFull, set);
-        MoveRowsDown(map.gridUtils.isFull, map.gridUtils.shiftDown, set);
+        MoveTetrominoDown(isFull);
+        DestroyRows(isFull, set);
+        MoveRowsDown(isFull, shiftAmount, set);
 
-        destroyFinished = true;
     }
 
     public void MoveRowsDown(bool[] isFull, int[] shiftAmount, PistonSet set)
@@ -47,8 +43,14 @@ public class RowDestroyer : MonoBehaviour
         }
     }
 
-    public void MoveTetrominoDown()
+    public void MoveTetrominoDown(bool[] isFull)
     {
+        // if piston Exist, cancel this function.
+        if (map.pistonSpawner.pistonExists())
+        {
+            return;
+        }
+
         var tet = map.currentTetromino;
         if (tet.isFalling)
         {
@@ -59,7 +61,7 @@ public class RowDestroyer : MonoBehaviour
 
         for (int i = 0; i < Map.gridHeight; ++i)
         {
-            if (map.isFull[i])
+            if (isFull[i])
             {
                 shift += 1;
             }

@@ -8,6 +8,7 @@ TagManager:
   - MapTag
   - Item
   - Floor
+  - NotPassable
   layers:
   - Default
   - TransparentFX
@@ -50,4 +51,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1229706927
+    locked: 0
+  - name: Effect
+    uniqueID: 2777784107
     locked: 0

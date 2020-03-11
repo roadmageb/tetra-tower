@@ -80,7 +80,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
-    private bool DetectPlayer()
+    protected bool DetectPlayer()
     {
         switch (detectType)
         {
@@ -233,7 +233,7 @@ public abstract class Enemy : MonoBehaviour
 
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (DetectPlayer())
         {

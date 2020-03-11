@@ -164,28 +164,33 @@ MonoBehaviour:
   animator: {fileID: 0}
   speed: 0.5
   nextWayPointDistance: 3
-  playerDetectDistance: 1
-  attackRange: 0.5
-  groundDetectOffset: {x: 0, y: 0}
-  idleAnim: {fileID: 0}
-  traceAnim: {fileID: 0}
-  damagedAnim: {fileID: 0}
-  deathAnim: {fileID: 0}
-  attackPattern: []
+  playerDetectDistance: 4.75
+  attackRange: 4.75
+  groundDetectOffset: {x: 0.75, y: 0}
+  idleAnim: {fileID: 7400000, guid: f9cdb9bef03bfaf4bb22bf26e38fdde3, type: 2}
+  traceAnim: {fileID: 7400000, guid: f9cdb9bef03bfaf4bb22bf26e38fdde3, type: 2}
+  damagedAnim: {fileID: 7400000, guid: ddacc04f368d72c4ca2ffd6c8e8bcd62, type: 2}
+  deathAnim: {fileID: 7400000, guid: ddacc04f368d72c4ca2ffd6c8e8bcd62, type: 2}
+  attackPattern:
+  - attackAnim: {fileID: 7400000, guid: 3b69e22348d734b4a8d251deb63fc6fe, type: 2}
+    attackDamage: 0
+    attackCtrl: 0
   detectType: 0
   ignoreGround: 0
   isPatrol: 1
   patrolDistance: 0
   lastAttackedTime: 0
-  attackDelay: 0
-  attackFollowPlayer: 0
+  attackDelay: 2
+  attackFollowPlayer: 1
   playerAttackable: 0
   attackedPlayer: 0
   currentAttackIndex: 0
   traceTime: 0
-  maxHP: 0
-  currentHP: 0
+  maxHP: 5
+  currentHP: 5
   enemyCtrl: {fileID: 27783038633319894}
+  floatFly: {fileID: 6641737705354378825, guid: 307efec216ee63f47a7b128755127aa3,
+    type: 3}
 --- !u!114 &27783038633319894
 MonoBehaviour:
   m_ObjectHideFlags: 0

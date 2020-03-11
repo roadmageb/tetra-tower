@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class LightMiner : Enemy
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject floatFly;
 
-    // Update is called once per frame
-    void Update()
+    public void AttackPattern1()
     {
-        
+        Instantiate(floatFly, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
     }
 }

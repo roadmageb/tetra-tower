@@ -14,6 +14,9 @@ public class Map : MonoBehaviour
     public GameObject debugMapPrefab;
     public GameObject playerPrefab;
 
+    public GameObject roomSpawnerPrefab;
+    public RoomSpawner roomSpawner;
+
     public TetrominoSpawner tetrominoSpawner;
     public PistonSpawner pistonSpawner;
     public DebugMap debugMap;
@@ -47,6 +50,7 @@ public class Map : MonoBehaviour
 
     public bool gridIsFalling;
 
+
     void Awake()
     {
 
@@ -73,6 +77,9 @@ public class Map : MonoBehaviour
 
         pistonSpawner = Instantiate(pistonSpawnerPrefab).GetComponent<PistonSpawner>();
         pistonSpawner.Initialize(this);
+
+        roomSpawner = Instantiate(roomSpawnerPrefab).GetComponent<RoomSpawner>();
+        roomSpawner.Init();
 
         pistonMask = GameObject.Find("PistonMask");
         pistonMask.transform.position = transform.position + scaleFactor * new Vector3(5.5f, 10.5f, 0);

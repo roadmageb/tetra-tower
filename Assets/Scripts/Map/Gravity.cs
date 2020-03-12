@@ -17,12 +17,7 @@ public class Gravity : MonoBehaviour
 
     void Start()
     {
-
         gravity = 9.8F;
-        // gravityAdd = 4000;
-        // gravityMul = 1.1F;
-
-
 
         initialVelocity = 2 * gravity * Vector3.down;
         velocity = initialVelocity;

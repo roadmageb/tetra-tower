@@ -21,7 +21,7 @@ public class Shuffler
     {
         if (count == 0)
         {
-            Shuffler.Shuffle(buffer);
+            Shuffle(buffer);
         }
 
         var element = buffer[count++];
@@ -33,7 +33,7 @@ public class Shuffler
         return element;
     }
 
-    public static void Shuffle(int[] arr)
+    void Shuffle(int[] arr)
     {
 
         for (var i = 0; i < arr.Length; ++i)

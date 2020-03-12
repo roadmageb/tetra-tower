@@ -18,8 +18,6 @@ public class Tetromino : MonoBehaviour
 
     public Vector3Int PositionBeforeRotation;
 
-    public GameObject roomPrefab;
-
     public Vector3 shift;
 
     public void MoveBy(Vector3Int offset)
@@ -209,7 +207,8 @@ public class Tetromino : MonoBehaviour
     {
         foreach (Mino mino in GetComponentsInChildren<Mino>())
         {
-            mino.MakeRoom(roomPrefab);
+            Room room = map.roomSpawner.spawnShuffled();
+            mino.ConnectRoom(room);
         }
     }
 

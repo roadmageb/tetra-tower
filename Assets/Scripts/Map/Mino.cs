@@ -31,13 +31,11 @@ public class Mino : MonoBehaviour
         return GetComponentInParent<Tetromino>().gridPosition + localPosition;
     }
 
-    public void MakeRoom(GameObject roomPrefab)
+    public void ConnectRoom(Room room)
     {
-        var roomObj = Instantiate(roomPrefab);
-        roomObj.transform.position = transform.position;
-        roomObj.transform.parent = gameObject.transform;
-        room = roomObj.GetComponent<Room>();
-        Debug.Log("room created");
+        this.room = room;
+        room.transform.position = transform.position;
+        room.transform.parent = transform;
     }
 
     public void SpawnPlayer(GameObject playerPrefab)

@@ -77,6 +77,7 @@ public class PlayerController : Singleton<PlayerController>
             {
                 InputArrow currentInputArrow;
                 int currentInputAction = 0;
+                PosCond currentPosCond;
 
                 //Check action buttons
                 for (int i = actionChecker.Length - 1; i >= 0; i--)
@@ -94,20 +95,46 @@ public class PlayerController : Singleton<PlayerController>
                 else if (arrowChecker[(int)InputArrow.Front]) currentInputArrow = InputArrow.Front;
                 else currentInputArrow = InputArrow.Neutral;
 
-                bool successCheck = false, perfectComboCheck = false;
+                //Check position conditions
+                if (controller.m_Grounded) currentPosCond = PosCond.Ground;
+                else currentPosCond = PosCond.Midair;
+
+                bool successCheck = false, perfectComboCheck = false, perfectArrowCheck = false, perfectPosCondCheck = false;
                 bool[] comboEnded = new bool[possibleComboes.Count];
-                bool[] perfectComboes = new bool[possibleComboes.Count];
+                bool[] perfectArrows = new bool[possibleComboes.Count];
+                bool[] perfectPosConds = new bool[possibleComboes.Count];
                 for (int i = 0; i < possibleComboes.Count; i++)
                 {
-                    successCheck |= possibleComboes[i].CheckCombo(currentInputArrow, currentInputAction, comboSuccessCounter, out comboEnded[i], out perfectComboes[i]);
-                    perfectComboCheck |= perfectComboes[i];
+                    successCheck |= possibleComboes[i].CheckCombo(currentInputArrow, currentInputAction, currentPosCond, comboSuccessCounter, out comboEnded[i], out perfectArrows[i], out perfectPosConds[i]);
+                    perfectArrowCheck |= perfectArrows[i];
+                    perfectPosCondCheck |= perfectPosConds[i];
+                    perfectComboCheck |= (perfectArrows[i] & perfectPosConds[i]);
                 }
 
                 for(int i = 0; i < possibleComboes.Count; i++)
                 {
-                    if (comboEnded[i] && (!perfectComboCheck || perfectComboes[i]))
+                    if (comboEnded[i])
                     {
-                        skillQueue.Enqueue(possibleComboes[i].skill);
+                        if (perfectComboCheck && perfectArrows[i] && perfectPosConds[i])
+                        {
+                            skillQueue.Enqueue(possibleComboes[i].skill);
+                            break;
+                        }
+                        else if(!perfectPosCondCheck && (perfectArrowCheck && perfectArrows[i]))
+                        {
+                            skillQueue.Enqueue(possibleComboes[i].skill);
+                            break;
+                        }
+                        else if(!perfectArrowCheck && (perfectPosCondCheck && perfectPosConds[i]))
+                        {
+                            skillQueue.Enqueue(possibleComboes[i].skill);
+                            break;
+                        }
+                        else if(!perfectComboCheck && !perfectArrowCheck && !perfectPosCondCheck)
+                        {
+                            skillQueue.Enqueue(possibleComboes[i].skill);
+                            break;
+                        }
                     }
                 }
 

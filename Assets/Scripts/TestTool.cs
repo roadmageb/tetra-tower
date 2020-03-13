@@ -21,6 +21,10 @@ public class TestTool : MonoBehaviour
     {
         ItemManager.Instance.CreateItem(new Vector2(1, 0), ItemRank.Monomino);
         ItemManager.Instance.CreateItem(Vector2.zero, 4, 0);
+        /*PlayerController.Instance.possibleComboes.Add(new ComboInfo("A", new int[1] { 1 }, InputArrow.NULL, PosCond.None));
+        PlayerController.Instance.possibleComboes.Add(new ComboInfo("B", new int[1] { 1 }, InputArrow.Up, PosCond.None));
+        PlayerController.Instance.possibleComboes.Add(new ComboInfo("C", new int[1] { 1 }, InputArrow.NULL, PosCond.Midair));
+        PlayerController.Instance.possibleComboes.Add(new ComboInfo("D", new int[1] { 1 }, InputArrow.Up, PosCond.Midair));*/
     }
 
     // Update is called once per frame

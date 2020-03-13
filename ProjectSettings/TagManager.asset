@@ -19,11 +19,11 @@ TagManager:
   - 
   - 
   - Floor
-  - HitBox
+  - 
   - Enemy
   - Player
   - Item
-  - IgnorePlayer
+  - GroundCollider
   - 
   - 
   - 

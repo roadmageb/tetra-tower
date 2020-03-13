@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1883,7 +1883,7 @@ PrefabInstance:
     - target: {fileID: 1214595425322278994, guid: b359baaa37bdd724e90c5a3bd3db51e5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1214595425322278994, guid: b359baaa37bdd724e90c5a3bd3db51e5,
         type: 3}
@@ -1902,9 +1902,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2373749901181041287, guid: b359baaa37bdd724e90c5a3bd3db51e5,
         type: 3}
+      propertyPath: weaponDB.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373749901181041287, guid: b359baaa37bdd724e90c5a3bd3db51e5,
+        type: 3}
       propertyPath: isTest
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2373749901181041287, guid: b359baaa37bdd724e90c5a3bd3db51e5,
+        type: 3}
+      propertyPath: weaponDB.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 34b0d6b022739134eb92afba59b841aa,
+        type: 2}
     - target: {fileID: 8633367542293268749, guid: b359baaa37bdd724e90c5a3bd3db51e5,
         type: 3}
       propertyPath: m_Name

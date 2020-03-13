@@ -17,6 +17,7 @@ public class ItemManager : Singleton<ItemManager>
     void test()
     {
         GainWeapon(InstantiateWeapon(ItemRank.Monomino));
+        GainWeapon(InstantiateWeapon(ItemRank.Monomino));
         GainWeapon(InstantiateWeapon(ItemRank.Domino));
         GainWeapon(InstantiateWeapon(ItemRank.Domino));
     }
@@ -45,9 +46,12 @@ public class ItemManager : Singleton<ItemManager>
     {
         List<Weapon> duplicateWeapons = new List<Weapon>();
 
-        foreach(Weapon wp in currentWeapons)
+        Debug.Log(chkWeapon.info.name);
+
+        foreach (Weapon wp in currentWeapons)
         {
             bool dupChk = false;
+            
             foreach(ComboInfo ci in chkWeapon.info.commands)
             {
                 foreach(ComboInfo cj in wp.info.commands)

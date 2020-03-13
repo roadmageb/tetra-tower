@@ -13,16 +13,16 @@ public class ProjBow : PlayerAttackBase
         if(isUp)
         {
             transform.eulerAngles = new Vector3(0, 0, 90);
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 4);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 20);
         }
         else
         {
             transform.localScale = new Vector3(dir, 1, 1);
-            GetComponent<Rigidbody2D>().velocity = new Vector2(dir * 4, 0);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(dir * 20, 0);
         }
         gameObject.SetActive(true);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.transform.CompareTag("Enemy"))
         {
@@ -30,7 +30,7 @@ public class ProjBow : PlayerAttackBase
             enemy.GainAttack(skill.wp.CalcAttack(skill.num, enemy));
             Destroy(gameObject);
         }
-        else if(collision.transform.CompareTag("Wall"))
+        else if(collision.transform.CompareTag("Floor"))
         {
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GetComponent<Collider2D>().enabled = false;

@@ -32,9 +32,4 @@ public class Effect : MonoBehaviour
         transform.parent = null;
         EffectPool.Instance.StoreEffect(gameObject);
     }
-
-    public void OnDestroy()
-    {
-        EffectPool.Instance.DeleteEffect(gameObject);
-    }
 }

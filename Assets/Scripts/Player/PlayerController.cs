@@ -51,7 +51,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void PlayerAttack(Enemy enemy)
     {
-        enemy.GainAttack(playingSkill.wp.CalcAttack(playingSkill.num, enemy));
+        playingSkill.wp.ExecuteAttack(playingSkill.num, enemy);
     }
     private void GetInput()
     {

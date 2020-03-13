@@ -245,6 +245,8 @@ MonoBehaviour:
   traceTime: 0
   maxHP: 5
   currentHP: 0
+  maxKey: 200
+  currentKey: 0
   enemyCtrl: {fileID: 0}
   jumpPower: 1500
   isFloat: 0

@@ -239,6 +239,7 @@ public abstract class Enemy : MonoBehaviour
         target = GameObject.Find("Player").transform.Find("PlayerCenter");
         traceTime = -traceTimeLimit;
         currentHP = maxHP;
+        currentKey = maxKey;
 
         animOverCont = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animOverCont;

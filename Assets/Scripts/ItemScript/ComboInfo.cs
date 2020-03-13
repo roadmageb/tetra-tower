@@ -10,7 +10,7 @@ public class ComboInfo
     [SerializeField] private int[] comboAction;
     [SerializeField] private InputArrow comboArrow;
     [SerializeField] private PosCond positionCond;
-    [SerializeField] private float keyGain;
+    public float keyGain;
     public AnimationClip anim;
     public float[] damageList;
     private int comboSuccessCounter;

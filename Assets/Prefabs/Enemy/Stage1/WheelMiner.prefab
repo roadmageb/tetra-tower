@@ -243,8 +243,10 @@ MonoBehaviour:
   attackedPlayer: 0
   currentAttackIndex: 0
   traceTime: 0
-  maxHP: 5
+  maxHP: 20
   currentHP: 5
+  maxKey: 200
+  currentKey: 0
   enemyCtrl: {fileID: 7642462218124696346}
   wheelMinerPickaxe: {fileID: 2302070685748184643, guid: 55e70bbd3fbe5244097fcb1fc211d41c,
     type: 3}

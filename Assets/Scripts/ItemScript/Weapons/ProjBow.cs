@@ -27,7 +27,7 @@ public class ProjBow : PlayerAttackBase
         if(collision.transform.CompareTag("Enemy"))
         {
             Enemy enemy = collision.transform.GetComponent<Enemy>();
-            enemy.GainAttack(skill.wp.CalcAttack(skill.num, enemy));
+            skill.wp.ExecuteAttack(skill.num, enemy);
             Destroy(gameObject);
         }
         else if(collision.transform.CompareTag("Floor"))

@@ -30,6 +30,7 @@ public class Effect : MonoBehaviour
     public void StoreThis()
     {
         transform.parent = null;
+        GetComponent<SpriteRenderer>().sprite = null;
         EffectPool.Instance.StoreEffect(gameObject);
     }
 }

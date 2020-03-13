@@ -29,7 +29,7 @@ public class TestTool : MonoBehaviour
         {
             AttackPtoE temp = new AttackPtoE(3);
             temp.AddCtrl(CtrlPtoE.Stun, 6);
-            enemy.GainAttack(temp);
+            //enemy.GainAttack(temp);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {

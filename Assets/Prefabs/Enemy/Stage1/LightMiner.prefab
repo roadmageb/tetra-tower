@@ -189,6 +189,8 @@ MonoBehaviour:
   traceTime: 0
   maxHP: 5
   currentHP: 5
+  maxKey: 200
+  currentKey: 0
   enemyCtrl: {fileID: 27783038633319894}
   floatFly: {fileID: 6641737705354378825, guid: 307efec216ee63f47a7b128755127aa3,
     type: 3}

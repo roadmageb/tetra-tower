@@ -45,12 +45,28 @@ public abstract class Enemy : MonoBehaviour
 
     public float maxHP;
     public float currentHP;
+    public float maxKey;
+    public float currentKey;
     public EnemyCtrl enemyCtrl;
 
     public void GainAttack(AttackPtoE attack)
     {
         GetDamage(attack.damage);
         enemyCtrl.ApplyCtrl(attack);
+    }
+
+    public float GiveKey(float key)
+    {
+        if(currentKey >= key)
+        {
+            currentKey -= key;
+        }
+        else
+        {
+            key = currentKey;
+            currentKey = 0;
+        }
+        return key;
     }
 
     public void GetDamage(float damage)

@@ -201,4 +201,27 @@ public class PlayerController : Singleton<PlayerController>
     {
         GetComponent<Rigidbody2D>().gravityScale = originPlayerAttribute.gravityScale;
     }
+
+    public void GainKey(float key)
+    {
+        keyPercent += key;
+        while(keyPercent > 100f)
+        {
+            keyPercent -= 100f;
+            keyAmount++;
+        }
+    }
+
+    public bool UseKey()
+    {
+        if(keyAmount > 0)
+        {
+            keyAmount--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

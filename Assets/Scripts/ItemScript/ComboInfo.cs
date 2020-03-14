@@ -6,10 +6,10 @@ using UnityEngine;
 public class ComboInfo
 {
     public SkillInfo skill;
-    [SerializeField] private string comboName;
-    [SerializeField] private int[] comboAction;
-    [SerializeField] private InputArrow comboArrow;
-    [SerializeField] private PosCond positionCond;
+    public string comboName;
+    public int[] comboAction;
+    public InputArrow comboArrow;
+    public PosCond positionCond;
     public float keyGain;
     public AnimationClip anim;
     public float[] damageList;

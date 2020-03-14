@@ -24,6 +24,8 @@ public class PlayerController : Singleton<PlayerController>
     public Queue<SkillInfo> skillQueue;
     public SkillInfo playingSkill = null;
 
+    public Dictionary<string, bool> immuneVarDict;
+
     private Animator animator;
     private AnimatorOverrideController aoc;
 
@@ -51,7 +53,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void PlayerAttack(Enemy enemy)
     {
-        playingSkill.wp.ExecuteAttack(playingSkill.num, enemy);
+        playingSkill.wp.ExecuteAttack(playingSkill.num, enemy, transform);
     }
     private void GetInput()
     {
@@ -132,7 +134,11 @@ public class PlayerController : Singleton<PlayerController>
     
     public void GetDamage(int damage)
     {
-        lifeStoneManager.DestroyLifeStone(damage);
+        //Check Immune
+        if (immuneVarDict.ContainsValue(true))
+        {
+            lifeStoneManager.DestroyLifeStone(damage);
+        }
     }
 
     public void PlaySkillWeapon(int option)
@@ -156,6 +162,7 @@ public class PlayerController : Singleton<PlayerController>
         arrowChecker = new bool[(int)InputArrow.Front + 1];
         actionChecker = new bool[(int)InputAction.NULL];
         possibleComboes = new List<ComboInfo>();
+        immuneVarDict = new Dictionary<string, bool>();
 
         originPlayerAttribute.gravityScale = GetComponent<Rigidbody2D>().gravityScale;
     }
@@ -223,5 +230,10 @@ public class PlayerController : Singleton<PlayerController>
         {
             return false;
         }
+    }
+
+    public void ExStartCoroutine(IEnumerator c)
+    {
+        StartCoroutine(c);
     }
 }

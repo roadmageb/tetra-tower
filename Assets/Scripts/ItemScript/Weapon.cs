@@ -56,9 +56,21 @@ public abstract class Weapon
         return info.commands[skillNum].damageList[0];
     }
 
-    public void ExecuteAttack(int skillNum, Enemy enemy)
+    public void ExecuteAttack(int skillNum, Enemy enemy, Transform attacker)
     {
-        enemy.GainAttack(CalcAttack(skillNum, enemy));
+        AttackPtoE atk;
+        enemy.GainAttack(atk = CalcAttack(skillNum, enemy));
+        if (this is IAtkOnHit)
+        {
+            ((IAtkOnHit)this).AtkOnHit(atk, attacker, skillNum, enemy);
+        }
+        foreach (Addon ad in addons)
+        {
+            if (ad is IAtkOnHit)
+            {
+                ((IAtkOnHit)this).AtkOnHit(atk, attacker, skillNum, enemy);
+            }
+        }
         PlayerController.Instance.GainKey(enemy.GiveKey(CalcKey(skillNum, enemy)));
     }
 

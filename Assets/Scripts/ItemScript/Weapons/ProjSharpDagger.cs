@@ -22,7 +22,7 @@ public class ProjSharpDagger : PlayerAttackBase
             if (!dupCheck.Contains(enemy))
             {
                 dupCheck.Add(enemy);
-                skill.wp.ExecuteAttack(skill.num, enemy);
+                skill.wp.ExecuteAttack(skill.num, enemy, transform);
             }
         }
     }

@@ -8,9 +8,13 @@ public class ItemManager : Singleton<ItemManager>
 {
     [SerializeField] private DroppedItem droppedItem = null;
     public GameObject droppedLifeStone;
-    public List<Weapon> currentWeapons;
+    [HideInInspector] public List<Weapon> currentWeapons;
     public ScriptableWeaponInfo[] weaponDB;
-    public List<ScriptableWeaponInfo>[] weaponRankList;
+    [HideInInspector] public List<ScriptableWeaponInfo>[] weaponRankList;
+
+    [HideInInspector] public List<Addon> currentAddons;
+    public ScriptableAddonInfo[] addonDB;
+    [HideInInspector] public List<ScriptableAddonInfo>[] addonRankList;
 
     [SerializeField] private bool isTest;
 
@@ -33,7 +37,19 @@ public class ItemManager : Singleton<ItemManager>
         {
             weaponRankList[(int)info.rank].Add(info);
         }
-        if(isTest) test();
+
+        currentAddons = new List<Addon>();
+        addonRankList = new List<ScriptableAddonInfo>[Enum.GetNames(typeof(ItemRank)).Length];
+        for (int i = 0; i < addonRankList.Length; i++)
+        {
+            addonRankList[i] = new List<ScriptableAddonInfo>();
+        }
+        foreach (ScriptableAddonInfo info in addonDB)
+        {
+            addonRankList[(int)info.rank].Add(info);
+        }
+
+        if (isTest) test();
     }
 
     /// <summary>
@@ -92,7 +108,32 @@ public class ItemManager : Singleton<ItemManager>
         }
         return null;
     }
+    public Addon InstantiateAddon(ItemRank rank)
+    {
+        if (addonRankList[(int)rank].Count > 0)
+        {
+            int index = Random.Range(0, addonRankList[(int)rank].Count);
+            ScriptableAddonInfo info = addonRankList[(int)rank][index];
+            addonRankList[(int)rank].RemoveAt(index);
+            return (Addon)Activator.CreateInstance(Type.GetType(info.name), new object[] { info });
+        }
+        return null;
+    }
 
+    public Addon InstantiateAddon(string name)
+    {
+        for (int i = 0; i < addonRankList.Length; i++)
+        {
+            foreach (ScriptableAddonInfo info in addonRankList[i])
+            {
+                if (info.name == name)
+                {
+                    return (Addon)Activator.CreateInstance(Type.GetType(info.name), new object[] { info });
+                }
+            }
+        }
+        return null;
+    }
     public bool GainWeapon(Weapon wp)
     {
         if(currentWeapons.Count < 9 && ComboDuplicateCheck(wp).Count == 0)
@@ -110,6 +151,30 @@ public class ItemManager : Singleton<ItemManager>
         {
             currentWeapons.Remove(wp);
             PlayerController.Instance.ResetPossibleComboes();
+            return true;
+        }
+        return false;
+    }
+
+    public bool GainAddon(Addon ad)
+    {
+        if (currentAddons.Count < 9)
+        {
+            currentAddons.Add(ad);
+            return true;
+        }
+        return false;
+    }
+
+    public bool LoseAddon(Addon ad)
+    {
+        if (currentAddons.Contains(ad))
+        {
+            if(ad.wp != null)
+            {
+                ad.wp.LoseAddon(ad);
+            }
+            currentAddons.Remove(ad);
             return true;
         }
         return false;

@@ -36,6 +36,8 @@ public abstract class Weapon
     {
         if(addons.Count < info.addonSize)
         {
+            newAddon.wp.LoseAddon(newAddon);
+            newAddon.wp = this;
             addons.Add(newAddon);
             return true;
         }

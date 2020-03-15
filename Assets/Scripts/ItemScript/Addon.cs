@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Addon
 {
-    public Weapon wp;
-    public ScriptableAddonInfo info;
+    [HideInInspector] public Weapon wp;
+    [HideInInspector] public ScriptableAddonInfo info;
     public float gaugeSize;
     public float gaugeCurrent;
 

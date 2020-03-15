@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8a95053cc75e14e889b01002030b0f, type: 3}
   m_Name: AdSpikeInsole
   m_EditorClassIdentifier: 
-  rank: 0
+  rank: 1
   gaugeEnabled: 0
   gaugeSize: 0
   gaugeInit: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 674c5b2be0ebefd448964c57f513a82f, type: 3}

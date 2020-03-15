@@ -16,4 +16,4 @@ MonoBehaviour:
   gaugeEnabled: 0
   gaugeSize: 0
   gaugeInit: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 9b7e008d43f4a984c812a224667db2a7, type: 3}

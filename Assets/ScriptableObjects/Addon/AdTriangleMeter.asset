@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb8a95053cc75e14e889b01002030b0f, type: 3}
-  m_Name: NewAddon
+  m_Name: AdTriangleMeter
   m_EditorClassIdentifier: 
-  rank: 0
-  gaugeEnabled: 0
-  gaugeSize: 0
+  rank: 1
+  gaugeEnabled: 1
+  gaugeSize: 2
   gaugeInit: 0
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 1ac85ead6e0e8bf4989916a4a58c88b9, type: 3}

@@ -20,13 +20,16 @@ public class ItemManager : Singleton<ItemManager>
 
     void test()
     {
-        GainWeapon(InstantiateWeapon(ItemRank.Monomino));
+        CreateItem(Vector3.zero, ItemRank.Monomino, false);
+        //GainWeapon(InstantiateWeapon(ItemRank.Monomino));
         GainWeapon(InstantiateWeapon(ItemRank.Monomino));
         GainWeapon(InstantiateWeapon(ItemRank.Domino));
         GainWeapon(InstantiateWeapon(ItemRank.Domino));
     }
     private void Start()
     {
+        //droppedLifeStone.GetComponent<SpriteRenderer>().sprite = BorderSprite(droppedLifeStone.GetComponent<SpriteRenderer>().sprite.texture, 5);
+
         currentWeapons = new List<Weapon>();
         weaponRankList = new List<ScriptableWeaponInfo>[Enum.GetNames(typeof(ItemRank)).Length];
         for(int i = 0; i < weaponRankList.Length; i++)
@@ -61,8 +64,6 @@ public class ItemManager : Singleton<ItemManager>
     public List<Weapon> ComboDuplicateCheck(Weapon chkWeapon)
     {
         List<Weapon> duplicateWeapons = new List<Weapon>();
-
-        Debug.Log(chkWeapon.info.name);
 
         foreach (Weapon wp in currentWeapons)
         {
@@ -207,13 +208,30 @@ public class ItemManager : Singleton<ItemManager>
         return temp;
     }
 
+    public Sprite BorderSprite(Texture2D tex, int border)
+    {
+
+        Texture2D ret = new Texture2D(tex.width + border * 2, tex.height + border * 2);
+        Color[] c = new Color[(tex.width + border * 2) * (tex.height + border * 2)];
+        for (int i = 0; i < c.Length; i++)
+        {
+            c[i] = Color.clear;
+        }
+
+        ret.SetPixels(c);
+        ret.SetPixels(border, border, tex.width, tex.height, tex.GetPixels());
+        ret.filterMode = FilterMode.Point;
+        ret.Apply();
+        return Sprite.Create(ret, new Rect(0, 0, tex.width + border * 2, tex.height + border * 2), new Vector2(0.5f, 0.5f));
+    }
+
     public DroppedItem CreateItem(Vector2 pos, Weapon wp)
     {
         if(wp != null)
         {
             DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
             temp.weapon = wp;
-            temp.GetComponent<SpriteRenderer>().sprite = wp.info.sprite;
+            temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite.texture, 10) ;
             temp.isWeapon = true;
             return temp;
         }
@@ -222,14 +240,40 @@ public class ItemManager : Singleton<ItemManager>
             return null;
         }
     }
-
-    public DroppedItem CreateItem(Vector2 pos, ItemRank rank)
+    public DroppedItem CreateItem(Vector2 pos, Addon ad)
     {
-        return CreateItem(pos, InstantiateWeapon(rank));
+        if (ad != null)
+        {
+            //DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
+            //temp.weapon = ad;
+            //temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite.texture, 10);
+            //temp.isWeapon = true;
+            //return temp;
+            return null;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public DroppedItem CreateItem(Vector2 pos, ItemRank rank, bool isAddon)
+    {
+        return isAddon ? CreateItem(pos, InstantiateAddon(rank)) : CreateItem(pos, InstantiateWeapon(rank));
     }
     public DroppedItem CreateItem(Vector2 pos, string name)
     {
-        return CreateItem(pos, InstantiateWeapon(name));
+        Weapon wp = InstantiateWeapon(name);
+        Addon ad = InstantiateAddon(name);
+        if (wp != null)
+        {
+            return CreateItem(pos, InstantiateWeapon(name));
+        }
+        else if(ad != null)
+        {
+            return CreateItem(pos, InstantiateAddon(name));
+        }
+        return null;
     }
 
 }

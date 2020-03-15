@@ -18,17 +18,28 @@ public class ItemManager : Singleton<ItemManager>
 
     [SerializeField] private bool isTest;
 
+    [SerializeField] private Sprite[] lifeStoneSprites;
+    private Sprite[] borderedLifeStoneSprites;
+
     void test()
     {
         CreateItem(Vector3.zero, ItemRank.Monomino, false);
+        CreateItem(Vector3.zero, ItemRank.Monomino, false);
+        CreateItem(Vector3.zero, ItemRank.Domino, false);
+        CreateItem(Vector3.zero, ItemRank.Domino, false);
+        //CreateItem(Vector3.zero, 3, 0);
         //GainWeapon(InstantiateWeapon(ItemRank.Monomino));
-        GainWeapon(InstantiateWeapon(ItemRank.Monomino));
-        GainWeapon(InstantiateWeapon(ItemRank.Domino));
-        GainWeapon(InstantiateWeapon(ItemRank.Domino));
+        //GainWeapon(InstantiateWeapon(ItemRank.Monomino));
+        //GainWeapon(InstantiateWeapon(ItemRank.Domino));
+        //GainWeapon(InstantiateWeapon(ItemRank.Domino));
     }
     private void Start()
     {
-        //droppedLifeStone.GetComponent<SpriteRenderer>().sprite = BorderSprite(droppedLifeStone.GetComponent<SpriteRenderer>().sprite.texture, 5);
+        borderedLifeStoneSprites = new Sprite[lifeStoneSprites.Length];
+        for(int i = 0; i < lifeStoneSprites.Length; i++)
+        {
+            borderedLifeStoneSprites[i] = BorderSprite(lifeStoneSprites[i], 5);
+        }
 
         currentWeapons = new List<Weapon>();
         weaponRankList = new List<ScriptableWeaponInfo>[Enum.GetNames(typeof(ItemRank)).Length];
@@ -194,7 +205,8 @@ public class ItemManager : Singleton<ItemManager>
             {
                 if((LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()) != LifeStoneType.NULL)
                 {
-                    Instantiate(droppedLifeStone, new Vector2(x, y) * droppedLifeStoneOffset, Quaternion.identity, temp.transform);
+                    var obj = Instantiate(droppedLifeStone, new Vector2(x, y) * droppedLifeStoneOffset, Quaternion.identity, temp.transform);
+                    obj.GetComponent<SpriteRenderer>().sprite = borderedLifeStoneSprites[0];
                 }
             }
         }
@@ -208,21 +220,21 @@ public class ItemManager : Singleton<ItemManager>
         return temp;
     }
 
-    public Sprite BorderSprite(Texture2D tex, int border)
+    public Sprite BorderSprite(Sprite sprt, int border)
     {
-
+        Texture2D tex = sprt.texture;
         Texture2D ret = new Texture2D(tex.width + border * 2, tex.height + border * 2);
         Color[] c = new Color[(tex.width + border * 2) * (tex.height + border * 2)];
         for (int i = 0; i < c.Length; i++)
         {
             c[i] = Color.clear;
         }
-
+        
         ret.SetPixels(c);
         ret.SetPixels(border, border, tex.width, tex.height, tex.GetPixels());
         ret.filterMode = FilterMode.Point;
         ret.Apply();
-        return Sprite.Create(ret, new Rect(0, 0, tex.width + border * 2, tex.height + border * 2), new Vector2(0.5f, 0.5f));
+        return Sprite.Create(ret, new Rect(0, 0, tex.width + border * 2, tex.height + border * 2), new Vector2(0.5f, 0.5f), sprt.pixelsPerUnit);
     }
 
     public DroppedItem CreateItem(Vector2 pos, Weapon wp)
@@ -231,7 +243,7 @@ public class ItemManager : Singleton<ItemManager>
         {
             DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
             temp.weapon = wp;
-            temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite.texture, 10) ;
+            temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite, 10) ;
             temp.isWeapon = true;
             return temp;
         }

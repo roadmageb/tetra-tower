@@ -295,15 +295,11 @@ public class LifeStoneManager : Singleton<LifeStoneManager>
         }
     }
 
-
-    private void Awake()
-    {
-        lifeStoneUI = GameObject.Find("LifeStoneUI").transform;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
+        lifeStoneUI = UIManager.Instance.lifeStoneUI;
+        Debug.Log(lifeStoneUI);
         InitiateLifeStone(6, 3);
     }
 

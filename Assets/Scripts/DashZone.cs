@@ -5,6 +5,7 @@ using UnityEngine;
 public class DashZone : MonoBehaviour
 {
     [SerializeField] private DashDir dashDir;
+    [SerializeField] private float dashDistance;
     private bool isDashable;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,7 +39,7 @@ public class DashZone : MonoBehaviour
                dashDir == DashDir.Left && Input.GetKeyDown(KeyCode.LeftArrow) ||
                dashDir == DashDir.Right && Input.GetKeyDown(KeyCode.RightArrow))
             {
-                StartCoroutine(PlayerController.Instance.controller.Dash(dashDir, transform.position));
+                StartCoroutine(PlayerController.Instance.controller.Dash(dashDir, transform.position, dashDistance));
             }
         }
     }

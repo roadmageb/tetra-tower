@@ -5,7 +5,6 @@ using UnityEngine.Events;
 public class CharacterController2D : MonoBehaviour
 {
     private Animator animator;
-    [SerializeField] private float dashDistance = 3;
 
     [SerializeField] private float m_MaxSpeed = 10f;                            // Amount of max speed added when the player runs.
     [SerializeField] private float m_RunPower = 6000f;                          // Amount of speed added when the player runs.
@@ -216,7 +215,7 @@ public class CharacterController2D : MonoBehaviour
         m_AirControl = true;
     }
 
-    public IEnumerator Dash(DashDir _dir, Vector2 dashZonePos)
+    public IEnumerator Dash(DashDir _dir, Vector2 dashZonePos, float dashDistance)
     {
         m_Controllable = false;
         Vector2 dir = Vector2.zero;

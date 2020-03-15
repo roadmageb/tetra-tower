@@ -244,7 +244,7 @@ MonoBehaviour:
   currentAttackIndex: 0
   traceTime: 0
   maxHP: 20
-  currentHP: 5
+  currentHP: 20
   maxKey: 200
   currentKey: 0
   enemyCtrl: {fileID: 7642462218124696346}

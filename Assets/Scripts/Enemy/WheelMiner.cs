@@ -14,27 +14,9 @@ public class WheelMiner : Enemy
         pickAxe.transform.eulerAngles = pickAxe.transform.eulerAngles * (pickAxe.transform.localScale.x > 0 ? 1 : -1);
         pickAxe.AddComponent<WheelMinerPickAxe>();
         pickAxe.GetComponent<WheelMinerPickAxe>().damage = attackPattern[0].attackDamage;
-        StartCoroutine(PickAxeMovement(pickAxe));
+        pickAxe.GetComponent<WheelMinerPickAxe>().target = target;
     }
 
-    private IEnumerator PickAxeMovement(GameObject pickAxe)
-    {
-        float flyTime = 1;
-        Vector2 from = pickAxe.transform.position;
-        Vector2 to = target.transform.position;
-        Vector2 center = new Vector2((from.x + to.x) / 2, Mathf.Max(from.y, to.y) + 5);
-        for (float timer = 0; timer < flyTime + 1; timer += Time.deltaTime)
-        {
-            yield return null;
-            if (pickAxe == null)
-            {
-                break;
-            }
-            float t = timer / flyTime;
-            pickAxe.transform.position = Mathf.Pow(1 - t, 2) * from + 2 * t * (1 - t) * center + Mathf.Pow(t, 2) * to;
-        }
-        Destroy(pickAxe.gameObject);
-    }
 
     public override void TraceAction()
     {
@@ -54,6 +36,7 @@ public class WheelMiner : Enemy
 public class WheelMinerPickAxe : MonoBehaviour
 {
     public int damage;
+    public Transform target;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -62,6 +45,25 @@ public class WheelMinerPickAxe : MonoBehaviour
             PlayerController.Instance.GetDamage(damage);
             Destroy(gameObject);
         }
+    }
+    private IEnumerator PickAxeMovement()
+    {
+        float flyTime = 1;
+        Vector2 from = transform.position;
+        Vector2 to = target.position;
+        Vector2 center = new Vector2((from.x + to.x) / 2, Mathf.Max(from.y, to.y) + 5);
+        for (float timer = 0; timer < flyTime + 1; timer += Time.deltaTime)
+        {
+            yield return null;
+            float t = timer / flyTime;
+            transform.position = Mathf.Pow(1 - t, 2) * from + 2 * t * (1 - t) * center + Mathf.Pow(t, 2) * to;
+        }
+        Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        StartCoroutine(PickAxeMovement());
     }
 
     private void Update()

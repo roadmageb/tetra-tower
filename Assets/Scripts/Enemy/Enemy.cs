@@ -212,6 +212,7 @@ public abstract class Enemy : MonoBehaviour
         currentAttackIndex = Random.Range(0, attackPattern.Length);
         animOverCont["EnemyAttackAnim"] = attackPattern[currentAttackIndex].attackAnim;
         attackedPlayer = false;
+        lastAttackedTime = Time.time;
         animator.SetBool("Attack", true);
     }
 
@@ -219,7 +220,6 @@ public abstract class Enemy : MonoBehaviour
     {
         attackedPlayer = false;
         animator.SetBool("Attack", false);
-        lastAttackedTime = Time.time;
     }
 
     protected void UpdatePath()

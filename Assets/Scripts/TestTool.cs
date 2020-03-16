@@ -20,6 +20,7 @@ public class TestTool : MonoBehaviour
     void Start()
     {
         ItemManager.Instance.CreateItem(Vector2.zero, ItemRank.Monomino, true);
+        ItemManager.Instance.CreateItem(Vector2.zero, ItemRank.Monomino, false);
     }
 
     // Update is called once per frame

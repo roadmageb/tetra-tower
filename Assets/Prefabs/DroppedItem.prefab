@@ -110,7 +110,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7f0e2e71409c7ca42b7c10e442f85eb0, type: 2}
+  - {fileID: 2100000, guid: 892f9fc297933bf4bb0bf9de9c7107b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 483038aeaa28f7c40a7a567f3d6133d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isWeapon: 0
+  droppedItemType: 0
 --- !u!61 &7520602560253988085
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AdAlchemyStone : Addon
 {
-    // Start is called before the first frame update
-
+    public AdAlchemyStone(ScriptableAddonInfo _info) : base(_info)
+    {
+    }
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8a95053cc75e14e889b01002030b0f, type: 3}
+  m_Name: AdTriangleMeter
+  m_EditorClassIdentifier: 
+  rank: 1
+  gaugeEnabled: 1
+  gaugeSize: 2
+  gaugeInit: 0
+  sprite: {fileID: 21300000, guid: 1ac85ead6e0e8bf4989916a4a58c88b9, type: 3}

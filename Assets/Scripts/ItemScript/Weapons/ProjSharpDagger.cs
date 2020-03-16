@@ -12,10 +12,9 @@ public class ProjSharpDagger : PlayerAttackBase
         this.skill = skill;
         transform.position = pos;
         transform.localScale = new Vector3(scale, 1, 1);
-        gameObject.SetActive(true);
         dupCheck = new List<Enemy>();
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.CompareTag("Enemy"))
         {
@@ -23,7 +22,7 @@ public class ProjSharpDagger : PlayerAttackBase
             if (!dupCheck.Contains(enemy))
             {
                 dupCheck.Add(enemy);
-                enemy.GainAttack(skill.wp.CalcAttack(skill.num, enemy));
+                skill.wp.ExecuteAttack(skill.num, enemy, transform);
             }
         }
     }

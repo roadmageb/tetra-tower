@@ -46,6 +46,11 @@ public class EffectPool : Singleton<EffectPool>
         GameObject obj = PopEffect();
         obj.GetComponent<Effect>().SetAnim(anim, pos, scale);
     }
+    public void StartEffect(AnimationClip anim, Vector3 pos, Vector3 scale, Transform parent)
+    {
+        GameObject obj = PopEffect();
+        obj.GetComponent<Effect>().SetAnim(anim, pos, scale, parent);
+    }
     public void StoreEffect(GameObject obj)
     {
         if(obj.GetComponent<Effect>())
@@ -58,7 +63,11 @@ public class EffectPool : Singleton<EffectPool>
             hitParticlePool.Add(obj);
         }
     }
-
+    public void DeleteEffect(GameObject obj)
+    {
+        if (effectPool.Contains(obj)) effectPool.Remove(obj);
+        if (hitParticlePool.Contains(obj)) hitParticlePool.Remove(obj);
+    }
 
     public GameObject PopHitParticle()
     {

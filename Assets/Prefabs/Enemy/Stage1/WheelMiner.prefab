@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7230520662360080049}
   - component: {fileID: 8105714386117244635}
-  m_Layer: 9
-  m_Name: HitBox
+  m_Layer: 13
+  m_Name: GroundCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,8 +149,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6641737705354378818}
   - component: {fileID: 6641737705354378821}
-  - component: {fileID: 7642462218124696346}
   - component: {fileID: 4433000655303450310}
+  - component: {fileID: 7642462218124696346}
   - component: {fileID: 6641737705354378823}
   - component: {fileID: 6641737705354378822}
   - component: {fileID: -8731243594631918369}
@@ -205,6 +205,51 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &4433000655303450310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6641737705354378825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 155d9fad6f7aa5a4894e4d85f2fb2474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  animator: {fileID: 0}
+  speed: 1
+  nextWayPointDistance: 3
+  playerDetectDistance: 8
+  attackRange: 8
+  groundDetectOffset: {x: 0.75, y: 0}
+  idleAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
+  traceAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
+  damagedAnim: {fileID: 7400000, guid: c34913d8c9d028f4492c791c6d83d762, type: 2}
+  deathAnim: {fileID: 7400000, guid: c34913d8c9d028f4492c791c6d83d762, type: 2}
+  attackPattern:
+  - attackAnim: {fileID: 7400000, guid: 2102179f27ec582478c2bd698f4a8055, type: 2}
+    attackDamage: 1
+    attackCtrl: 0
+  detectType: 1
+  ignoreGround: 0
+  isPatrol: 1
+  patrolDistance: 0
+  lastAttackedTime: 0
+  attackDelay: 2
+  attackFollowPlayer: 1
+  playerAttackable: 0
+  attackedPlayer: 0
+  currentAttackIndex: 0
+  traceTime: 0
+  maxHP: 20
+  currentHP: 5
+  maxKey: 200
+  currentKey: 0
+  enemyCtrl: {fileID: 7642462218124696346}
+  wheelMinerPickaxe: {fileID: 2302070685748184643, guid: 55e70bbd3fbe5244097fcb1fc211d41c,
+    type: 3}
 --- !u!114 &7642462218124696346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,48 +267,6 @@ MonoBehaviour:
   isStun: 0
   isBurn: 0
   isFreeze: 0
---- !u!114 &4433000655303450310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6641737705354378825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 155d9fad6f7aa5a4894e4d85f2fb2474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  animator: {fileID: 0}
-  speed: 5
-  nextWayPointDistance: 3
-  playerDetectDistance: 7
-  attackRange: 7
-  groundDetectOffset: {x: 0.75, y: 0}
-  idleAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
-  traceAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
-  damagedAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
-  deathAnim: {fileID: 7400000, guid: fa516099fed4aad4a96426c05cd6f933, type: 2}
-  attackPattern:
-  - attackAnim: {fileID: 7400000, guid: 2102179f27ec582478c2bd698f4a8055, type: 2}
-    attackDamage: 1
-    attackCtrl: 0
-  detectType: 1
-  ignoreGround: 0
-  isPatrol: 1
-  lastAttackedTime: 0
-  attackDelay: 1
-  attackFollowPlayer: 1
-  playerAttackable: 0
-  attackedPlayer: 0
-  currentAttackIndex: 0
-  traceTime: 0
-  maxHP: 5
-  currentHP: 5
-  enemyCtrl: {fileID: 7642462218124696346}
-  wheelMinerPickaxe: {fileID: 2302070685748184643, guid: 55e70bbd3fbe5244097fcb1fc211d41c,
-    type: 3}
 --- !u!50 &6641737705354378823
 Rigidbody2D:
   serializedVersion: 4

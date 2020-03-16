@@ -10,19 +10,26 @@ public class DroppedItem : MonoBehaviour
     public LifeStoneInfo lifeStoneInfo;
     public DroppedItemType droppedItemType;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag.Equals("Player"))
         {
-            playerTouched = true;
-            GetComponent<SpriteRenderer>().material.SetFloat("_OutlineThickness", 0.03f);
+            Vector3 playerPos = PlayerController.Instance.transform.position;
+            if(PlayerController.Instance.closestDroppedItem == null || 
+                (Vector3.Distance(playerPos, PlayerController.Instance.closestDroppedItem.transform.position) > Vector3.Distance(playerPos, transform.position)))
+            {
+                PlayerController.Instance.closestDroppedItem = gameObject;
+                playerTouched = true;
+                GetComponent<SpriteRenderer>().material.SetFloat("_OutlineThickness", 0.03f);
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Player"))
+        if (collision.tag.Equals("Player") && PlayerController.Instance.closestDroppedItem == gameObject)
         {
+            PlayerController.Instance.closestDroppedItem = null;
             playerTouched = false;
             GetComponent<SpriteRenderer>().material.SetFloat("_OutlineThickness", 0);
         }

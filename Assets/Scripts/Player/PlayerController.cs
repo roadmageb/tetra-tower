@@ -28,6 +28,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private Animator animator;
     private AnimatorOverrideController aoc;
+    public GameObject closestDroppedItem = null;
 
     public struct PlayerAttribute
     {

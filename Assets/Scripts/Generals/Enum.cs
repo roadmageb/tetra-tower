@@ -42,3 +42,8 @@ public enum EnemyDetectType
 {
     Line, Circle
 }
+
+public enum DroppedItemType
+{
+    Weapon, Addon, LifeStone
+}

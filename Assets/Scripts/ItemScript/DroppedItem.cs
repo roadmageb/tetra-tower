@@ -6,8 +6,9 @@ public class DroppedItem : MonoBehaviour
 {
     private bool playerTouched = false;
     public Weapon weapon;
+    public Addon addon;
     public LifeStoneInfo lifeStoneInfo;
-    public bool isWeapon = false;
+    public DroppedItemType droppedItemType;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,13 +32,17 @@ public class DroppedItem : MonoBehaviour
     {
         if (playerTouched && Input.GetKeyDown(KeyCode.E))
         {
-            if (isWeapon)
+            switch (droppedItemType)
             {
-                ItemManager.Instance.GainWeapon(weapon);
-            }
-            else
-            {
-                LifeStoneManager.Instance.GetLifeStone(lifeStoneInfo);
+                case DroppedItemType.Weapon:
+                    ItemManager.Instance.GainWeapon(weapon);
+                    break;
+                case DroppedItemType.Addon:
+                    ItemManager.Instance.GainAddon(addon);
+                    break;
+                case DroppedItemType.LifeStone:
+                    LifeStoneManager.Instance.GetLifeStone(lifeStoneInfo);
+                    break;
             }
             Destroy(gameObject);
         }

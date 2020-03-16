@@ -215,7 +215,7 @@ public class ItemManager : Singleton<ItemManager>
         temp.transform.Find("GroundCollider").GetComponent<BoxCollider2D>().size = (Vector2)lifeStoneInfo.size * droppedLifeStoneOffset;
         temp.transform.Find("GroundCollider").GetComponent<BoxCollider2D>().offset = (lifeStoneInfo.size - new Vector2(1, 1)) / 2 * droppedLifeStoneOffset;
 
-        temp.isWeapon = false;
+        temp.droppedItemType = DroppedItemType.LifeStone;
 
         return temp;
     }
@@ -243,8 +243,8 @@ public class ItemManager : Singleton<ItemManager>
         {
             DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
             temp.weapon = wp;
-            temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite, 10) ;
-            temp.isWeapon = true;
+            temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite, 10);
+            temp.droppedItemType = DroppedItemType.Weapon;
             return temp;
         }
         else
@@ -256,12 +256,11 @@ public class ItemManager : Singleton<ItemManager>
     {
         if (ad != null)
         {
-            //DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
-            //temp.weapon = ad;
-            //temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite.texture, 10);
-            //temp.isWeapon = true;
-            //return temp;
-            return null;
+            DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
+            temp.addon = ad;
+            temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(ad.info.sprite, 10);
+            temp.droppedItemType = DroppedItemType.Addon;
+            return temp;
         }
         else
         {

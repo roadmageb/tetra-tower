@@ -19,8 +19,7 @@ public class TestTool : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ItemManager.Instance.CreateItem(new Vector2(1, 0), ItemRank.Monomino);
-        ItemManager.Instance.CreateItem(Vector2.zero, 4, 0);
+        ItemManager.Instance.CreateItem(Vector2.zero, ItemRank.Monomino);
     }
 
     // Update is called once per frame
@@ -30,7 +29,7 @@ public class TestTool : MonoBehaviour
         {
             AttackPtoE temp = new AttackPtoE(3);
             temp.AddCtrl(CtrlPtoE.Stun, 6);
-            enemy.GainAttack(temp);
+            //enemy.GainAttack(temp);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {

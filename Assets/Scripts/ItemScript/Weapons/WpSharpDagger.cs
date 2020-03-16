@@ -37,6 +37,11 @@ public class WpSharpDagger : Weapon
                 rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
 
                 break;
+            case 1:
+                EffectPool.Instance.StartEffect(info.clips[0], Vector3.Scale(new Vector3(0, 0.5f, 0), trns.localScale), new Vector2(1, 1), PlayerController.Instance.transform);
+                rb2d.gravityScale = 1;
+                rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+                break;
         }
     }
 }

@@ -162,10 +162,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   animator: {fileID: 0}
-  speed: 3
+  speed: 1
   nextWayPointDistance: 3
   playerDetectDistance: 4
-  attackRange: 4
+  attackRange: 2
   groundDetectOffset: {x: 0, y: 0}
   idleAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
   traceAnim: {fileID: 7400000, guid: c55e404c94be7e946b6cbed9ef90da56, type: 2}
@@ -178,6 +178,7 @@ MonoBehaviour:
   detectType: 0
   ignoreGround: 0
   isPatrol: 1
+  patrolDistance: 5
   lastAttackedTime: 0
   attackDelay: 1
   attackFollowPlayer: 0
@@ -187,6 +188,8 @@ MonoBehaviour:
   traceTime: 0
   maxHP: 5
   currentHP: 5
+  maxKey: 200
+  currentKey: 0
   enemyCtrl: {fileID: 2263351939633738524}
   jumpPower: 1500
   isFloat: 1
@@ -283,8 +286,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3196583379887790570}
   - component: {fileID: 4068505111661613440}
-  m_Layer: 9
-  m_Name: HitBox
+  m_Layer: 13
+  m_Name: GroundCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

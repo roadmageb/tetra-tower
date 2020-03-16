@@ -51,7 +51,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void PlayerAttack(Enemy enemy)
     {
-        enemy.GainAttack(playingSkill.wp.CalcAttack(playingSkill.num, enemy));
+        playingSkill.wp.ExecuteAttack(playingSkill.num, enemy);
     }
     private void GetInput()
     {
@@ -200,5 +200,28 @@ public class PlayerController : Singleton<PlayerController>
     public void ResetPlayerAttribute()
     {
         GetComponent<Rigidbody2D>().gravityScale = originPlayerAttribute.gravityScale;
+    }
+
+    public void GainKey(float key)
+    {
+        keyPercent += key;
+        while(keyPercent > 100f)
+        {
+            keyPercent -= 100f;
+            keyAmount++;
+        }
+    }
+
+    public bool UseKey()
+    {
+        if(keyAmount > 0)
+        {
+            keyAmount--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

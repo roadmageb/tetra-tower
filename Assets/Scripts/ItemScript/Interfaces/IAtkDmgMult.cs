@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IAtkDmgMult
 {
-    void AtkDmgMult(AttackPtoE attack, int skillNum, Enemy enemy);
+    float AtkDmgMult(AttackPtoE attack, int skillNum, Enemy enemy);
 }

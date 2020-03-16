@@ -20,14 +20,16 @@ MonoBehaviour:
     positionCond: 0
     keyGain: 4
     anim: {fileID: 7400000, guid: 526d0d8ed92e7804399f90258295030f, type: 2}
-    damageList: []
+    damageList:
+    - 4
   - comboName: "\uBCA0\uAE30"
     comboAction: 0100000002000000
     comboArrow: 6
     positionCond: 0
     keyGain: 7
-    anim: {fileID: 0}
-    damageList: []
+    anim: {fileID: 7400000, guid: 4f3228b94e942af40ad5cef7a762cab2, type: 2}
+    damageList:
+    - 4
   gaugeEnabled: 0
   gaugeSize: 0
   gaugeInit: 0
@@ -35,3 +37,5 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 256d4aad5e9eb554fb4737f162263f4b, type: 3}
   projectiles:
   - {fileID: 75482792193310429, guid: 146326420bc183547af5f8a2d97580c3, type: 3}
+  clips:
+  - {fileID: 7400000, guid: 119889b8b3e725a42ae76656cf07ae82, type: 2}

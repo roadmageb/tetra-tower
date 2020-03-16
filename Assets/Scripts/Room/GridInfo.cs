@@ -10,4 +10,8 @@ public class GridInfo : MonoBehaviour
     public Transform centerPoint;
     public Transform dashZones;
     public Transform clearDashZones;
+
+    [Header("StageInfo")]
+    public int stage = 0;
+    public int themeMask = 0;
 }

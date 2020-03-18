@@ -21,14 +21,14 @@ public class CharacterController2D : MonoBehaviour
 
     public bool m_Attacking;
     const float k_GroundedRadius = .05f; // Radius of the overlap circle to determine if grounded
-    public bool m_Grounded;            // Whether or not the player is grounded.
-    private bool m_WallClimbed;         // Whether or not the player is wall climbed.
+    public bool m_Grounded;              // Whether or not the player is grounded.
+    private bool m_WallClimbed;          // Whether or not the player is wall climbed.
     public bool m_Controllable = true;
-    const float k_CeilingRadius = .2f;  // Radius of the overlap circle to determine if the player can stand up
+    const float k_CeilingRadius = .2f;   // Radius of the overlap circle to determine if the player can stand up
     const float k_WallRadius = .05f;     // Radius of the overlap circle to determine if the player wall jump
     const int jumpTime = 20;
     private Rigidbody2D m_Rigidbody2D;
-    public bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    public bool m_FacingRight = true;    // For determining which way the player is currently facing.
     public bool m_Jumping = false;
     private Coroutine wallJumpCoroutine = null;
 
@@ -228,16 +228,28 @@ public class CharacterController2D : MonoBehaviour
             case DashDir.Right: dir = Vector2.right; break;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(dashZonePos, dir, dashDistance, 1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Floor"));
-        float distance = !hit ? dashDistance : Vector3.Distance(hit.point, dashZonePos) - GetComponent<BoxCollider2D>().size.x / 2;
+        float distance = 0;
+        for(float tempDistance = dashDistance; tempDistance > 0;  tempDistance -= 0.01f)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(dashZonePos + dir * tempDistance, dir, GetComponent<BoxCollider2D>().size.x, LayerMask.GetMask("Floor"));
+            if (!hit)
+            {
+                distance = tempDistance;
+                break;
+            }
+        }
+
         m_Rigidbody2D.velocity = Vector3.zero;
 
         int dashCount = 10;
-        Vector3 destination = (Vector3)dashZonePos + (Vector3)dir * distance - transform.position;
+        dashZonePos = new Vector2(dir == Vector2.up || dir == Vector2.down ? transform.position.x : dashZonePos.x, dir == Vector2.left || dir == Vector2.right ? transform.position.y : dashZonePos.y);
+        Vector3 from = transform.position;
+        Vector3 to = dashZonePos + dir * distance;
+
         for (int i = 0; i < dashCount; i++)
         {
             yield return null;
-            transform.position += destination / dashCount;
+            transform.position += (to - from) / dashCount;
         }
         m_Rigidbody2D.velocity = dir * 10;
         m_Controllable = true;

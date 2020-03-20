@@ -21,3 +21,8 @@ public class UIManager : Singleton<UIManager>
         keyCountText.text = PlayerController.Instance.keyAmount.ToString();
     }
 }
+
+public class ItemIcon : MonoBehaviour
+{
+
+}

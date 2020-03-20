@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class AdRedCatalyst : Addon
 {
-
+    public AdRedCatalyst(ScriptableAddonInfo _info) : base(_info)
+    {
+    }
 }

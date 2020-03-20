@@ -16,7 +16,7 @@ public class WpBow : Weapon
             case 0:
                 Object.Instantiate(info.projectiles[0]).GetComponent<ProjBow>().SetProjectile(
                     new SkillInfo(this, 0),
-                    trns.position + new Vector3(1, 1, 0),
+                    trns.position + Vector3.Scale(trns.localScale, new Vector3(1, 1, 0)),
                     false,
                     (int)trns.localScale.x);
                 break;

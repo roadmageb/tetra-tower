@@ -19,7 +19,7 @@ MonoBehaviour:
     comboArrow: 2
     positionCond: 1
     keyGain: 5
-    anim: {fileID: 0}
+    anim: {fileID: 7400000, guid: 1da19b8d1eb19da42b352d43c382e2c4, type: 2}
     damageList:
     - 2
   - comboName: "\uC0C1\uB2E8 \uC0AC\uACA9"
@@ -27,12 +27,14 @@ MonoBehaviour:
     comboArrow: 0
     positionCond: 1
     keyGain: 5
-    anim: {fileID: 0}
+    anim: {fileID: 7400000, guid: 7457cb38c511b864298e393d514a5876, type: 2}
     damageList:
     - 2
   gaugeEnabled: 0
   gaugeSize: 0
   gaugeInit: 0
   addonSize: 3
-  sprite: {fileID: 0}
-  projectiles: []
+  sprite: {fileID: 21300000, guid: 14acb9b3359ff234a8e839dc8da50688, type: 3}
+  projectiles:
+  - {fileID: 3767504960386167886, guid: 6906c85883e6fbe40829155559b1e4fc, type: 3}
+  clips: []

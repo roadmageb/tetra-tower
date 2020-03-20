@@ -36,6 +36,8 @@ public abstract class Weapon
     {
         if(addons.Count < info.addonSize)
         {
+            newAddon.wp.LoseAddon(newAddon);
+            newAddon.wp = this;
             addons.Add(newAddon);
             return true;
         }
@@ -55,11 +57,60 @@ public abstract class Weapon
     {
         return info.commands[skillNum].damageList[0];
     }
+
+    public void ExecuteAttack(int skillNum, Enemy enemy, Transform attacker)
+    {
+        AttackPtoE atk;
+        enemy.GainAttack(atk = CalcAttack(skillNum, enemy));
+        if (this is IAtkOnHit)
+        {
+            ((IAtkOnHit)this).AtkOnHit(atk, attacker, skillNum, enemy);
+        }
+        foreach (Addon ad in addons)
+        {
+            if (ad is IAtkOnHit)
+            {
+                ((IAtkOnHit)this).AtkOnHit(atk, attacker, skillNum, enemy);
+            }
+        }
+        PlayerController.Instance.GainKey(enemy.GiveKey(CalcKey(skillNum, enemy)));
+    }
+
+    public float CalcKey(int skillNum, Enemy enemy)
+    {
+        float key = info.commands[skillNum].keyGain;
+        float tmpKey = key;
+        if (this is IAtkKeyAdd)
+        {
+            tmpKey += ((IAtkKeyAdd)this).AtkKeyAdd(key, skillNum, enemy);
+        }
+        foreach (Addon ad in addons)
+        {
+            if (ad is IAtkKeyAdd)
+            {
+                tmpKey += ((IAtkKeyAdd)this).AtkKeyAdd(key, skillNum, enemy);
+            }
+        }
+        if (this is IAtkKeyMult)
+        {
+            tmpKey *= ((IAtkKeyMult)this).AtkKeyMult(key, skillNum, enemy);
+        }
+        foreach (Addon ad in addons)
+        {
+            if (ad is IAtkKeyMult)
+            {
+                tmpKey *= ((IAtkKeyMult)this).AtkKeyMult(key, skillNum, enemy);
+            }
+        }
+        return tmpKey;
+    }
+
     public AttackPtoE CalcAttack(int skillNum, Enemy enemy)
     {
         if(info.commands.Length > skillNum)
         {
             AttackPtoE attack = new AttackPtoE(GetDamage(skillNum));
+            float tmpDmg = attack.damage;
             
             //Apply Ctrl effect
             if(this is IAtkCtrl)
@@ -77,28 +128,29 @@ public abstract class Weapon
             //Apply DmgAdd effect
             if (this is IAtkDmgAdd)
             {
-                attack.damage += ((IAtkDmgAdd)this).AtkDmgAdd(attack, skillNum, enemy);
+                tmpDmg += ((IAtkDmgAdd)this).AtkDmgAdd(attack, skillNum, enemy);
             }
             foreach (Addon ad in addons)
             {
                 if (ad is IAtkDmgAdd)
                 {
-                    attack.damage += ((IAtkDmgAdd)ad).AtkDmgAdd(attack, skillNum, enemy);
+                    tmpDmg += ((IAtkDmgAdd)ad).AtkDmgAdd(attack, skillNum, enemy);
                 }
             }
 
             //Apply DmgMult effect
             if (this is IAtkDmgMult)
             {
-                ((IAtkDmgMult)this).AtkDmgMult(attack, skillNum, enemy);
+                tmpDmg *= ((IAtkDmgMult)this).AtkDmgMult(attack, skillNum, enemy);
             }
             foreach (Addon ad in addons)
             {
                 if (ad is IAtkDmgMult)
                 {
-                    ((IAtkDmgMult)ad).AtkDmgMult(attack, skillNum, enemy);
+                    tmpDmg *= ((IAtkDmgMult)ad).AtkDmgMult(attack, skillNum, enemy);
                 }
             }
+            attack.damage = tmpDmg;
             return attack;
         }
         return null;

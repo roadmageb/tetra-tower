@@ -51,4 +51,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bc5a527acc729ef4d91968e726368b88, type: 2}
   - {fileID: 11400000, guid: 18f3cd810549e1d409336ad0abd53572, type: 2}
   - {fileID: 11400000, guid: e43f111ff8671e143a1b55a7a8175f57, type: 2}
+  - {fileID: 11400000, guid: 34b0d6b022739134eb92afba59b841aa, type: 2}
+  addonDB:
+  - {fileID: 11400000, guid: bebbc279b23959b499cf6c96b8126df8, type: 2}
+  - {fileID: 11400000, guid: 1c5e0d27c4c5eec41a6e47265212c8de, type: 2}
+  - {fileID: 11400000, guid: 82f5dbc11b66fcf479f138a8574686b8, type: 2}
+  - {fileID: 11400000, guid: 87508de7c9b230b4f8c32dabaf9777d9, type: 2}
+  - {fileID: 11400000, guid: d00e6394e52467841ba713cef9820688, type: 2}
+  - {fileID: 11400000, guid: 3c26f8dd0b0dba24980f3734076d704a, type: 2}
+  - {fileID: 11400000, guid: 5cb1b24beaaee334985519e34c60e184, type: 2}
+  - {fileID: 11400000, guid: 64bb329fbd3f7a24ab1935765b5e34ac, type: 2}
+  - {fileID: 11400000, guid: 7a4d81b6f9b236944aa19490ca83d1c8, type: 2}
+  - {fileID: 11400000, guid: d7b6cb13af3376345b93e152ea38d7ef, type: 2}
   isTest: 0
+  lifeStoneSprites:
+  - {fileID: 21300000, guid: 7ac4a9b80757a4245a7560ddad14eecb, type: 3}

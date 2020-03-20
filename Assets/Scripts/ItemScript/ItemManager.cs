@@ -8,20 +8,39 @@ public class ItemManager : Singleton<ItemManager>
 {
     [SerializeField] private DroppedItem droppedItem = null;
     public GameObject droppedLifeStone;
-    public List<Weapon> currentWeapons;
+    [HideInInspector] public List<Weapon> currentWeapons;
     public ScriptableWeaponInfo[] weaponDB;
-    public List<ScriptableWeaponInfo>[] weaponRankList;
+    [HideInInspector] public List<ScriptableWeaponInfo>[] weaponRankList;
+
+    [HideInInspector] public List<Addon> currentAddons;
+    public ScriptableAddonInfo[] addonDB;
+    [HideInInspector] public List<ScriptableAddonInfo>[] addonRankList;
 
     [SerializeField] private bool isTest;
 
+    [SerializeField] private Sprite[] lifeStoneSprites;
+    private Sprite[] borderedLifeStoneSprites;
+
     void test()
     {
-        GainWeapon(InstantiateWeapon(ItemRank.Monomino));
-        GainWeapon(InstantiateWeapon(ItemRank.Domino));
-        GainWeapon(InstantiateWeapon(ItemRank.Domino));
+        CreateItem(Vector3.zero, ItemRank.Monomino, false);
+        CreateItem(Vector3.zero, ItemRank.Monomino, false);
+        CreateItem(Vector3.zero, ItemRank.Domino, false);
+        CreateItem(Vector3.zero, ItemRank.Domino, false);
+        //CreateItem(Vector3.zero, 3, 0);
+        //GainWeapon(InstantiateWeapon(ItemRank.Monomino));
+        //GainWeapon(InstantiateWeapon(ItemRank.Monomino));
+        //GainWeapon(InstantiateWeapon(ItemRank.Domino));
+        //GainWeapon(InstantiateWeapon(ItemRank.Domino));
     }
     private void Start()
     {
+        borderedLifeStoneSprites = new Sprite[lifeStoneSprites.Length];
+        for(int i = 0; i < lifeStoneSprites.Length; i++)
+        {
+            borderedLifeStoneSprites[i] = BorderSprite(lifeStoneSprites[i], 5);
+        }
+
         currentWeapons = new List<Weapon>();
         weaponRankList = new List<ScriptableWeaponInfo>[Enum.GetNames(typeof(ItemRank)).Length];
         for(int i = 0; i < weaponRankList.Length; i++)
@@ -32,7 +51,19 @@ public class ItemManager : Singleton<ItemManager>
         {
             weaponRankList[(int)info.rank].Add(info);
         }
-        if(isTest) test();
+
+        currentAddons = new List<Addon>();
+        addonRankList = new List<ScriptableAddonInfo>[Enum.GetNames(typeof(ItemRank)).Length];
+        for (int i = 0; i < addonRankList.Length; i++)
+        {
+            addonRankList[i] = new List<ScriptableAddonInfo>();
+        }
+        foreach (ScriptableAddonInfo info in addonDB)
+        {
+            addonRankList[(int)info.rank].Add(info);
+        }
+
+        if (isTest) test();
     }
 
     /// <summary>
@@ -45,9 +76,10 @@ public class ItemManager : Singleton<ItemManager>
     {
         List<Weapon> duplicateWeapons = new List<Weapon>();
 
-        foreach(Weapon wp in currentWeapons)
+        foreach (Weapon wp in currentWeapons)
         {
             bool dupChk = false;
+            
             foreach(ComboInfo ci in chkWeapon.info.commands)
             {
                 foreach(ComboInfo cj in wp.info.commands)
@@ -88,7 +120,32 @@ public class ItemManager : Singleton<ItemManager>
         }
         return null;
     }
+    public Addon InstantiateAddon(ItemRank rank)
+    {
+        if (addonRankList[(int)rank].Count > 0)
+        {
+            int index = Random.Range(0, addonRankList[(int)rank].Count);
+            ScriptableAddonInfo info = addonRankList[(int)rank][index];
+            addonRankList[(int)rank].RemoveAt(index);
+            return (Addon)Activator.CreateInstance(Type.GetType(info.name), new object[] { info });
+        }
+        return null;
+    }
 
+    public Addon InstantiateAddon(string name)
+    {
+        for (int i = 0; i < addonRankList.Length; i++)
+        {
+            foreach (ScriptableAddonInfo info in addonRankList[i])
+            {
+                if (info.name == name)
+                {
+                    return (Addon)Activator.CreateInstance(Type.GetType(info.name), new object[] { info });
+                }
+            }
+        }
+        return null;
+    }
     public bool GainWeapon(Weapon wp)
     {
         if(currentWeapons.Count < 9 && ComboDuplicateCheck(wp).Count == 0)
@@ -111,6 +168,30 @@ public class ItemManager : Singleton<ItemManager>
         return false;
     }
 
+    public bool GainAddon(Addon ad)
+    {
+        if (currentAddons.Count < 9)
+        {
+            currentAddons.Add(ad);
+            return true;
+        }
+        return false;
+    }
+
+    public bool LoseAddon(Addon ad)
+    {
+        if (currentAddons.Contains(ad))
+        {
+            if(ad.wp != null)
+            {
+                ad.wp.LoseAddon(ad);
+            }
+            currentAddons.Remove(ad);
+            return true;
+        }
+        return false;
+    }
+
     public DroppedItem CreateItem(Vector2 pos, int lifeStoneAmount, int goldRate)
     {
         float droppedLifeStoneOffset = 0.33f;
@@ -124,7 +205,8 @@ public class ItemManager : Singleton<ItemManager>
             {
                 if((LifeStoneType)int.Parse(lifeStoneInfo.lifeStonePos[y * lifeStoneInfo.size.x + x].ToString()) != LifeStoneType.NULL)
                 {
-                    Instantiate(droppedLifeStone, new Vector2(x, y) * droppedLifeStoneOffset, Quaternion.identity, temp.transform);
+                    var obj = Instantiate(droppedLifeStone, new Vector2(x, y) * droppedLifeStoneOffset, Quaternion.identity, temp.transform);
+                    obj.GetComponent<SpriteRenderer>().sprite = borderedLifeStoneSprites[0];
                 }
             }
         }
@@ -138,13 +220,30 @@ public class ItemManager : Singleton<ItemManager>
         return temp;
     }
 
+    public Sprite BorderSprite(Sprite sprt, int border)
+    {
+        Texture2D tex = sprt.texture;
+        Texture2D ret = new Texture2D(tex.width + border * 2, tex.height + border * 2);
+        Color[] c = new Color[(tex.width + border * 2) * (tex.height + border * 2)];
+        for (int i = 0; i < c.Length; i++)
+        {
+            c[i] = Color.clear;
+        }
+        
+        ret.SetPixels(c);
+        ret.SetPixels(border, border, tex.width, tex.height, tex.GetPixels());
+        ret.filterMode = FilterMode.Point;
+        ret.Apply();
+        return Sprite.Create(ret, new Rect(0, 0, tex.width + border * 2, tex.height + border * 2), new Vector2(0.5f, 0.5f), sprt.pixelsPerUnit);
+    }
+
     public DroppedItem CreateItem(Vector2 pos, Weapon wp)
     {
         if(wp != null)
         {
             DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
             temp.weapon = wp;
-            temp.GetComponent<SpriteRenderer>().sprite = wp.info.sprite;
+            temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite, 10) ;
             temp.isWeapon = true;
             return temp;
         }
@@ -153,14 +252,40 @@ public class ItemManager : Singleton<ItemManager>
             return null;
         }
     }
-
-    public DroppedItem CreateItem(Vector2 pos, ItemRank rank)
+    public DroppedItem CreateItem(Vector2 pos, Addon ad)
     {
-        return CreateItem(pos, InstantiateWeapon(rank));
+        if (ad != null)
+        {
+            //DroppedItem temp = Instantiate(droppedItem, pos, Quaternion.identity);
+            //temp.weapon = ad;
+            //temp.GetComponent<SpriteRenderer>().sprite = BorderSprite(wp.info.sprite.texture, 10);
+            //temp.isWeapon = true;
+            //return temp;
+            return null;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public DroppedItem CreateItem(Vector2 pos, ItemRank rank, bool isAddon)
+    {
+        return isAddon ? CreateItem(pos, InstantiateAddon(rank)) : CreateItem(pos, InstantiateWeapon(rank));
     }
     public DroppedItem CreateItem(Vector2 pos, string name)
     {
-        return CreateItem(pos, InstantiateWeapon(name));
+        Weapon wp = InstantiateWeapon(name);
+        Addon ad = InstantiateAddon(name);
+        if (wp != null)
+        {
+            return CreateItem(pos, InstantiateWeapon(name));
+        }
+        else if(ad != null)
+        {
+            return CreateItem(pos, InstantiateAddon(name));
+        }
+        return null;
     }
 
 }

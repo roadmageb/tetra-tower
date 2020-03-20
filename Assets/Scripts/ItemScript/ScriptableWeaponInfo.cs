@@ -14,6 +14,7 @@ public class ScriptableWeaponInfo : ScriptableObject
     public int addonSize;
     public Sprite sprite;
     public GameObject[] projectiles;
+    public AnimationClip[] clips;
 }
 
 /*

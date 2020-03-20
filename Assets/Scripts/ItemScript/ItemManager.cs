@@ -152,7 +152,7 @@ public class ItemManager : Singleton<ItemManager>
         {
             currentWeapons.Add(wp);
             PlayerController.Instance.ResetPossibleComboes();
-            UIManager.Instance.ExpandWeaponUI(wp);
+            UIManager.Instance.AddWeaponToUI(wp);
             return true;
         }
         return false;

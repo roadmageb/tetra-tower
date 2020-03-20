@@ -152,6 +152,7 @@ public class ItemManager : Singleton<ItemManager>
         {
             currentWeapons.Add(wp);
             PlayerController.Instance.ResetPossibleComboes();
+            UIManager.Instance.ExpandWeaponUI(wp);
             return true;
         }
         return false;
@@ -269,7 +270,7 @@ public class ItemManager : Singleton<ItemManager>
         }
     }
 
-    public DroppedItem CreateItem(Vector2 pos, ItemRank rank, bool isAddon)
+    public DroppedItem CreateItem(Vector2 pos, ItemRank rank, bool isAddon = false)
     {
         return isAddon ? CreateItem(pos, InstantiateAddon(rank)) : CreateItem(pos, InstantiateWeapon(rank));
     }

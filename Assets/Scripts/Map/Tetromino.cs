@@ -125,7 +125,7 @@ public class Tetromino : MonoBehaviour
         }
     }
 
-    public void ImmediateFall(GameObject playerPrefab)
+    public void ImmediateFall(GameObject playerObj)
     {
         var shift = new Vector3Int(0, -1, 0);
         while (canShift(shift))
@@ -134,7 +134,7 @@ public class Tetromino : MonoBehaviour
         }
 
         map.UpdateGrid(this);
-        SpawnPlayer(playerPrefab);
+        SpawnPlayer(playerObj);
         prepareNextTetromino();
     }
 
@@ -305,10 +305,11 @@ public class Tetromino : MonoBehaviour
 
     }
 
-    public void SpawnPlayer(GameObject playerPrefab)
+    public void SpawnPlayer(GameObject playerObj)
     {
         var mino = GetComponentInChildren<Mino>();
-        mino.SpawnPlayer(playerPrefab);
+        mino.LocatePlayer(playerObj);
+        map.currentMino = mino;
     }
 
 }
